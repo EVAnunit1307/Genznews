@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: axis-backend
+    name: genzthinks-backend
     runtime: python
     rootDir: Backend
     buildCommand: pip install -r requirements.txt && python seed.py
@@ -16,6 +16,6 @@ services:
       - key: SECRET_KEY
         generateValue: true
       - key: DATABASE_URL
-        value: sqlite+aiosqlite:///./axis.db
+        value: sqlite+aiosqlite:///./genzthinks.db
       - key: NEWS_CACHE_TTL_MINUTES
         value: "30"

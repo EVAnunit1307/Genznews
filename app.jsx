@@ -12,7 +12,7 @@ const App = () => {
   const [searchOpen, setSearchOpen] = React.useState(false);
   const [authOpen, setAuthOpen] = React.useState(false);
   const [user, setUser] = React.useState(() => {
-    try { return JSON.parse(localStorage.getItem("axis_user")); } catch { return null; }
+    try { return JSON.parse(localStorage.getItem("genzthinks_user")); } catch { return null; }
   });
 
   React.useEffect(() => {
@@ -24,8 +24,8 @@ const App = () => {
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem("axis_token");
-    localStorage.removeItem("axis_user");
+    localStorage.removeItem("genzthinks_token");
+    localStorage.removeItem("genzthinks_user");
     setUser(null);
   };
 

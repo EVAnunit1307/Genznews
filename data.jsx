@@ -48,7 +48,7 @@ const NYT_SECTIONS = {
 // ── Mock fallbacks ────────────────────────────────────────────────────────────
 
 const MOCK_FEATURED = {
-  id: "mock-featured", source: "axis", region: "Global", category: "Policy",
+  id: "mock-featured", source: "genzthinks", region: "Global", category: "Policy",
   title: "The first generation that voted on housing — and won",
   dek: "In four cities across three continents, voters under 30 just rewrote zoning law. We tracked the organizers, the group chats, and the grandparents who showed up.",
   author: "Maya Okafor", read_time: 12, views: 284000, url: "#",
@@ -56,12 +56,12 @@ const MOCK_FEATURED = {
 };
 
 const MOCK_STORIES = [
-  { id: "1", region: "Global", category: "Climate", title: "Inside the youth-led carbon court suing six governments at once", dek: "A case filed by 19 plaintiffs — average age 22 — could redefine state liability.", author: "Theo Vance", read_time: 8, views: 0, url: "#", published_at: new Date(Date.now() - 7200000).toISOString(), source: "axis" },
-  { id: "2", region: "US", category: "Policy", title: "Why Gen Z congressional staffers are quietly rewriting the rules", dek: "24-year-old policy aides are shaping bills nobody is reading.", author: "Iris Han", read_time: 6, views: 0, url: "#", published_at: new Date(Date.now() - 18000000).toISOString(), source: "axis" },
-  { id: "3", region: "Canada", category: "Money", title: "Toronto's 'rent council' experiment is in its 18th month. Tenants are winning.", dek: "Co-tenant negotiation panels delivered 14% average reductions.", author: "Lena Park", read_time: 9, views: 0, url: "#", published_at: new Date(Date.now() - 86400000).toISOString(), source: "axis" },
-  { id: "4", region: "Global", category: "Tech", title: "The AI literacy curriculum that 312 high schools just adopted — overnight", dek: "Built by a 19-year-old in three weeks. We sat in on a class.", author: "Wren Adachi", read_time: 5, views: 0, url: "#", published_at: new Date(Date.now() - 28800000).toISOString(), source: "axis" },
-  { id: "5", region: "US", category: "Culture", title: "Group chats are the new newsroom. We mapped 40 of them.", dek: "A look inside the closed Discord servers where real-time city journalism is happening.", author: "Jordan Reyes", read_time: 11, views: 0, url: "#", published_at: new Date(Date.now() - 108000000).toISOString(), source: "axis" },
-  { id: "6", region: "Global", category: "Policy", title: "Voter turnout under 25 hit 71% in last week's local races. What changed?", dek: "Three boring policy fixes — and one TikTok account — rewrote the playbook.", author: "Sasha Bell", read_time: 7, views: 0, url: "#", published_at: new Date(Date.now() - 86400000).toISOString(), source: "axis" },
+  { id: "1", region: "Global", category: "Climate", title: "Inside the youth-led carbon court suing six governments at once", dek: "A case filed by 19 plaintiffs — average age 22 — could redefine state liability.", author: "Theo Vance", read_time: 8, views: 0, url: "#", published_at: new Date(Date.now() - 7200000).toISOString(), source: "genzthinks" },
+  { id: "2", region: "US", category: "Policy", title: "Why Gen Z congressional staffers are quietly rewriting the rules", dek: "24-year-old policy aides are shaping bills nobody is reading.", author: "Iris Han", read_time: 6, views: 0, url: "#", published_at: new Date(Date.now() - 18000000).toISOString(), source: "genzthinks" },
+  { id: "3", region: "Canada", category: "Money", title: "Toronto's 'rent council' experiment is in its 18th month. Tenants are winning.", dek: "Co-tenant negotiation panels delivered 14% average reductions.", author: "Lena Park", read_time: 9, views: 0, url: "#", published_at: new Date(Date.now() - 86400000).toISOString(), source: "genzthinks" },
+  { id: "4", region: "Global", category: "Tech", title: "The AI literacy curriculum that 312 high schools just adopted — overnight", dek: "Built by a 19-year-old in three weeks. We sat in on a class.", author: "Wren Adachi", read_time: 5, views: 0, url: "#", published_at: new Date(Date.now() - 28800000).toISOString(), source: "genzthinks" },
+  { id: "5", region: "US", category: "Culture", title: "Group chats are the new newsroom. We mapped 40 of them.", dek: "A look inside the closed Discord servers where real-time city journalism is happening.", author: "Jordan Reyes", read_time: 11, views: 0, url: "#", published_at: new Date(Date.now() - 108000000).toISOString(), source: "genzthinks" },
+  { id: "6", region: "Global", category: "Policy", title: "Voter turnout under 25 hit 71% in last week's local races. What changed?", dek: "Three boring policy fixes — and one TikTok account — rewrote the playbook.", author: "Sasha Bell", read_time: 7, views: 0, url: "#", published_at: new Date(Date.now() - 86400000).toISOString(), source: "genzthinks" },
 ];
 
 const MOCK_OPINIONS = [

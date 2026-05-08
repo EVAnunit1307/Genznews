@@ -15,7 +15,7 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(
-    title="axis API",
+    title="genzthinks API",
     description="News aggregation + opinion platform for Gen Z",
     version="1.0.0",
     lifespan=lifespan,
@@ -40,7 +40,7 @@ app.include_router(trending.router, prefix="/api")
 
 @app.get("/api/health")
 async def health():
-    return {"status": "ok", "service": "axis"}
+    return {"status": "ok", "service": "genzthinks"}
 
 
 if __name__ == "__main__":

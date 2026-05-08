@@ -129,8 +129,8 @@ const AuthModal = ({ open, onClose, onSuccess }) => {
       const data = tab === "login"
         ? await loginUser(email, password)
         : await registerUser(email, password, username);
-      localStorage.setItem("axis_token", data.access_token);
-      localStorage.setItem("axis_user", JSON.stringify(data.user));
+      localStorage.setItem("genzthinks_token", data.access_token);
+      localStorage.setItem("genzthinks_user", JSON.stringify(data.user));
       onSuccess(data.user);
       onClose();
     } catch (e) {
@@ -458,7 +458,7 @@ const Featured = () => {
                 {(a.author || "A").charAt(0)}
               </div>
               <div className="leading-tight">
-                <div className="text-sm text-white font-body">{a.author || "axis"}</div>
+                <div className="text-sm text-white font-body">{a.author || "genzthinks"}</div>
                 <div className="text-xs text-white/55 font-body">{a.read_time} min read · {relativeTime(a.published_at)}</div>
               </div>
               <a href={a.url || "#"} target={a.url && a.url !== "#" ? "_blank" : undefined} rel="noreferrer"
@@ -474,13 +474,13 @@ const Featured = () => {
 };
 
 // ───────────────────────── STORY GRID ─────────────────────────
-const SOURCE_LABEL = { guardian: "The Guardian", nytimes: "NY Times", newsapi: "NewsAPI", seed: "genzthinks", axis: "genzthinks" };
+const SOURCE_LABEL = { guardian: "The Guardian", nytimes: "NY Times", newsapi: "NewsAPI", seed: "genzthinks", genzthinks: "genzthinks" };
 
 const StoryCard = ({ a, i }) => {
   const [imgErr, setImgErr] = useState(false);
   const dek = stripHtml(a.dek || "");
   const color = cardColor(i);
-  const isOriginal = a.source === "seed" || a.source === "axis";
+  const isOriginal = a.source === "seed" || a.source === "genzthinks";
   const authorDisplay = a.author || SOURCE_LABEL[a.source] || "genzthinks";
   const catInitial = (a.category || "G").charAt(0).toUpperCase();
 

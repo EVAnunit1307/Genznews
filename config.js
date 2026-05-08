@@ -1,13 +1,12 @@
 // Runtime config — override this file per environment.
 // In development:  points to local FastAPI server
-// In production:   set AXIS_API_BASE to your Railway/Render backend URL,
+// In production:   set API_BASE to your Render backend URL,
 //                  or leave empty to use direct browser-side API calls only.
 
 window.AXIS_CONFIG = {
   // Backend URL — set to your Render deploy URL once live.
-  // e.g. "https://axis-backend.onrender.com/api"
+  // e.g. "https://genzthinks-backend.onrender.com/api"
   // Leave as "" to use direct browser-side API calls (Guardian + NYT).
-  // Set to your Render URL once backend is deployed, e.g. "https://axis-backend.onrender.com/api"
   API_BASE: "",
 
   // Browser-side API keys (public-read, browser-safe)

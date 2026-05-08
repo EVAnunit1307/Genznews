@@ -1,0 +1,8 @@
+# Backend secrets
+Backend/.env
+Backend/axis.db
+Backend/__pycache__/
+Backend/**/__pycache__/
+Backend/*.pyc
+Backend/.venv/
+Backend/venv/

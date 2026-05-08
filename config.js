@@ -7,7 +7,7 @@ window.AXIS_CONFIG = {
   // Backend URL — set to your Render deploy URL once live.
   // e.g. "https://genzthinks-backend.onrender.com/api"
   // Leave as "" to use direct browser-side API calls (Guardian + NYT).
-  API_BASE: "",
+  API_BASE: "https://genznews-eluf.onrender.com/api",
 
   // Browser-side API keys (public-read, browser-safe)
   // Restrict to your domain at: open-platform.theguardian.com and developer.nytimes.com

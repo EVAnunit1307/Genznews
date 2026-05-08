@@ -1035,8 +1035,7 @@ const WriteCTA = () => {
                 placeholder="The first sentence is the hardest. Try: 'I have spent the last year watching…'"
                 className="w-full bg-transparent text-white/85 placeholder-white/25 font-body text-base leading-relaxed resize-none outline-none"
               />
-            )}
-            <div className="flex flex-wrap items-center justify-between gap-3 mt-4 pt-4 border-t border-white/10">
+            </div>
             {/* Footer bar */}
             <div className="flex flex-wrap items-center justify-between gap-3 px-6 py-4 border-t border-white/[0.07]">
               <div className="text-[11px] text-white/30 font-body">
@@ -1052,7 +1051,6 @@ const WriteCTA = () => {
                 </button>
               </div>
             </div>
-          </div>
         </BlurReveal>
 
         <BlurReveal delay={0.16}>

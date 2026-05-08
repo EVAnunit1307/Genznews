@@ -672,7 +672,14 @@ const StoryGrid = ({ active }) => {
     setLoading(true);
     setShown(FEED_PAGE);
     fetchArticles(active, 20).then(data => {
-      setArticles(Array.isArray(data) && data.length ? data : MOCK_STORIES);
+      if (Array.isArray(data) && data.length) {
+        setArticles(data);
+      } else {
+        const catMap = { global: "Global", us: "US", canada: "Canada", climate: "Climate", tech: "Tech", money: "Money", culture: "Culture", policy: "Policy", fashion: "Fashion" };
+        const cat = catMap[active];
+        const filtered = cat ? MOCK_STORIES.filter(a => a.category === cat || a.region === cat) : MOCK_STORIES;
+        setArticles(filtered.length ? filtered : MOCK_STORIES);
+      }
       setLoading(false);
     });
   }, [active]);

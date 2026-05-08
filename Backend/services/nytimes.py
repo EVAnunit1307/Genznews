@@ -16,18 +16,19 @@ _SECTIONS: dict[str, str] = {
     "money":   "business",
     "culture": "arts",
     "policy":  "politics",
+    "fashion": "fashion",
 }
 
 _CATEGORY: dict[str, str] = {
     "all": "Global", "global": "Global", "us": "US", "canada": "Canada",
     "climate": "Climate", "tech": "Tech", "money": "Money",
-    "culture": "Culture", "policy": "Policy",
+    "culture": "Culture", "policy": "Policy", "fashion": "Fashion",
 }
 
 _REGION: dict[str, str] = {
     "all": "Global", "global": "Global", "us": "US", "canada": "Canada",
     "climate": "Global", "tech": "Global", "money": "Global",
-    "culture": "Global", "policy": "Global",
+    "culture": "Global", "policy": "Global", "fashion": "Global",
 }
 
 

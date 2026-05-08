@@ -98,7 +98,7 @@ async def get_articles(
         slug_to_cat = {
             "global": "Global", "us": "US", "canada": "Canada",
             "climate": "Climate", "tech": "Tech", "money": "Money",
-            "culture": "Culture", "policy": "Policy",
+            "culture": "Culture", "policy": "Policy", "fashion": "Fashion",
         }
         cat = slug_to_cat.get(topic)
         if cat:

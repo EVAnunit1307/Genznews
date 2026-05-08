@@ -16,12 +16,13 @@ _PARAMS: dict[str, dict] = {
     "money":   {"q": "economy OR finance OR housing", "language": "en", "sortBy": "publishedAt"},
     "culture": {"q": "culture OR arts OR entertainment", "language": "en", "sortBy": "publishedAt"},
     "policy":  {"q": "politics OR government policy", "language": "en", "sortBy": "publishedAt"},
+    "fashion": {"q": "fashion OR style OR streetwear OR designer", "language": "en", "sortBy": "publishedAt"},
 }
 
 _CATEGORY: dict[str, str] = {
     "all": "Global", "global": "Global", "us": "US", "canada": "Canada",
     "climate": "Climate", "tech": "Tech", "money": "Money",
-    "culture": "Culture", "policy": "Policy",
+    "culture": "Culture", "policy": "Policy", "fashion": "Fashion",
 }
 
 _REGION: dict[str, str] = {

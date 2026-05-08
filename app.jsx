@@ -1,4 +1,3 @@
-// Suppress benign framer-motion list-key dev warnings
 (() => {
   const orig = console.error;
   console.error = (...args) => {
@@ -11,23 +10,43 @@
 const App = () => {
   const [active, setActive] = React.useState("all");
   const [searchOpen, setSearchOpen] = React.useState(false);
+  const [authOpen, setAuthOpen] = React.useState(false);
+  const [user, setUser] = React.useState(() => {
+    try { return JSON.parse(localStorage.getItem("axis_user")); } catch { return null; }
+  });
 
-  // Close search on Escape
   React.useEffect(() => {
-    const handler = (e) => { if (e.key === "Escape") setSearchOpen(false); };
+    const handler = (e) => {
+      if (e.key === "Escape") { setSearchOpen(false); setAuthOpen(false); }
+    };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
   }, []);
 
+  const handleLogout = () => {
+    localStorage.removeItem("axis_token");
+    localStorage.removeItem("axis_user");
+    setUser(null);
+  };
+
   return (
     <div className="bg-black min-h-screen">
       <ProgressBar />
-      <SearchDrawer open={searchOpen} onClose={() => setSearchOpen(false)} />
-      <Hero onSearchOpen={() => setSearchOpen(true)} />
+      <AnimatePresence>
+        {searchOpen && <SearchDrawer key="search" open={searchOpen} onClose={() => setSearchOpen(false)} />}
+        {authOpen && <AuthModal key="auth" open={authOpen} onClose={() => setAuthOpen(false)} onSuccess={setUser} />}
+      </AnimatePresence>
+      <Hero
+        onSearchOpen={() => setSearchOpen(true)}
+        user={user}
+        onAuthOpen={() => setAuthOpen(true)}
+        onLogout={handleLogout}
+      />
       <TopicNav active={active} setActive={setActive} />
       <Featured />
       <StoryGrid active={active} />
       <Voices />
+      <MissionSection />
       <WriteCTA />
       <Footer />
       <MobileTabBar onSearchOpen={() => setSearchOpen(true)} />

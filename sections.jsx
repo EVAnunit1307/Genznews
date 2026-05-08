@@ -107,9 +107,112 @@ const SearchDrawer = ({ open, onClose }) => {
   );
 };
 
+// ───────────────────────── AUTH MODAL ─────────────────────────
+const AuthModal = ({ open, onClose, onSuccess }) => {
+  const [tab, setTab] = useState("login");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (!open) { setError(""); setEmail(""); setPassword(""); setUsername(""); }
+  }, [open]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (loading) return;
+    setLoading(true);
+    setError("");
+    try {
+      const data = tab === "login"
+        ? await loginUser(email, password)
+        : await registerUser(email, password, username);
+      localStorage.setItem("axis_token", data.access_token);
+      localStorage.setItem("axis_user", JSON.stringify(data.user));
+      onSuccess(data.user);
+      onClose();
+    } catch (e) {
+      setError(e.message || "Something went wrong.");
+    }
+    setLoading(false);
+  };
+
+  if (!open) return null;
+  return (
+    <motion.div
+      initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+      className="fixed inset-0 z-[90] flex items-center justify-center p-4"
+      style={{ background: "rgba(0,0,0,0.88)", backdropFilter: "blur(24px)" }}
+      onClick={onClose}
+    >
+      <motion.div
+        initial={{ scale: 0.96, opacity: 0, y: 16 }}
+        animate={{ scale: 1, opacity: 1, y: 0 }}
+        exit={{ scale: 0.96, opacity: 0 }}
+        transition={{ type: "spring", stiffness: 320, damping: 28 }}
+        className="liquid-glass rounded-[1.75rem] p-8 w-full max-w-[360px]"
+        onClick={e => e.stopPropagation()}
+      >
+        <div className="mb-7">
+          <span className="font-heading italic text-white text-3xl tracking-[-1px]">genzthinks</span>
+          <p className="text-[12px] text-white/45 font-body mt-1">
+            {tab === "login" ? "Welcome back." : "Join 84,000 readers."}
+          </p>
+        </div>
+
+        {/* Tab switcher */}
+        <div className="liquid-glass rounded-full p-1 flex mb-6">
+          {[["login", "Sign in"], ["register", "Create account"]].map(([id, label]) => (
+            <button key={id} onClick={() => { setTab(id); setError(""); }}
+              className="relative flex-1 py-1.5 text-sm font-body rounded-full">
+              {tab === id && (
+                <motion.div layoutId="authTab" className="absolute inset-0 bg-white rounded-full"
+                  transition={{ type: "spring", stiffness: 380, damping: 32 }} />
+              )}
+              <span className={`relative ${tab === id ? "text-black font-medium" : "text-white/60"}`}>{label}</span>
+            </button>
+          ))}
+        </div>
+
+        <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+          {tab === "register" && (
+            <input type="text" value={username} onChange={e => setUsername(e.target.value)}
+              placeholder="Username (optional)"
+              className="w-full bg-white/[0.06] text-white placeholder-white/30 rounded-xl px-4 py-3 text-sm font-body outline-none focus:bg-white/10 transition-colors" />
+          )}
+          <input type="email" required value={email} onChange={e => setEmail(e.target.value)}
+            placeholder="Email"
+            className="w-full bg-white/[0.06] text-white placeholder-white/30 rounded-xl px-4 py-3 text-sm font-body outline-none focus:bg-white/10 transition-colors" />
+          <input type="password" required minLength={8} value={password} onChange={e => setPassword(e.target.value)}
+            placeholder="Password (8+ characters)"
+            className="w-full bg-white/[0.06] text-white placeholder-white/30 rounded-xl px-4 py-3 text-sm font-body outline-none focus:bg-white/10 transition-colors" />
+
+          {error && <p className="text-[12px] text-[#ff8a8a] font-body px-1">{error}</p>}
+
+          <button type="submit" disabled={loading}
+            className="w-full bg-white text-black rounded-xl py-3 text-sm font-medium font-body disabled:opacity-55 mt-1">
+            {loading ? "…" : tab === "login" ? "Sign in" : "Create account"}
+          </button>
+        </form>
+
+        <p className="mt-5 text-[11px] text-white/30 font-body text-center">
+          {tab === "login" ? "No account? " : "Already a member? "}
+          <button onClick={() => { setTab(tab === "login" ? "register" : "login"); setError(""); }}
+            className="text-white/55 hover:text-white transition-colors">
+            {tab === "login" ? "Create one" : "Sign in"}
+          </button>
+        </p>
+      </motion.div>
+    </motion.div>
+  );
+};
+
 // ───────────────────────── NAVBAR ─────────────────────────
-const Navbar = ({ onSearchOpen }) => {
-  const links = ["Today", "Global", "Voices", "Pitch", "Sign in"];
+const Navbar = ({ onSearchOpen, user, onAuthOpen, onLogout }) => {
+  const links = ["Today", "Global", "Voices", "Pitch"];
+  const displayName = user ? (user.username || user.email?.split("@")[0] || "You") : null;
   return (
     <motion.div
       initial={{ filter: "blur(10px)", opacity: 0, y: -10 }}
@@ -118,33 +221,54 @@ const Navbar = ({ onSearchOpen }) => {
       className="fixed top-4 left-0 right-0 z-50 px-6 lg:px-12 flex items-center justify-between"
     >
       <div className="liquid-glass w-12 h-12 rounded-full flex items-center justify-center shrink-0">
-        <span className="font-heading italic text-white text-2xl leading-none -mt-0.5">a</span>
+        <span className="font-heading italic text-white text-2xl leading-none -mt-0.5">g</span>
       </div>
       <div className="hidden md:flex items-center liquid-glass rounded-full px-1.5 py-1.5">
         {links.map((l) => (
           <a key={l} href="#" className="px-3 py-2 text-sm font-medium text-white/90 font-body whitespace-nowrap">{l}</a>
         ))}
-        <a href="#write" className="ml-1 inline-flex items-center gap-1.5 bg-white text-black rounded-full px-3.5 py-2 text-sm font-medium whitespace-nowrap">
-          Write a piece <ArrowUpRight className="h-4 w-4" />
-        </a>
+        {user ? (
+          <>
+            <div className="ml-1 flex items-center gap-2 px-3 py-2">
+              <div className="w-6 h-6 rounded-full bg-white/15 flex items-center justify-center text-xs font-heading italic text-white">
+                {displayName.charAt(0).toUpperCase()}
+              </div>
+              <span className="text-sm text-white/90 font-body">{displayName}</span>
+            </div>
+            <button onClick={onLogout}
+              className="ml-1 px-3 py-2 text-sm text-white/50 font-body hover:text-white transition-colors">
+              Sign out
+            </button>
+          </>
+        ) : (
+          <>
+            <button onClick={onAuthOpen}
+              className="px-3 py-2 text-sm font-medium text-white/90 font-body whitespace-nowrap">
+              Sign in
+            </button>
+            <a href="#write" className="ml-1 inline-flex items-center gap-1.5 bg-white text-black rounded-full px-3.5 py-2 text-sm font-medium whitespace-nowrap">
+              Write a piece <ArrowUpRight className="h-4 w-4" />
+            </a>
+          </>
+        )}
       </div>
       <div className="flex items-center gap-2">
-        <button
-          onClick={onSearchOpen}
-          className="liquid-glass w-12 h-12 rounded-full flex items-center justify-center shrink-0 hover:bg-white/5 transition-colors"
-        >
+        <button onClick={onSearchOpen}
+          className="liquid-glass w-12 h-12 rounded-full flex items-center justify-center shrink-0 hover:bg-white/5 transition-colors">
           <Search className="h-4 w-4 text-white" />
         </button>
-        <a href="#write" className="md:hidden bg-white text-black rounded-full px-3.5 py-2 text-xs font-medium whitespace-nowrap inline-flex items-center gap-1">
-          Write <ArrowUpRight className="h-3.5 w-3.5" />
-        </a>
+        {!user && (
+          <button onClick={onAuthOpen} className="md:hidden liquid-glass rounded-full px-3.5 py-2 text-xs font-medium text-white whitespace-nowrap">
+            Sign in
+          </button>
+        )}
       </div>
     </motion.div>
   );
 };
 
 // ───────────────────────── HERO ─────────────────────────
-const Hero = ({ onSearchOpen }) => {
+const Hero = ({ onSearchOpen, user, onAuthOpen, onLogout }) => {
   const [ticker, setTicker] = useState([]);
 
   useEffect(() => {
@@ -163,7 +287,7 @@ const Hero = ({ onSearchOpen }) => {
       <div className="absolute inset-0 z-[1] pointer-events-none" style={{ background: "radial-gradient(ellipse at top, rgba(0,0,0,0) 30%, rgba(0,0,0,0.55) 100%)" }} />
 
       <div className="relative z-10 flex flex-col flex-1 min-h-screen">
-        <Navbar onSearchOpen={onSearchOpen} />
+        <Navbar onSearchOpen={onSearchOpen} user={user} onAuthOpen={onAuthOpen} onLogout={onLogout} />
 
         <div className="flex-1 flex flex-col items-center justify-center pt-24 px-4">
           <motion.div
@@ -190,7 +314,7 @@ const Hero = ({ onSearchOpen }) => {
             transition={{ duration: 0.7, delay: 0.8, ease: "easeOut" }}
             className="mt-5 text-sm md:text-base text-white/85 max-w-xl font-body font-light leading-snug text-center px-2"
           >
-            axis is a newsroom and an open journal — original reporting on the issues shaping our generation, and a place for anyone with something to say to publish it well.
+            genzthinks is a newsroom and an open journal — original reporting on the issues shaping our generation, and a place for anyone with something to say to publish it well.
           </motion.p>
 
           <motion.div
@@ -245,11 +369,18 @@ const TopicNav = ({ active, setActive }) => (
         <button
           key={t.id}
           onClick={() => setActive(t.id)}
-          className={`px-4 py-1.5 text-sm font-body whitespace-nowrap rounded-full transition-colors ${
-            active === t.id ? "bg-white text-black font-medium" : "text-white/85 hover:text-white"
-          }`}
+          className="relative px-4 py-1.5 text-sm font-body whitespace-nowrap rounded-full"
         >
-          {t.label}
+          {active === t.id && (
+            <motion.div
+              layoutId="topicActive"
+              className="absolute inset-0 bg-white rounded-full"
+              transition={{ type: "spring", stiffness: 380, damping: 32 }}
+            />
+          )}
+          <span className={`relative ${active === t.id ? "text-black font-medium" : "text-white/85 hover:text-white"}`}>
+            {t.label}
+          </span>
         </button>
       ))}
     </div>
@@ -343,35 +474,90 @@ const Featured = () => {
 };
 
 // ───────────────────────── STORY GRID ─────────────────────────
-const StoryCard = ({ a, i }) => (
-  <BlurReveal delay={0.05 * i}>
-    <a href={a.url || "#"} target={a.url && a.url !== "#" ? "_blank" : undefined} rel="noreferrer" className="group block">
-      <div className="relative rounded-[1rem] overflow-hidden aspect-[16/10] mb-4">
-        {a.image_url ? (
-          <img src={a.image_url} alt={a.title} className="absolute inset-0 w-full h-full object-cover" />
-        ) : (
-          <div className="absolute inset-0" style={{ background: `linear-gradient(135deg, oklch(0.36 0.10 ${cardColor(i)}) 0%, oklch(0.16 0.04 ${cardColor(i)}) 100%)` }} />
-        )}
-        <svg className="absolute inset-0 w-full h-full opacity-15" preserveAspectRatio="none">
-          <defs>
-            <pattern id={`p${i}`} x="0" y="0" width="4" height="4" patternUnits="userSpaceOnUse">
-              <line x1="0" y1="0" x2="0" y2="4" stroke="white" strokeWidth="0.3" />
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill={`url(#p${i})`} />
-        </svg>
-        <div className="absolute top-3 left-3">
-          <span className="liquid-glass rounded-full px-2.5 py-0.5 text-[10px] text-white/90 font-body uppercase tracking-[0.15em]">{a.category}</span>
+const SOURCE_LABEL = { guardian: "The Guardian", nytimes: "NY Times", newsapi: "NewsAPI", seed: "genzthinks", axis: "genzthinks" };
+
+const StoryCard = ({ a, i }) => {
+  const [imgErr, setImgErr] = useState(false);
+  const dek = stripHtml(a.dek || "");
+  const color = cardColor(i);
+  const isOriginal = a.source === "seed" || a.source === "axis";
+  const authorDisplay = a.author || SOURCE_LABEL[a.source] || "genzthinks";
+  const catInitial = (a.category || "G").charAt(0).toUpperCase();
+
+  return (
+    <BlurReveal delay={0.035 * i}>
+      <a
+        href={a.url || "#"}
+        target={a.url && a.url !== "#" ? "_blank" : undefined}
+        rel="noreferrer"
+        className="group flex items-start gap-4 py-5 border-b border-white/[0.07] hover:bg-white/[0.03] -mx-3 px-3 rounded-xl transition-colors"
+      >
+        {/* Text column */}
+        <div className="flex-1 min-w-0 flex flex-col gap-1.5 min-h-[4.5rem]">
+          <div className="flex items-center gap-2 flex-wrap">
+            <span
+              className="text-[10px] uppercase tracking-[0.16em] font-body font-semibold"
+              style={{ color: `oklch(0.72 0.14 ${color})` }}
+            >
+              {a.category || "Global"}
+            </span>
+            {isOriginal && (
+              <span className="rounded-full px-2 py-0.5 text-[9px] font-body uppercase tracking-wider"
+                style={{ background: `oklch(0.22 0.06 ${color})`, color: `oklch(0.78 0.12 ${color})` }}>
+                genzthinks original
+              </span>
+            )}
+            <span className="text-[10px] text-white/30 font-body">{relativeTime(a.published_at)}</span>
+          </div>
+
+          <h3 className="font-heading italic text-white text-xl md:text-[1.35rem] tracking-[-0.4px] leading-[1.1] group-hover:text-white/85 transition-colors line-clamp-3">
+            {a.title}
+          </h3>
+
+          {dek && (
+            <p className="text-[12.5px] text-white/45 font-body font-light leading-relaxed line-clamp-2">{dek}</p>
+          )}
+
+          <div className="flex items-center gap-2 mt-auto pt-1 text-[11px] text-white/35 font-body">
+            <span className="text-white/50 font-medium truncate max-w-[160px]">{authorDisplay}</span>
+            <span className="text-white/20">·</span>
+            <span>{a.read_time || 5} min read</span>
+            {a.views > 0 && (
+              <>
+                <span className="text-white/20">·</span>
+                <span className="inline-flex items-center gap-1">
+                  <Eye className="h-3 w-3" />
+                  {a.views >= 1000 ? `${(a.views / 1000).toFixed(1)}K` : a.views}
+                </span>
+              </>
+            )}
+            <ArrowUpRight className="h-3 w-3 ml-auto text-white/20 group-hover:text-white/55 transition-colors shrink-0" />
+          </div>
         </div>
-      </div>
-      <div className="text-[10px] uppercase tracking-[0.18em] text-white/45 font-body mb-2">{a.region} · {relativeTime(a.published_at)}</div>
-      <h3 className="font-heading italic text-white text-2xl md:text-[1.7rem] tracking-[-0.5px] leading-[1.02] group-hover:text-white">
-        {a.title}
-      </h3>
-      <div className="mt-3 text-xs text-white/55 font-body">{a.author} · {a.read_time} min</div>
-    </a>
-  </BlurReveal>
-);
+
+        {/* Thumbnail */}
+        <div className="shrink-0 w-[4.5rem] h-[4.5rem] md:w-[5.5rem] md:h-[5rem] rounded-[0.75rem] overflow-hidden mt-0.5 flex items-center justify-center"
+          style={!(a.image_url && !imgErr) ? { background: `linear-gradient(145deg, oklch(0.28 0.09 ${color}) 0%, oklch(0.16 0.04 ${color}) 100%)` } : {}}>
+          {a.image_url && !imgErr ? (
+            <img
+              src={a.image_url}
+              alt=""
+              className="w-full h-full object-cover"
+              onError={() => setImgErr(true)}
+            />
+          ) : (
+            <span
+              className="font-heading italic text-2xl select-none"
+              style={{ color: `oklch(0.55 0.14 ${color})` }}
+            >
+              {catInitial}
+            </span>
+          )}
+        </div>
+      </a>
+    </BlurReveal>
+  );
+};
 
 const MostRead = () => {
   const [trending, setTrending] = useState([]);
@@ -380,25 +566,29 @@ const MostRead = () => {
     fetchTrending().then(setTrending);
   }, []);
 
-  const items = trending.length ? trending : MOCK_STORIES.slice(0, 5);
+  const items = (trending.length ? trending : MOCK_STORIES).slice(0, 5);
 
   return (
     <BlurReveal>
-      <div className="liquid-glass rounded-[1.25rem] p-6">
-        <div className="flex items-center justify-between mb-5">
-          <div className="text-[10px] uppercase tracking-[0.18em] text-white/55 font-body">Most read · this hour</div>
+      <div className="liquid-glass rounded-[1.25rem] p-5">
+        <div className="flex items-center justify-between mb-4">
+          <div className="text-[10px] uppercase tracking-[0.18em] text-white/55 font-body">Trending now</div>
           <span className="w-1.5 h-1.5 rounded-full bg-[#ff2d2d] animate-pulse" />
         </div>
-        <ol className="space-y-4">
-          {items.slice(0, 5).map((a, i) => (
-            <li key={a.id}>
-              <a href={a.url || "#"} target={a.url && a.url !== "#" ? "_blank" : undefined} rel="noreferrer" className="group flex items-start gap-4">
-                <span className="font-heading italic text-white/30 text-3xl leading-none w-8 shrink-0 group-hover:text-white/60 transition-colors">
-                  {String(i + 1).padStart(2, "0")}
+        <ol className="space-y-3">
+          {items.map((a, i) => (
+            <li key={a.id || i}>
+              <a href={a.url || "#"} target={a.url && a.url !== "#" ? "_blank" : undefined} rel="noreferrer"
+                className="group flex items-start gap-3">
+                <span className="font-heading italic text-white/25 text-2xl leading-none w-7 shrink-0 group-hover:text-white/50 transition-colors">
+                  {i + 1}
                 </span>
-                <div className="min-w-0">
-                  <div className="text-[10px] uppercase tracking-[0.15em] text-white/45 font-body mb-1">{a.region} · {a.category}</div>
-                  <div className="text-sm text-white font-body font-medium leading-snug group-hover:text-white">{a.title}</div>
+                <div className="min-w-0 flex-1">
+                  <div className="text-[10px] text-white/35 font-body mb-0.5">{a.category}</div>
+                  <div className="text-[13px] text-white/80 font-body leading-snug group-hover:text-white transition-colors line-clamp-2">
+                    {a.title}
+                  </div>
+                  <div className="text-[10px] text-white/30 font-body mt-1">{a.read_time} min · {relativeTime(a.published_at)}</div>
                 </div>
               </a>
             </li>
@@ -411,16 +601,14 @@ const MostRead = () => {
 
 const NewsletterMini = () => {
   const [email, setEmail] = useState("");
-  const [sent, setSent] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [state, setState] = useState("idle"); // idle | loading | success | error
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!email) return;
-    setLoading(true);
-    await subscribeNewsletter(email);
-    setSent(true);
-    setLoading(false);
+    if (!email || state === "loading") return;
+    setState("loading");
+    const ok = await subscribeNewsletter(email);
+    setState(ok ? "success" : "error");
   };
 
   return (
@@ -433,7 +621,25 @@ const NewsletterMini = () => {
         <p className="text-xs text-white/55 font-body font-light leading-relaxed mb-5">
           Hand-picked by the desks. No autoplay, no algorithm. 84,000 readers under 30.
         </p>
-        {!sent ? (
+
+        {state === "success" && (
+          <div className="text-sm text-white font-body inline-flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-[#9eff8e]" /> See you tomorrow at 7.
+          </div>
+        )}
+
+        {state === "error" && (
+          <div className="space-y-3">
+            <div className="text-sm text-white/60 font-body inline-flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-[#ff6b6b]" /> Couldn't subscribe — backend may be offline.
+            </div>
+            <button onClick={() => setState("idle")} className="text-xs text-white/40 font-body hover:text-white/70">
+              Try again
+            </button>
+          </div>
+        )}
+
+        {(state === "idle" || state === "loading") && (
           <form onSubmit={handleSubmit} className="flex items-center gap-2">
             <input
               type="email"
@@ -443,55 +649,79 @@ const NewsletterMini = () => {
               placeholder="you@school.edu"
               className="flex-1 min-w-0 bg-white/5 text-white placeholder-white/35 rounded-full px-4 py-2 text-sm font-body outline-none focus:bg-white/10 transition-colors"
             />
-            <button type="submit" disabled={loading}
+            <button type="submit" disabled={state === "loading"}
               className="bg-white text-black rounded-full px-4 py-2 text-sm font-medium whitespace-nowrap inline-flex items-center gap-1.5 disabled:opacity-60">
-              {loading ? "…" : <><span>Subscribe</span><ArrowUpRight className="h-3.5 w-3.5" /></>}
+              {state === "loading" ? "…" : <><span>Subscribe</span><ArrowUpRight className="h-3.5 w-3.5" /></>}
             </button>
           </form>
-        ) : (
-          <div className="text-sm text-white font-body inline-flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-[#9eff8e]" /> See you tomorrow at 7.
-          </div>
         )}
       </div>
     </BlurReveal>
   );
 };
 
+const FEED_PAGE = 5;
+
 const StoryGrid = ({ active }) => {
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [shown, setShown] = useState(FEED_PAGE);
+  const topicLabel = TOPICS.find(t => t.id === active)?.label || "All";
 
   useEffect(() => {
     setLoading(true);
-    fetchArticles(active).then(data => {
-      setArticles(Array.isArray(data) ? data : MOCK_STORIES);
+    setShown(FEED_PAGE);
+    fetchArticles(active, 20).then(data => {
+      setArticles(Array.isArray(data) && data.length ? data : MOCK_STORIES);
       setLoading(false);
     });
   }, [active]);
 
   const list = articles.length ? articles : MOCK_STORIES;
+  const visible = list.slice(0, shown);
+  const remaining = list.length - shown;
 
   return (
     <section className="relative bg-black px-6 md:px-12 lg:px-20 pb-24 pt-4">
       <div className="max-w-7xl mx-auto">
         <BlurReveal>
-          <div className="flex items-end justify-between mb-10">
-            <div>
-              <div className="text-[10px] uppercase tracking-[0.2em] text-white/45 font-body mb-2">// today's edition</div>
-              <h2 className="font-heading italic text-white text-4xl md:text-5xl tracking-[-1.5px] leading-none">What's moving today</h2>
+          <div className="flex items-center justify-between mb-6 pb-4 border-b border-white/[0.08]">
+            <div className="flex items-center gap-3">
+              <h2 className="font-heading italic text-white text-3xl md:text-4xl tracking-[-1px] leading-none">
+                {active === "all" ? "Today's feed" : topicLabel}
+              </h2>
+              {loading && <span className="text-xs text-white/30 font-body">Loading…</span>}
             </div>
-            <span className="text-xs text-white/45 font-body inline-flex items-center gap-2">
+            <span className="text-[11px] text-white/35 font-body inline-flex items-center gap-1.5">
               <span className="w-1.5 h-1.5 rounded-full bg-[#ff2d2d] animate-pulse" />
-              {loading ? "Loading…" : `${list.length} stories · live`}
+              {list.length} stories
             </span>
           </div>
         </BlurReveal>
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-x-10 gap-y-14">
-          <div className="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-12">
-            {list.map((a, i) => <StoryCard key={a.id} a={a} i={i} />)}
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-x-12">
+          <div className="lg:col-span-8">
+            {visible.map((a, i) => <StoryCard key={a.id || i} a={a} i={i} />)}
+
+            {remaining > 0 && (
+              <button
+                onClick={() => setShown(s => s + FEED_PAGE)}
+                className="w-full py-5 mt-1 flex items-center justify-center gap-2 text-sm text-white/45 font-body hover:text-white transition-colors border-t border-white/[0.07] group"
+              >
+                <span>{remaining} more stor{remaining === 1 ? "y" : "ies"}</span>
+                <span className="liquid-glass rounded-full w-6 h-6 flex items-center justify-center group-hover:bg-white/10 transition-colors">
+                  <svg className="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+                </span>
+              </button>
+            )}
+            {remaining <= 0 && list.length > FEED_PAGE && (
+              <div className="py-4 text-center text-[11px] text-white/25 font-body border-t border-white/[0.07] mt-1">
+                You're caught up.
+              </div>
+            )}
           </div>
-          <aside className="lg:col-span-4 flex flex-col gap-6 lg:sticky lg:top-6 lg:self-start">
+
+          <aside className="lg:col-span-4 flex flex-col gap-5 lg:sticky lg:top-6 lg:self-start mt-8 lg:mt-0">
             <MostRead />
             <NewsletterMini />
           </aside>
@@ -502,28 +732,78 @@ const StoryGrid = ({ active }) => {
 };
 
 // ───────────────────────── VOICES ─────────────────────────
-const VoiceCard = ({ o, i }) => (
-  <BlurReveal delay={0.05 * i}>
-    <a href="#" className="liquid-glass rounded-[1.25rem] p-7 flex flex-col h-full min-h-[280px] group">
-      <div className="text-[10px] uppercase tracking-[0.18em] text-white/45 font-body mb-5">{o.tag} · {o.read_time} min</div>
-      <h3 className="font-heading italic text-white text-2xl md:text-3xl tracking-[-0.5px] leading-[1.05] mb-4">{o.title}</h3>
-      <p className="text-sm text-white/70 font-body font-light leading-relaxed">"{o.excerpt}"</p>
-      <div className="mt-auto pt-6 flex items-center gap-3">
-        <div className="w-9 h-9 liquid-glass rounded-full flex items-center justify-center text-white font-heading italic">
-          {o.author_name.split(" ").map(n => n[0]).slice(0, 2).join("")}
+const AVATAR_HUES = ["260", "320", "180", "30", "150", "200", "280", "60"];
+
+const VoiceCard = ({ o, i }) => {
+  const hue = AVATAR_HUES[i % AVATAR_HUES.length];
+  const initials = (o.author_name || "").split(" ").map(n => n[0]).slice(0, 2).join("");
+  const likes = o.likes ?? 0;
+  return (
+    <BlurReveal delay={0.05 * i}>
+      <a href="#" className="liquid-glass rounded-[1.25rem] p-6 flex flex-col h-full group hover:bg-white/[0.03] transition-colors">
+        {/* Author row */}
+        <div className="flex items-center justify-between mb-5">
+          <div className="flex items-center gap-3">
+            <div
+              className="w-11 h-11 rounded-full shrink-0 flex items-center justify-center text-[13px] font-heading italic font-bold"
+              style={{ background: `oklch(0.72 0.16 ${hue})`, color: `oklch(0.18 0.04 ${hue})` }}
+            >
+              {initials}
+            </div>
+            <div className="leading-tight">
+              <div className="text-sm text-white font-body font-medium leading-snug">{o.author_name}</div>
+              <div className="text-[11px] text-white/45 font-body">{o.author_role}</div>
+            </div>
+          </div>
+          <button
+            onClick={e => { e.preventDefault(); e.stopPropagation(); }}
+            className="liquid-glass rounded-full px-3 py-1.5 text-[11px] text-white/70 font-body hover:text-white transition-colors whitespace-nowrap"
+          >
+            + Follow
+          </button>
         </div>
-        <div className="leading-tight">
-          <div className="text-xs text-white font-body">{o.author_name}</div>
-          <div className="text-[11px] text-white/45 font-body">{o.author_role}</div>
+
+        {/* Tag + read */}
+        <div className="flex items-center gap-2 mb-3">
+          <span
+            className="rounded-full px-2.5 py-0.5 text-[10px] font-body uppercase tracking-[0.14em]"
+            style={{ background: `oklch(0.25 0.06 ${hue})`, color: `oklch(0.80 0.12 ${hue})` }}
+          >
+            {o.tag}
+          </span>
+          <span className="text-[10px] text-white/35 font-body">{o.read_time || 5} min read</span>
         </div>
-        <div className="ml-auto flex items-center gap-1 text-white/40">
-          <Heart className="h-3.5 w-3.5" />
-          <span className="text-[11px] font-body">{o.likes?.toLocaleString()}</span>
+
+        {/* Title */}
+        <h3 className="font-heading italic text-white text-[1.55rem] md:text-[1.65rem] tracking-[-0.5px] leading-[1.06] mb-3 group-hover:text-white/90 transition-colors">
+          {o.title}
+        </h3>
+
+        {/* Excerpt */}
+        <p className="text-[13px] text-white/60 font-body font-light leading-relaxed flex-1 line-clamp-3">
+          {o.excerpt}
+        </p>
+
+        {/* Footer */}
+        <div className="mt-5 pt-4 border-t border-white/[0.08] flex items-center justify-between">
+          <div className="flex items-center gap-3 text-[11px] text-white/35 font-body">
+            <span className="inline-flex items-center gap-1.5">
+              <Heart className="h-3.5 w-3.5" />
+              {likes.toLocaleString()}
+            </span>
+            <span className="inline-flex items-center gap-1.5">
+              <Comment className="h-3.5 w-3.5" />
+              {Math.floor(likes / 7).toLocaleString()}
+            </span>
+          </div>
+          <span className="text-[11px] text-white/45 font-body group-hover:text-white/80 transition-colors inline-flex items-center gap-1">
+            Continue reading <ArrowUpRight className="h-3 w-3" />
+          </span>
         </div>
-      </div>
-    </a>
-  </BlurReveal>
-);
+      </a>
+    </BlurReveal>
+  );
+};
 
 const Voices = () => {
   const [opinions, setOpinions] = useState([]);
@@ -535,6 +815,7 @@ const Voices = () => {
   }, []);
 
   const list = opinions.length ? opinions : MOCK_OPINIONS;
+  const [featured, ...rest] = list;
 
   return (
     <section className="relative min-h-screen bg-black overflow-hidden">
@@ -543,7 +824,12 @@ const Voices = () => {
       <div className="relative z-10 px-6 md:px-12 lg:px-20 pt-24 pb-16 flex flex-col min-h-screen">
         <div className="max-w-7xl mx-auto w-full">
           <BlurReveal>
-            <div className="text-sm font-body text-white/80 mb-5">// VOICES</div>
+            <div className="flex items-center gap-3 mb-5">
+              <div className="text-sm font-body text-white/60">// VOICES</div>
+              <div className="liquid-glass rounded-full px-3 py-1 text-[10px] text-white/60 font-body uppercase tracking-wider">
+                {list.length} writers this week
+              </div>
+            </div>
           </BlurReveal>
           <BlurReveal delay={0.05}>
             <h2 className="font-heading italic text-white text-6xl md:text-7xl lg:text-[6rem] leading-[0.9] tracking-[-3px]">
@@ -551,12 +837,64 @@ const Voices = () => {
             </h2>
           </BlurReveal>
           <BlurReveal delay={0.1}>
-            <p className="mt-6 text-white/85 font-body font-light max-w-xl text-base leading-relaxed">
-              Anyone with rigor and a point of view can publish on axis. Editor-reviewed, royalty-shared, archived to the open web. Below — this week's most-read essays.
+            <p className="mt-6 text-white/80 font-body font-light max-w-xl text-base leading-relaxed">
+              Anyone with rigor and a point of view can publish on genzthinks. Editor-reviewed, royalty-shared, free forever. Below — this week's most-read voices.
             </p>
           </BlurReveal>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-14">
-            {list.map((o, i) => <VoiceCard key={o.id} o={o} i={i} />)}
+
+          {/* Featured voice — full-width card */}
+          {featured && (
+            <BlurReveal delay={0.15} className="mt-12">
+              <a href="#" className="liquid-glass rounded-[1.5rem] p-7 md:p-10 block group hover:bg-white/[0.03] transition-colors">
+                <div className="flex flex-col md:flex-row md:items-start gap-6">
+                  <div className="flex items-center gap-3 md:w-56 shrink-0">
+                    <div
+                      className="w-14 h-14 rounded-full shrink-0 flex items-center justify-center text-lg font-heading italic font-bold"
+                      style={{ background: `oklch(0.72 0.16 ${AVATAR_HUES[0]})`, color: `oklch(0.18 0.04 ${AVATAR_HUES[0]})` }}
+                    >
+                      {(featured.author_name || "").split(" ").map(n => n[0]).slice(0, 2).join("")}
+                    </div>
+                    <div>
+                      <div className="text-sm text-white font-body font-medium">{featured.author_name}</div>
+                      <div className="text-[11px] text-white/45 font-body">{featured.author_role}</div>
+                      <div className="mt-2">
+                        <button onClick={e => { e.preventDefault(); e.stopPropagation(); }}
+                          className="liquid-glass rounded-full px-3 py-1 text-[10px] text-white/70 font-body hover:text-white transition-colors">
+                          + Follow
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-3">
+                      <span className="rounded-full px-2.5 py-0.5 text-[10px] font-body uppercase tracking-[0.14em]"
+                        style={{ background: `oklch(0.25 0.06 ${AVATAR_HUES[0]})`, color: `oklch(0.80 0.12 ${AVATAR_HUES[0]})` }}>
+                        {featured.tag}
+                      </span>
+                      <span className="text-[10px] text-white/35 font-body">Featured · {featured.read_time || 5} min</span>
+                    </div>
+                    <h3 className="font-heading italic text-white text-3xl md:text-4xl tracking-[-1px] leading-[1.04] mb-3 group-hover:text-white/90 transition-colors">
+                      {featured.title}
+                    </h3>
+                    <p className="text-sm text-white/65 font-body font-light leading-relaxed max-w-2xl">
+                      {featured.excerpt}
+                    </p>
+                    <div className="mt-4 flex items-center gap-4 text-[11px] text-white/40 font-body">
+                      <span className="inline-flex items-center gap-1.5"><Heart className="h-3.5 w-3.5" />{(featured.likes ?? 0).toLocaleString()}</span>
+                      <span className="inline-flex items-center gap-1.5"><Comment className="h-3.5 w-3.5" />{Math.floor((featured.likes ?? 0) / 7).toLocaleString()}</span>
+                      <span className="ml-auto text-white/55 group-hover:text-white/80 transition-colors inline-flex items-center gap-1">
+                        Continue reading <ArrowUpRight className="h-3 w-3" />
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </BlurReveal>
+          )}
+
+          {/* Rest of voices grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-5">
+            {rest.map((o, i) => <VoiceCard key={o.id} o={o} i={i + 1} />)}
           </div>
         </div>
       </div>
@@ -565,111 +903,253 @@ const Voices = () => {
 };
 
 // ───────────────────────── WRITE CTA ─────────────────────────
+const DESKS = ["Policy", "Climate", "Tech", "Culture", "Money", "Global"];
+
 const WriteCTA = () => {
-  const [draft, setDraft] = useState("");
+  const [title, setTitle] = useState("");
+  const [body, setBody] = useState("");
   const [desk, setDesk] = useState(null);
   const [draftId, setDraftId] = useState(null);
-  const [status, setStatus] = useState("idle"); // idle | saving | saved | submitted
+  const [saveStatus, setSaveStatus] = useState("idle"); // idle | saving | saved
+  const [submitStatus, setSubmitStatus] = useState("idle"); // idle | submitting | under_review
   const saveTimer = useRef(null);
 
-  const handleChange = (val) => {
-    setDraft(val);
-    setStatus("saving");
+  const autosave = (t, b, d) => {
+    setSaveStatus("saving");
     clearTimeout(saveTimer.current);
     saveTimer.current = setTimeout(async () => {
-      const data = await saveDraft({ body: val, desk, session_id: "anon-" + Date.now() }, draftId);
+      const data = await saveDraft({ title: t || undefined, body: b, desk: d, session_id: "anon-" + Date.now() }, draftId);
       if (data?.id) setDraftId(data.id);
-      setStatus("saved");
+      setSaveStatus("saved");
     }, 1200);
   };
 
+  const handleTitle = (v) => { setTitle(v); autosave(v, body, desk); };
+  const handleBody = (v) => { setBody(v); autosave(title, v, desk); };
+  const handleDesk = (d) => { setDesk(d); autosave(title, body, d); };
+
   const handleSubmit = async () => {
-    if (!draftId) {
-      const data = await saveDraft({ body: draft, desk });
-      if (data?.id) {
-        await submitDraft(data.id);
-        setStatus("submitted");
-      }
+    if (!body.trim() || submitStatus !== "idle") return;
+    setSubmitStatus("submitting");
+    let id = draftId;
+    if (!id) {
+      const data = await saveDraft({ title: title || undefined, body, desk });
+      id = data?.id;
+    }
+    if (id) {
+      await submitDraft(id);
+      setSubmitStatus("under_review");
     } else {
-      await submitDraft(draftId);
-      setStatus("submitted");
+      setSubmitStatus("idle");
     }
   };
 
-  const words = draft.trim() ? draft.trim().split(/\s+/).length : 0;
-  const grade = Math.max(7, Math.min(12, 7 + Math.floor(draft.length / 80)));
-  const readMin = words ? Math.max(1, Math.ceil(words / 220)) : 0;
+  const words = body.trim() ? body.trim().split(/\s+/).length : 0;
+  const canSubmit = body.trim().length > 50 && submitStatus === "idle";
+
+  if (submitStatus === "under_review") {
+    return (
+      <section id="write" className="relative bg-black px-6 md:px-12 lg:px-20 py-24">
+        <div className="max-w-3xl mx-auto">
+          <BlurReveal>
+            <div className="liquid-glass rounded-[2rem] p-10 md:p-16 text-center relative overflow-hidden">
+              <div className="absolute -top-24 -right-24 w-72 h-72 rounded-full pointer-events-none" style={{ background: "radial-gradient(circle, oklch(0.55 0.15 280 / 0.3), transparent 60%)" }} />
+              <div className="text-[11px] uppercase tracking-[0.2em] text-white/40 font-body mb-5">// UNDER REVIEW</div>
+              <h2 className="font-heading italic text-white text-4xl md:text-5xl tracking-[-1.5px] leading-[1] mb-4">
+                {title ? `"${title}"` : "Your piece is in."}
+              </h2>
+              <p className="text-white/60 font-body text-base leading-relaxed max-w-md mx-auto mb-8">
+                A genzthinks editor will read it and get back to you within 48 hours. If it's a fit, we'll schedule it and handle editing together.
+              </p>
+              <div className="flex flex-wrap items-center justify-center gap-3 text-[12px] text-white/35 font-body mb-8">
+                <span className="inline-flex items-center gap-1.5"><span className="w-1.5 h-1.5 rounded-full bg-[#9eff8e]" /> Saved to drafts</span>
+                <span>·</span>
+                <span>{words} words · {desk || "no desk selected"}</span>
+              </div>
+              <button onClick={() => { setTitle(""); setBody(""); setDesk(null); setDraftId(null); setSaveStatus("idle"); setSubmitStatus("idle"); }}
+                className="liquid-glass rounded-full px-5 py-2.5 text-sm text-white/70 font-body hover:text-white transition-colors">
+                Start another piece
+              </button>
+            </div>
+          </BlurReveal>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section id="write" className="relative bg-black px-6 md:px-12 lg:px-20 py-24">
-      <div className="max-w-5xl mx-auto liquid-glass rounded-[2rem] p-8 md:p-14 relative overflow-hidden">
-        <div className="absolute -top-32 -right-32 w-96 h-96 rounded-full pointer-events-none" style={{ background: "radial-gradient(circle, oklch(0.55 0.15 280 / 0.35), transparent 60%)" }} />
-        <div className="absolute -bottom-32 -left-32 w-96 h-96 rounded-full pointer-events-none" style={{ background: "radial-gradient(circle, oklch(0.55 0.15 200 / 0.25), transparent 60%)" }} />
-
-        <BlurReveal><div className="text-sm font-body text-white/65 mb-4">// PUBLISH WITH AXIS</div></BlurReveal>
+      <div className="max-w-3xl mx-auto">
+        <BlurReveal>
+          <div className="text-[11px] uppercase tracking-[0.2em] text-white/40 font-body mb-5">// WRITE FOR GENZTHINKS</div>
+        </BlurReveal>
         <BlurReveal delay={0.05}>
-          <h2 className="font-heading italic text-white text-5xl md:text-6xl lg:text-7xl leading-[0.9] tracking-[-2px] max-w-3xl">
-            Have something to say about this moment?
+          <h2 className="font-heading italic text-white text-5xl md:text-6xl lg:text-7xl leading-[0.9] tracking-[-2px] mb-3">
+            Have something<br />to say?
           </h2>
         </BlurReveal>
-        <BlurReveal delay={0.1}>
-          <p className="mt-6 text-white/80 font-body font-light text-base max-w-xl leading-relaxed">
-            Pitch an essay, a long read, an op-ed. Editors get back within 48 hours. Your draft starts here — keep typing and we'll autosave.
+        <BlurReveal delay={0.08}>
+          <p className="text-white/55 font-body font-light text-base leading-relaxed mb-10 max-w-lg">
+            Write it here. Editors review every submission — if it's a fit, we publish it together. No follower count required.
           </p>
         </BlurReveal>
 
-        <BlurReveal delay={0.15}>
-          <div className="mt-9 liquid-glass rounded-[1.25rem] p-5">
-            <div className="flex items-center justify-between mb-3">
+        <BlurReveal delay={0.12}>
+          {/* Editor card */}
+          <div className="liquid-glass rounded-[1.5rem] overflow-hidden">
+            {/* Toolbar */}
+            <div className="flex items-center justify-between px-6 py-3 border-b border-white/[0.07]">
               <div className="flex items-center gap-2">
-                <span className="liquid-glass rounded-full px-2.5 py-0.5 text-[10px] text-white/80 font-body uppercase tracking-wider">draft</span>
-                <span className="text-[11px] text-white/55 font-body">
-                  {status === "saving" ? "saving…" : status === "saved" ? "autosaved ✓" : status === "submitted" ? "submitted ✓" : `${words} words`}
+                <span className="liquid-glass rounded-full px-2.5 py-0.5 text-[10px] text-white/60 font-body uppercase tracking-wider">
+                  {saveStatus === "saving" ? "saving…" : saveStatus === "saved" ? "draft saved ✓" : "new draft"}
                 </span>
+                {words > 0 && <span className="text-[10px] text-white/30 font-body">{words} words</span>}
               </div>
-              <div className="flex items-center gap-1.5">
-                {["Policy", "Climate", "Tech", "Culture"].map((t) => (
-                  <button key={t} onClick={() => setDesk(desk === t ? null : t)}
-                    className={`rounded-full px-2.5 py-1 text-[10px] font-body uppercase tracking-wider transition-colors ${desk === t ? "bg-white text-black" : "liquid-glass text-white/80 hover:text-white"}`}>
-                    {t}
+              <div className="flex items-center gap-1.5 flex-wrap justify-end">
+                {DESKS.map((d) => (
+                  <button key={d} onClick={() => handleDesk(desk === d ? null : d)}
+                    className={`rounded-full px-2.5 py-1 text-[10px] font-body uppercase tracking-wider transition-colors ${desk === d ? "bg-white text-black" : "liquid-glass text-white/55 hover:text-white"}`}>
+                    {d}
                   </button>
                 ))}
               </div>
             </div>
-            {status === "submitted" ? (
-              <div className="py-8 text-center">
-                <div className="text-white font-heading italic text-3xl mb-2">Pitch received.</div>
-                <div className="text-white/55 font-body text-sm">An editor will reach out within 48 hours.</div>
-              </div>
-            ) : (
+
+            {/* Title input */}
+            <div className="px-6 pt-6 pb-2">
+              <input
+                type="text"
+                value={title}
+                onChange={e => handleTitle(e.target.value)}
+                placeholder="Give it a title…"
+                className="w-full bg-transparent text-white placeholder-white/25 font-heading italic text-2xl md:text-3xl tracking-[-0.5px] leading-tight outline-none"
+              />
+            </div>
+
+            {/* Body textarea */}
+            <div className="px-6 pb-5">
               <textarea
-                rows={5}
-                value={draft}
-                onChange={(e) => handleChange(e.target.value)}
+                rows={7}
+                value={body}
+                onChange={e => handleBody(e.target.value)}
                 placeholder="The first sentence is the hardest. Try: 'I have spent the last year watching…'"
-                className="w-full bg-transparent text-white placeholder-white/40 font-heading italic text-2xl md:text-3xl tracking-[-0.5px] leading-tight resize-none outline-none"
+                className="w-full bg-transparent text-white/85 placeholder-white/25 font-body text-base leading-relaxed resize-none outline-none"
               />
             )}
             <div className="flex flex-wrap items-center justify-between gap-3 mt-4 pt-4 border-t border-white/10">
-              <div className="text-[11px] text-white/55 font-body">Grade {grade} · {readMin} min read</div>
+            {/* Footer bar */}
+            <div className="flex flex-wrap items-center justify-between gap-3 px-6 py-4 border-t border-white/[0.07]">
+              <div className="text-[11px] text-white/30 font-body">
+                {words > 0 ? `~${Math.max(1, Math.ceil(words / 220))} min read` : "Start writing to see read time"}
+              </div>
               <div className="flex items-center gap-3">
-                <button className="text-xs text-white/80 font-body hover:text-white">Save & finish later</button>
-                <button onClick={handleSubmit} disabled={!draft.trim() || status === "submitted"}
-                  className="liquid-glass-strong rounded-full px-4 py-2 text-sm text-white font-medium inline-flex items-center gap-2 disabled:opacity-50">
-                  Submit pitch <ArrowUpRight className="h-4 w-4" />
+                <button
+                  onClick={handleSubmit}
+                  disabled={!canSubmit}
+                  className="bg-white text-black rounded-full px-5 py-2 text-sm font-medium inline-flex items-center gap-2 disabled:opacity-35 transition-opacity"
+                >
+                  {submitStatus === "submitting" ? "Submitting…" : <>Submit for review <ArrowUpRight className="h-3.5 w-3.5" /></>}
                 </button>
               </div>
             </div>
           </div>
         </BlurReveal>
 
-        <BlurReveal delay={0.2}>
-          <div className="mt-6 text-[11px] text-white/55 font-body">Editor matched in 48h · royalty-shared · open archived · no paywall</div>
+        <BlurReveal delay={0.16}>
+          <p className="mt-4 text-[11px] text-white/30 font-body">
+            Every piece is editor-reviewed before publishing. We respond within 48 hours. No follower count, no paywall.
+          </p>
         </BlurReveal>
       </div>
     </section>
   );
 };
+
+// ───────────────────────── MISSION + FOUNDER ─────────────────────────
+const MissionSection = () => (
+  <section className="relative bg-black px-6 md:px-12 lg:px-20 py-24 border-t border-white/[0.06]">
+    <div className="max-w-7xl mx-auto">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+
+        {/* Left — manifesto */}
+        <div>
+          <BlurReveal>
+            <div className="text-[11px] uppercase tracking-[0.2em] text-white/40 font-body mb-6">// OUR MISSION</div>
+          </BlurReveal>
+          <BlurReveal delay={0.05}>
+            <h2 className="font-heading italic text-white text-5xl md:text-[3.8rem] tracking-[-2px] leading-[0.93] mb-8">
+              News built for the generation that has to fix everything.
+            </h2>
+          </BlurReveal>
+          <BlurReveal delay={0.1}>
+            <div className="space-y-5 text-white/60 font-body font-light text-base leading-relaxed max-w-lg">
+              <p>
+                genzthinks started with a simple frustration: the news wasn't written for us. It was written <em>about</em> us, at best. A statistic. A demographic. A generation to be analyzed by people who wouldn't have to live with the results.
+              </p>
+              <p>
+                We built something different. Original reporting on the policy, climate, tech, fashion, and culture stories that actually shape Gen Z lives — written by the people living them. And an open platform for anyone with something real to say.
+              </p>
+              <p className="text-white/45">Independent. No VC. No algorithm. Reader-funded.</p>
+            </div>
+          </BlurReveal>
+
+          <BlurReveal delay={0.15} className="mt-10">
+            <div className="grid grid-cols-3 gap-6 pt-8 border-t border-white/[0.08]">
+              {[
+                { n: "84K", l: "readers under 30" },
+                { n: "48h", l: "editor response" },
+                { n: "100%", l: "open archived" },
+              ].map(({ n, l }) => (
+                <div key={n}>
+                  <div className="font-heading italic text-white text-3xl md:text-4xl tracking-[-1px]">{n}</div>
+                  <div className="text-[11px] text-white/35 font-body mt-1.5 leading-snug">{l}</div>
+                </div>
+              ))}
+            </div>
+          </BlurReveal>
+        </div>
+
+        {/* Right — founder */}
+        <BlurReveal delay={0.12}>
+          <div className="liquid-glass rounded-[1.5rem] p-8 md:p-10">
+            <div className="text-[10px] uppercase tracking-[0.2em] text-white/35 font-body mb-7">// FOUNDER</div>
+            <div className="flex items-start gap-5 mb-7">
+              <div
+                className="w-[4.5rem] h-[4.5rem] rounded-full shrink-0 flex items-center justify-center text-xl font-heading italic font-bold"
+                style={{ background: "oklch(0.72 0.17 320)", color: "oklch(0.16 0.04 320)" }}
+              >
+                DM
+              </div>
+              <div className="pt-1">
+                <div className="font-heading italic text-white text-2xl md:text-3xl tracking-[-0.5px] leading-none mb-1">
+                  Donya Mirian
+                </div>
+                <div className="text-[12px] text-white/45 font-body">Founder & Editor-in-Chief</div>
+              </div>
+            </div>
+
+            <blockquote className="text-[15px] text-white/70 font-body font-light leading-relaxed mb-7 border-l-2 border-white/15 pl-4">
+              "I built genzthinks because I was tired of reading news that treated my generation like a problem to be solved. We're not a demographic. We're the people who have to actually live in the world these decisions create — so we should be the ones writing about it."
+            </blockquote>
+
+            <div className="flex flex-wrap items-center gap-3 pt-5 border-t border-white/[0.08]">
+              <span
+                className="rounded-full px-3 py-1.5 text-[11px] font-body"
+                style={{ background: "oklch(0.22 0.06 320)", color: "oklch(0.78 0.14 320)" }}
+              >
+                genzthinks · Toronto
+              </span>
+              <a href="#write"
+                className="text-[12px] text-white/45 font-body hover:text-white transition-colors inline-flex items-center gap-1">
+                Write for us <ArrowUpRight className="h-3 w-3" />
+              </a>
+            </div>
+          </div>
+        </BlurReveal>
+      </div>
+    </div>
+  </section>
+);
 
 // ───────────────────────── FOOTER ─────────────────────────
 const Footer = () => (
@@ -679,16 +1159,16 @@ const Footer = () => (
         <div className="col-span-2">
           <div className="flex items-center gap-3 mb-4">
             <div className="liquid-glass w-10 h-10 rounded-full flex items-center justify-center">
-              <span className="font-heading italic text-white text-xl leading-none -mt-0.5">a</span>
+              <span className="font-heading italic text-white text-xl leading-none -mt-0.5">g</span>
             </div>
-            <span className="font-heading italic text-white text-2xl">axis</span>
+            <span className="font-heading italic text-white text-2xl">genzthinks</span>
           </div>
           <p className="text-sm text-white/60 font-body font-light max-w-xs leading-relaxed">A newsroom and an open journal for the generation living through it. Independent. Reader-funded. Open archived.</p>
         </div>
         {[
           { h: "Read", l: ["Today", "Global", "US", "Canada", "Voices"] },
           { h: "Write", l: ["Pitch a piece", "Editor desks", "Style guide", "Royalties"] },
-          { h: "axis", l: ["Mission", "Masthead", "Press", "Contact"] },
+          { h: "genzthinks", l: ["Mission", "Masthead", "Press", "Contact"] },
         ].map((c) => (
           <div key={c.h}>
             <div className="text-xs uppercase tracking-wider text-white/45 font-body mb-3">{c.h}</div>
@@ -701,7 +1181,7 @@ const Footer = () => (
         ))}
       </div>
       <div className="mt-12 pt-6 border-t border-white/10 flex flex-wrap items-center justify-between gap-4 text-xs text-white/45 font-body">
-        <span>© 2026 axis media co-op · Toronto / Lagos / Berlin</span>
+        <span>© 2026 genzthinks media · Toronto / Lagos / Berlin</span>
         <span>v1.0 · last edition built {new Date().toLocaleDateString()}</span>
       </div>
     </div>
@@ -761,6 +1241,6 @@ const ProgressBar = () => {
 };
 
 Object.assign(window, {
-  SearchDrawer, Navbar, Hero, TopicNav, Featured, StoryGrid, Voices, WriteCTA,
-  Footer, MobileTabBar, ProgressBar,
+  AuthModal, SearchDrawer, Navbar, Hero, TopicNav, Featured, StoryGrid, Voices,
+  MissionSection, WriteCTA, Footer, MobileTabBar, ProgressBar,
 });

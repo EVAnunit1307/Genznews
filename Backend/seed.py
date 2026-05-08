@@ -4,7 +4,8 @@ without API keys. Run once: python seed.py
 """
 import asyncio
 from datetime import datetime, timedelta
-from database import init_db, _session_factory
+import database
+from database import init_db
 from models import Opinion, Article
 from config import DATABASE_URL
 
@@ -140,7 +141,7 @@ MOCK_ARTICLES = [
 
 async def seed():
     await init_db(DATABASE_URL)
-    async with _session_factory() as session:
+    async with database._session_factory() as session:
         for o in MOCK_OPINIONS:
             from sqlalchemy import select
             result = await session.execute(

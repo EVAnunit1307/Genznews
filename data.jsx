@@ -20,6 +20,7 @@ const TOPICS = [
   { id: "money",   label: "Money" },
   { id: "culture", label: "Culture" },
   { id: "policy",  label: "Policy" },
+  { id: "fashion", label: "Fashion" },
 ];
 
 // ── Guardian topic map ───────────────────────────────────────────────────────
@@ -27,13 +28,13 @@ const TOPICS = [
 const GUARDIAN_SECTIONS = {
   all: "news", global: "world", us: "us-news", canada: "world",
   climate: "environment", tech: "technology", money: "business",
-  culture: "culture", policy: "politics",
+  culture: "culture", policy: "politics", fashion: "fashion",
 };
 
 const TOPIC_CATEGORY = {
   all: "Global", global: "Global", us: "US", canada: "Canada",
   climate: "Climate", tech: "Tech", money: "Money",
-  culture: "Culture", policy: "Policy",
+  culture: "Culture", policy: "Policy", fashion: "Fashion",
 };
 
 // ── NY Times section map ─────────────────────────────────────────────────────
@@ -41,7 +42,7 @@ const TOPIC_CATEGORY = {
 const NYT_SECTIONS = {
   all: "home", global: "world", us: "us", canada: "world",
   climate: "climate", tech: "technology", money: "business",
-  culture: "arts", policy: "politics",
+  culture: "arts", policy: "politics", fashion: "fashion",
 };
 
 // ── Mock fallbacks ────────────────────────────────────────────────────────────
@@ -75,12 +76,23 @@ const MOCK_OPINIONS = [
 function _relativeTime(iso) {
   try {
     const diff = Date.now() - new Date(iso).getTime();
+    if (diff < 60000) return "just now";
     const m = Math.floor(diff / 60000);
     if (m < 60) return `${m}m ago`;
     const h = Math.floor(m / 60);
     if (h < 24) return `${h}h ago`;
-    return `${Math.floor(h / 24)}d ago`;
+    const d = Math.floor(h / 24);
+    return d === 1 ? "yesterday" : `${d}d ago`;
   } catch { return ""; }
+}
+
+function stripHtml(html) {
+  if (!html) return "";
+  return html
+    .replace(/<[^>]+>/g, "")
+    .replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&nbsp;/g, " ")
+    .trim();
 }
 
 const CARD_COLORS = ["260", "200", "150", "320", "30", "240", "180", "280"];
@@ -283,7 +295,7 @@ async function searchContent(q) {
 // ── Backend-only features (newsletter, drafts, auth) ─────────────────────────
 
 async function subscribeNewsletter(email) {
-  if (!API_BASE) return true; // pretend success if no backend
+  if (!API_BASE) return false;
   try {
     const r = await fetch(`${API_BASE}/newsletter/subscribe`, {
       method: "POST",
@@ -315,10 +327,33 @@ async function submitDraft(draftId) {
   } catch { return false; }
 }
 
+async function loginUser(email, password) {
+  if (!API_BASE) throw new Error("Backend not connected");
+  const r = await fetch(`${API_BASE}/auth/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, password }),
+  });
+  if (!r.ok) { const e = await r.json(); throw new Error(e.detail || "Login failed"); }
+  return r.json();
+}
+
+async function registerUser(email, password, username) {
+  if (!API_BASE) throw new Error("Backend not connected");
+  const r = await fetch(`${API_BASE}/auth/register`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, password, username: username || undefined }),
+  });
+  if (!r.ok) { const e = await r.json(); throw new Error(e.detail || "Registration failed"); }
+  return r.json();
+}
+
 Object.assign(window, {
   TOPICS, API_BASE,
   MOCK_STORIES, MOCK_OPINIONS, MOCK_FEATURED,
   fetchArticles, fetchFeatured, fetchTicker, fetchOpinions,
   fetchTrending, searchContent, subscribeNewsletter, saveDraft, submitDraft,
-  cardColor, relativeTime,
+  loginUser, registerUser,
+  cardColor, relativeTime, stripHtml,
 });

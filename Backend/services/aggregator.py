@@ -10,7 +10,7 @@ from sqlalchemy.dialects.sqlite import insert as sqlite_insert
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from models import Article
-from services import newsapi, nytimes, guardian
+from services import newsapi, nytimes, guardian, rss
 from config import NEWS_CACHE_TTL_MINUTES
 
 # topic → last refresh timestamp
@@ -30,6 +30,7 @@ async def refresh(topic: str, session: AsyncSession) -> None:
         newsapi.fetch(topic, limit=15),
         nytimes.fetch(topic, limit=15),
         guardian.fetch(topic, limit=15),
+        rss.fetch(topic, limit=15),
         return_exceptions=True,
     )
 

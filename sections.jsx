@@ -474,7 +474,7 @@ const Featured = () => {
 };
 
 // ───────────────────────── STORY GRID ─────────────────────────
-const SOURCE_LABEL = { guardian: "The Guardian", nytimes: "NY Times", newsapi: "NewsAPI", seed: "genzthinks", genzthinks: "genzthinks" };
+const SOURCE_LABEL = { guardian: "The Guardian", nytimes: "NY Times", newsapi: "NewsAPI", seed: "genzthinks", genzthinks: "genzthinks", hypebeast: "Hypebeast", vogue: "Vogue" };
 
 const StoryCard = ({ a, i }) => {
   const [imgErr, setImgErr] = useState(false);

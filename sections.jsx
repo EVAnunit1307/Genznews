@@ -1051,6 +1051,7 @@ const WriteCTA = () => {
                 </button>
               </div>
             </div>
+          </div>
         </BlurReveal>
 
         <BlurReveal delay={0.16}>

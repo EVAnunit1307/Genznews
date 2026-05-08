@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: axis-backend
+    runtime: python
+    rootDir: Backend
+    buildCommand: pip install -r requirements.txt && python seed.py
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/health
+    envVars:
+      - key: NEWSAPI_KEY
+        sync: false
+      - key: NYTIMES_KEY
+        sync: false
+      - key: GUARDIAN_KEY
+        sync: false
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DATABASE_URL
+        value: sqlite+aiosqlite:///./axis.db
+      - key: NEWS_CACHE_TTL_MINUTES
+        value: "30"

@@ -4,12 +4,13 @@
 //                  or leave empty to use direct browser-side API calls only.
 
 window.AXIS_CONFIG = {
-  // Backend URL — update this to your Railway deploy URL once live.
-  // e.g. "https://axis-backend-production.up.railway.app/api"
-  // Leave as "" to run frontend-only (Guardian + NYT called directly from browser).
+  // Backend URL — set to your Render deploy URL once live.
+  // e.g. "https://axis-backend.onrender.com/api"
+  // Leave as "" to use direct browser-side API calls (Guardian + NYT).
   API_BASE: "",
 
-  // Browser-side API keys (safe to expose — these are public-read keys)
-  GUARDIAN_KEY: "test",       // replace with your key from open-platform.theguardian.com
-  NYTIMES_KEY: "",            // replace with your key from developer.nytimes.com (free)
+  // Browser-side API keys (public-read, browser-safe)
+  // Restrict to your domain at: open-platform.theguardian.com and developer.nytimes.com
+  GUARDIAN_KEY: "test",
+  NYTIMES_KEY: "LqRF51mZqCIaoA2tCtCoUsnLLxA3ptRWZs2GeYtvZNL6Qr3u",
 };

@@ -63,13 +63,17 @@ You have **three** ways to log in at `/admin` — pick whichever is easiest:
 > If a hero image ever fails a deploy with "image does not exist," it just means the image path
 > in that article is off — open the article in `/admin`, re-pick or remove the image, and republish.
 
-### 3. Real stock ticker (Finnhub)
-- Get a free key at **finnhub.io/dashboard**.
-- Vercel env var: `FINNHUB_KEY` = your key. (Bitcoin needs no key — it uses CoinGecko.)
+### 3. Stock ticker — already works, no key needed
 
-### 4. Newsletter (Buttondown)
-- Get your API key at **buttondown.email/settings/api**.
-- Vercel env var: `BUTTONDOWN_KEY` = your key.
+- The hero ticker shows **real, live prices** out of the box via Yahoo Finance (free, no key).
+- Optional: set `FINNHUB_KEY` (from finnhub.io) only if you want a secondary fallback source.
+
+### 4. Newsletter
+
+- **Works automatically once Upstash KV is set up (step 5)** — signups are saved to your KV
+  under the `subscribers` set (view/export them from the Upstash console). Nothing gets lost.
+- Optional upgrade: add `BUTTONDOWN_KEY` (from buttondown.email) to also get confirmation
+  emails, sending, and unsubscribe handling handled for you.
 
 ### 5. Likes (Upstash Redis)
 - In Vercel → **Storage** → add **Upstash for Redis** (free tier) and connect it to the project.
@@ -93,8 +97,8 @@ You have **three** ways to log in at `/admin` — pick whichever is easiest:
 | Variable | What it's for |
 | --- | --- |
 | `GITHUB_OAUTH_ID` / `GITHUB_OAUTH_SECRET` | `/admin` login |
-| `FINNHUB_KEY` | Stock ticker |
-| `BUTTONDOWN_KEY` | Newsletter |
+| `FINNHUB_KEY` | (optional) stock ticker fallback — not needed, ticker is free via Yahoo |
+| `BUTTONDOWN_KEY` | (optional) newsletter upgrade — KV already captures signups |
 | `KV_REST_API_URL` / `KV_REST_API_TOKEN` | Likes |
 | `GUARDIAN_KEY` | (optional) "From around the web" strip |
 

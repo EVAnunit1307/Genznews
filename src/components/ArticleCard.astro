@@ -1,0 +1,89 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { Image } from 'astro:assets';
+import { relativeTime, estimateReadTime } from '../lib/format';
+import { SITE } from '../config';
+
+interface Props {
+  entry: CollectionEntry<'articles'>;
+  index?: number;
+}
+const { entry, index = 0 } = Astro.props;
+const { title, dek, category, publishedAt, heroImage, readTime } = entry.data;
+const minutes = readTime ?? estimateReadTime(entry.body ?? '');
+
+// hue used only for the no-image gradient fallback
+const HUES = ['260', '200', '150', '320', '30', '240', '180', '280'];
+const hue = HUES[index % HUES.length];
+---
+
+<a
+  href={`/article/${entry.id}`}
+  data-article-card
+  data-category={category}
+  data-reveal
+  style={`--reveal-delay:${(index % 4) * 60}ms`}
+  class="group block liquid-glass rounded-[1.25rem] overflow-hidden tap"
+>
+  <div class="relative aspect-[16/10] overflow-hidden">
+    {
+      heroImage ? (
+        <Image
+          src={heroImage}
+          alt={title}
+          widths={[400, 800]}
+          sizes="(max-width: 640px) 100vw, 45vw"
+          class="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500"
+          loading="lazy"
+        />
+      ) : (
+        <div
+          class="w-full h-full flex items-center justify-center"
+          style={`background: linear-gradient(145deg, oklch(0.28 0.09 ${hue}), oklch(0.15 0.04 ${hue}))`}
+        >
+          <span class="font-heading italic text-4xl" style={`color: oklch(0.6 0.14 ${hue})`}>
+            {category.charAt(0)}
+          </span>
+        </div>
+      )
+    }
+  </div>
+
+  <div class="p-5">
+    <div class="flex items-center gap-2 mb-2">
+      <span class="text-[10px] uppercase tracking-[0.16em] font-body font-semibold text-live">
+        {category}
+      </span>
+      <span class="text-[10px] text-white/45 font-body">{relativeTime(publishedAt)}</span>
+    </div>
+
+    <h3
+      class="font-heading italic text-white text-2xl leading-[1.08] tracking-[-0.5px] mb-2 group-hover:text-white/85 transition-colors"
+    >
+      {title}
+    </h3>
+
+    {
+      dek && (
+        <p class="text-sm text-white/50 font-body font-light leading-relaxed line-clamp-2">{dek}</p>
+      )
+    }
+
+    <div class="mt-4 flex items-center gap-2 text-[11px] text-white/40 font-body">
+      <span class="text-white/55">{SITE.author}</span>
+      <span>·</span>
+      <span>{minutes} min read</span>
+      <svg
+        class="ml-auto h-4 w-4 text-white/25 group-hover:text-white/60 transition-colors"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M7 17L17 7" /><path d="M7 7h10v10" />
+      </svg>
+    </div>
+  </div>
+</a>

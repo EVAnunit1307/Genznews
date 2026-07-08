@@ -1,0 +1,50 @@
+---
+// Top navigation. Desktop shows inline links; mobile relies on the bottom tab bar.
+---
+
+<div
+  class="enter-up fixed top-4 left-0 right-0 z-50 px-6 lg:px-12 flex items-center justify-between"
+  style="--enter-delay: 100ms"
+>
+  <a
+    href="/"
+    class="liquid-glass w-12 h-12 rounded-full flex items-center justify-center shrink-0 tap"
+    aria-label="Home"
+  >
+    <span class="font-heading italic text-white text-2xl leading-none -mt-0.5">g</span>
+  </a>
+
+  <div class="flex items-center gap-2">
+    <button
+      data-open-search
+      aria-label="Search"
+      class="liquid-glass w-12 h-12 rounded-full flex items-center justify-center shrink-0 tap"
+    >
+      <svg class="h-4 w-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" />
+      </svg>
+    </button>
+
+    <div class="hidden md:flex items-center liquid-glass rounded-full px-1.5 py-1.5">
+      <a href="#feed" class="px-3 py-2 text-sm font-medium text-white/90 font-body">Latest</a>
+      <a href="#about" class="px-3 py-2 text-sm font-medium text-white/90 font-body">About</a>
+      <a
+        href="#newsletter"
+        class="ml-1 inline-flex items-center gap-1.5 bg-white text-black rounded-full px-3.5 py-2 text-sm font-medium"
+      >
+        Subscribe
+        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M7 17L17 7" /><path d="M7 7h10v10" />
+        </svg>
+      </a>
+    </div>
+
+    <a
+      href="#newsletter"
+      class="md:hidden liquid-glass rounded-full px-4 text-xs font-medium text-white inline-flex items-center tap"
+      style="min-height:44px"
+    >
+      Subscribe
+    </a>
+  </div>
+</div>

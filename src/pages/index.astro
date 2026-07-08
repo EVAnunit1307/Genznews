@@ -1,0 +1,45 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ReadingProgress from '../components/ReadingProgress.tsx';
+import Hero from '../components/Hero.astro';
+import Featured from '../components/Featured.astro';
+import Feed from '../components/Feed.astro';
+import AroundTheWeb from '../components/AroundTheWeb.astro';
+import AboutSection from '../components/AboutSection.astro';
+import Footer from '../components/Footer.astro';
+import MobileTabBar from '../components/MobileTabBar.tsx';
+import { SITE } from '../config';
+
+const all = (await getCollection('articles', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime()
+);
+
+const featured = all.find((a) => a.data.featured) ?? all[0] ?? null;
+const feedArticles = featured ? all.filter((a) => a.id !== featured.id) : all;
+const recent = all.slice(0, 5);
+const latest = all[0]
+  ? { id: all[0].id, title: all[0].data.title, publishedAt: all[0].data.publishedAt }
+  : null;
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: SITE.name,
+  url: SITE.url,
+  description: SITE.description,
+};
+---
+
+<BaseLayout structuredData={structuredData}>
+  <ReadingProgress client:idle />
+  <Hero latest={latest} />
+  {featured && <Featured entry={featured} />}
+  <Feed articles={feedArticles} recent={recent} />
+  <AroundTheWeb />
+  <AboutSection />
+  <Footer />
+  <MobileTabBar client:idle latestSlug={latest?.id} />
+  <div class="md:hidden h-20" aria-hidden="true"></div>
+</BaseLayout>
+

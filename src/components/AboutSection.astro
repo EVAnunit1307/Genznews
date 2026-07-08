@@ -1,0 +1,83 @@
+---
+import { SITE } from '../config';
+// Personalize this section: set your display name in src/config.ts (SITE.author)
+// and rewrite the copy below in your own voice. No fake stats, no invented team.
+---
+
+<section id="about" class="relative bg-black px-6 md:px-12 lg:px-20 py-24 border-t border-white/[0.06] scroll-mt-16">
+  <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-14 lg:gap-16 items-start">
+    <div>
+      <div class="text-[11px] uppercase tracking-[0.2em] text-white/40 font-body mb-6" data-reveal>
+        // About
+      </div>
+      <h2
+        class="font-heading italic text-white text-5xl md:text-[3.6rem] tracking-[-2px] leading-[0.93] mb-8"
+        data-reveal
+        style="--reveal-delay: 60ms"
+      >
+        One person, writing the news I wish existed.
+      </h2>
+      <div
+        class="space-y-5 text-white/60 font-body font-light text-base leading-relaxed max-w-lg"
+        data-reveal
+        style="--reveal-delay: 120ms"
+      >
+        <p>
+          I started this because the news wasn't written for us — it was written <em>about</em> us,
+          usually by people who won't have to live with the results. A statistic. A demographic. A
+          generation to be explained.
+        </p>
+        <p>
+          So this is my version: original writing on the policy, climate, tech, money, culture, and
+          fashion stories that actually shape our lives — reported and written by one person, in
+          plain language, with receipts.
+        </p>
+        <p class="text-white/45">Independent. No VC, no algorithm, no team of ghostwriters. Just me.</p>
+      </div>
+    </div>
+
+    <div class="liquid-glass rounded-[1.5rem] p-8 md:p-10" data-reveal style="--reveal-delay: 100ms">
+      <div class="text-[10px] uppercase tracking-[0.2em] text-white/45 font-body mb-7">// Who's writing</div>
+      <div class="flex items-start gap-5 mb-7">
+        <div
+          class="w-[4.5rem] h-[4.5rem] rounded-full shrink-0 flex items-center justify-center text-2xl font-heading italic text-white liquid-glass-strong"
+        >
+          {SITE.author.charAt(0).toUpperCase()}
+        </div>
+        <div class="pt-1">
+          <div class="font-heading italic text-white text-2xl md:text-3xl tracking-[-0.5px] leading-none mb-1">
+            {SITE.author}
+          </div>
+          <div class="text-[12px] text-white/45 font-body">Writer &amp; everything else</div>
+        </div>
+      </div>
+
+      <blockquote
+        class="text-[15px] text-white/70 font-body font-light leading-relaxed mb-7 border-l-2 pl-4"
+        style="border-color: rgba(255,45,45,0.6)"
+      >
+        “I'm not a demographic to be solved. Neither are you. We're the people who have to actually
+        live in the world these decisions build — so we should be the ones writing about it.”
+      </blockquote>
+
+      <div class="flex flex-wrap items-center gap-3 pt-5 border-t border-white/[0.08]">
+        <a
+          href="#newsletter"
+          class="rounded-full px-4 text-[12px] font-body text-white inline-flex items-center liquid-glass tap"
+          style="min-height:44px"
+        >
+          Get the newsletter
+        </a>
+        <a
+          href="#feed"
+          class="text-[12px] text-white/45 font-body hover:text-white transition-colors inline-flex items-center gap-1"
+        >
+          Read the latest
+          <svg class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M7 17L17 7" /><path d="M7 7h10v10" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

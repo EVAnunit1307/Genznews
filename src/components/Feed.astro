@@ -1,0 +1,91 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import ArticleCard from './ArticleCard.astro';
+import TopicFilter from './TopicFilter.tsx';
+import NewsletterMini from './NewsletterMini.tsx';
+import { relativeTime } from '../lib/format';
+
+interface Props {
+  articles: CollectionEntry<'articles'>[];
+  recent: CollectionEntry<'articles'>[];
+}
+const { articles, recent } = Astro.props;
+---
+
+<section id="feed" class="relative bg-black px-6 md:px-12 lg:px-20 pt-6 pb-24 scroll-mt-16">
+  <div class="max-w-7xl mx-auto">
+    {/* topic filter */}
+    <div class="flex justify-center mb-8">
+      <TopicFilter client:idle />
+    </div>
+
+    <div
+      class="flex items-center justify-between mb-6 pb-4 border-b border-white/[0.08]"
+      data-reveal
+    >
+      <h2 class="font-heading italic text-white text-3xl md:text-4xl tracking-[-1px] leading-none">
+        Today's feed
+      </h2>
+      <span class="text-[11px] text-white/45 font-body inline-flex items-center gap-1.5">
+        <span class="w-1.5 h-1.5 rounded-full bg-live animate-pulse"></span>
+        {articles.length} stories
+      </span>
+    </div>
+
+    <div class="grid lg:grid-cols-12 gap-x-10">
+      <div class="lg:col-span-8">
+        <div class="grid sm:grid-cols-2 gap-5">
+          {articles.map((entry, i) => <ArticleCard entry={entry} index={i} />)}
+        </div>
+        <div
+          data-feed-empty
+          style="display:none"
+          class="py-16 text-center text-white/40 font-body text-sm"
+        >
+          No stories in this topic yet — check back soon.
+        </div>
+      </div>
+
+      <aside
+        class="lg:col-span-4 flex flex-col gap-5 mt-8 lg:mt-0 lg:sticky lg:top-6 lg:self-start"
+      >
+        <div class="liquid-glass rounded-[1.25rem] p-5" data-reveal>
+          <div class="flex items-center justify-between mb-4">
+            <div class="text-[10px] uppercase tracking-[0.18em] text-white/55 font-body">
+              Most recent
+            </div>
+            <span class="w-1.5 h-1.5 rounded-full bg-live animate-pulse"></span>
+          </div>
+          <ol class="space-y-3">
+            {
+              recent.map((entry, i) => (
+                <li>
+                  <a href={`/article/${entry.id}`} class="group flex items-start gap-3 tap">
+                    <span class="font-heading italic text-white/25 text-2xl leading-none w-7 shrink-0 group-hover:text-white/50 transition-colors">
+                      {i + 1}
+                    </span>
+                    <div class="min-w-0 flex-1">
+                      <div class="text-[10px] text-white/50 font-body mb-0.5">
+                        {entry.data.category}
+                      </div>
+                      <div class="text-[13px] text-white/80 font-body leading-snug group-hover:text-white transition-colors line-clamp-2">
+                        {entry.data.title}
+                      </div>
+                      <div class="text-[10px] text-white/45 font-body mt-1">
+                        {relativeTime(entry.data.publishedAt)}
+                      </div>
+                    </div>
+                  </a>
+                </li>
+              ))
+            }
+          </ol>
+        </div>
+
+        <div id="newsletter" class="scroll-mt-16" data-reveal>
+          <NewsletterMini client:visible />
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>

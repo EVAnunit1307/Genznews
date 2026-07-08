@@ -1,0 +1,109 @@
+---
+import Navbar from './Navbar.astro';
+import FadingVideo from './FadingVideo.tsx';
+import Ticker from './Ticker.tsx';
+import { VIDEOS } from '../config';
+import { formatDate } from '../lib/format';
+
+interface Props {
+  latest?: { id: string; title: string; publishedAt: Date } | null;
+}
+const { latest } = Astro.props;
+
+const headline = 'The stories my generation is actually living';
+const words = headline.split(' ');
+---
+
+<section id="top" class="relative min-h-[100svh] w-full overflow-hidden bg-black flex flex-col">
+  <FadingVideo
+    client:idle
+    src={VIDEOS.hero}
+    className="absolute left-1/2 top-0 -translate-x-1/2 object-cover object-top z-0"
+    style={{ width: '120%', height: '120%' }}
+  />
+  <div
+    class="absolute inset-0 z-[1] pointer-events-none"
+    style="background: radial-gradient(ellipse at top, rgba(0,0,0,0) 30%, rgba(0,0,0,0.6) 100%)"
+  >
+  </div>
+
+  <div class="relative z-10 flex flex-col flex-1 min-h-[100svh]">
+    <Navbar />
+
+    <div class="flex-1 flex flex-col items-center justify-center pt-24 pb-6 px-4">
+      {
+        latest && (
+          <a
+            href={`/article/${latest.id}`}
+            class="enter-up liquid-glass rounded-full inline-flex items-center gap-2 pl-1 pr-3 py-1 tap max-w-[92vw]"
+            style="--enter-delay: 400ms"
+          >
+            <span class="bg-live text-white px-2.5 py-1 text-[10px] font-semibold rounded-full tracking-wider inline-flex items-center gap-1.5 shrink-0">
+              <span class="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+              NEW
+            </span>
+            <span class="text-sm text-white/90 font-body truncate">{latest.title}</span>
+          </a>
+        )
+      }
+
+      <h1
+        class="mt-6 text-[2.75rem] sm:text-6xl md:text-7xl lg:text-[5.5rem] font-heading italic text-white leading-[0.88] max-w-4xl tracking-[-2px] md:tracking-[-3px] text-center px-2"
+        style="display:flex; flex-wrap:wrap; justify-content:center; row-gap:0.1em"
+      >
+        {
+          words.map((w, i) => (
+            <span class="blur-word" style={`--word-delay:${i * 90}ms; margin-right:0.28em`}>
+              {w}
+            </span>
+          ))
+        }
+      </h1>
+
+      <p
+        class="enter-up mt-5 text-sm md:text-base text-white/85 max-w-xl font-body font-light leading-snug text-center px-2"
+        style="--enter-delay: 900ms"
+      >
+        A one-person magazine on policy, climate, tech, money, culture, and fashion — reported and
+        written by me, for anyone who has to live with the results.
+      </p>
+
+      <div
+        class="enter-up flex flex-col sm:flex-row items-center gap-4 sm:gap-6 mt-8"
+        style="--enter-delay: 1100ms"
+      >
+        <a
+          href="#feed"
+          class="liquid-glass-strong rounded-full px-5 text-sm font-medium text-white inline-flex items-center gap-2 tap"
+          style="min-height:48px"
+        >
+          Read the latest
+          <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M7 17L17 7" /><path d="M7 7h10v10" />
+          </svg>
+        </a>
+        <a
+          href="#about"
+          class="text-white text-sm font-body font-medium inline-flex items-center gap-2 tap"
+          style="min-height:44px"
+        >
+          What this is
+        </a>
+      </div>
+    </div>
+
+    <div class="relative z-10 border-t border-white/10 py-2.5">
+      <Ticker client:idle />
+    </div>
+
+    <div
+      class="enter-up flex items-center justify-center gap-3 py-5 px-4 text-xs text-white/55 font-body"
+      style="--enter-delay: 1300ms"
+    >
+      <span class="inline-flex items-center gap-2">
+        <span class="w-1.5 h-1.5 rounded-full bg-live animate-pulse"></span>
+        Fresh edition{latest ? ` · ${formatDate(latest.publishedAt)}` : ''}
+      </span>
+    </div>
+  </div>
+</section>

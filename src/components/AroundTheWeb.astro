@@ -1,0 +1,77 @@
+---
+// Fetches a few outside headlines at BUILD TIME (server-side) so no API key ever
+// reaches the browser. Uses the Guardian "test" key by default; set a real
+// GUARDIAN_KEY env var for production reliability. Fails silent → strip hides.
+const GUARDIAN_KEY = import.meta.env.GUARDIAN_KEY ?? 'test';
+
+interface Item {
+  title: string;
+  url: string;
+  section: string;
+}
+let items: Item[] = [];
+
+try {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 8000);
+  const url = new URL('https://content.guardianapis.com/search');
+  url.searchParams.set('api-key', GUARDIAN_KEY);
+  url.searchParams.set('page-size', '7');
+  url.searchParams.set('order-by', 'newest');
+
+  const r = await fetch(url, { signal: controller.signal });
+  clearTimeout(timer);
+  if (r.ok) {
+    const data = (await r.json()) as {
+      response?: { results?: Array<{ webTitle: string; webUrl: string; sectionName: string }> };
+    };
+    items = (data.response?.results ?? []).slice(0, 7).map((a) => ({
+      title: a.webTitle,
+      url: a.webUrl,
+      section: a.sectionName,
+    }));
+  }
+} catch {
+  items = [];
+}
+---
+
+{
+  items.length > 0 && (
+    <section class="relative bg-black px-6 md:px-12 lg:px-20 py-12 border-t border-white/[0.06]">
+      <div class="max-w-7xl mx-auto">
+        <div class="flex items-center gap-2 mb-5" data-reveal>
+          <span class="text-[11px] uppercase tracking-[0.2em] text-white/45 font-body">
+            From around the web
+          </span>
+          <span class="text-[10px] text-white/25 font-body">· via The Guardian</span>
+        </div>
+
+        <div class="flex gap-4 overflow-x-auto no-scrollbar pb-2 -mx-1 px-1">
+          {items.map((it) => (
+            <a
+              href={it.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="shrink-0 w-[250px] liquid-glass rounded-[1rem] p-4 flex flex-col justify-between gap-4 tap"
+            >
+              <div class="text-[10px] uppercase tracking-[0.14em] text-white/40 font-body">
+                {it.section}
+              </div>
+              <div class="font-heading italic text-white text-lg leading-[1.12] line-clamp-3">
+                {it.title}
+              </div>
+              <div class="text-[11px] text-white/40 font-body inline-flex items-center gap-1">
+                Read on The Guardian
+                <svg class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M7 17L17 7" />
+                  <path d="M7 7h10v10" />
+                </svg>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}

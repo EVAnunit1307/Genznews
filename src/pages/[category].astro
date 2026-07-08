@@ -1,0 +1,71 @@
+---
+import { getCollection } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ArticleCard from '../components/ArticleCard.astro';
+import Footer from '../components/Footer.astro';
+import { CATEGORIES, SITE } from '../config';
+
+export async function getStaticPaths() {
+  const all = await getCollection('articles', ({ data }) => !data.draft);
+  return CATEGORIES.map((cat) => {
+    const articles = all
+      .filter((a) => a.data.category === cat)
+      .sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime());
+    return { params: { category: cat.toLowerCase() }, props: { category: cat, articles } };
+  });
+}
+
+interface Props {
+  category: string;
+  articles: CollectionEntry<'articles'>[];
+}
+const { category, articles } = Astro.props;
+---
+
+<BaseLayout
+  title={`${category} — ${SITE.name}`}
+  description={`${category} stories from ${SITE.name}.`}
+>
+  <main class="min-h-screen bg-black">
+    <header class="px-6 md:px-12 lg:px-20 pt-10 pb-8">
+      <div class="max-w-7xl mx-auto">
+        <a
+          href="/"
+          class="inline-flex items-center gap-2 text-sm text-white/60 font-body hover:text-white tap mb-8"
+          style="min-height:44px"
+        >
+          <span class="liquid-glass w-9 h-9 rounded-full inline-flex items-center justify-center font-heading italic text-lg -mt-0.5">g</span>
+          Home
+        </a>
+        <div class="text-[11px] uppercase tracking-[0.2em] text-white/45 font-body mb-3">Topic</div>
+        <h1 class="font-heading italic text-white text-6xl md:text-7xl tracking-[-2px] leading-[0.9]">
+          {category}
+        </h1>
+        <p class="mt-4 text-sm text-white/45 font-body">
+          {articles.length} {articles.length === 1 ? 'story' : 'stories'}
+        </p>
+      </div>
+    </header>
+
+    <section class="px-6 md:px-12 lg:px-20 pb-24">
+      <div class="max-w-7xl mx-auto">
+        {
+          articles.length ? (
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              {articles.map((entry, i) => (
+                <ArticleCard entry={entry} index={i} />
+              ))}
+            </div>
+          ) : (
+            <p class="text-white/40 font-body text-sm py-16 text-center">
+              No stories here yet — check back soon.
+            </p>
+          )
+        }
+      </div>
+    </section>
+
+    <Footer />
+  </main>
+</BaseLayout>

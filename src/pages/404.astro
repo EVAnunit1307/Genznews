@@ -1,0 +1,33 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Not found — genzthinks" noindex={true}>
+  <main class="min-h-[100svh] flex flex-col items-center justify-center px-6 gap-6 text-center">
+    <div class="font-heading italic text-white text-7xl md:text-8xl tracking-[-3px] leading-none">
+      404
+    </div>
+    <p class="font-body font-light text-white/70 max-w-sm leading-relaxed">
+      That page wandered off. It may have moved, or never existed.
+    </p>
+    <div class="flex items-center gap-4">
+      <a
+        href="/"
+        class="liquid-glass-strong rounded-full px-5 text-sm text-white font-medium inline-flex items-center gap-2 tap"
+        style="min-height:48px"
+      >
+        Back home
+        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M7 17L17 7" /><path d="M7 7h10v10" />
+        </svg>
+      </a>
+      <a
+        href="/#feed"
+        class="text-white/70 text-sm font-body tap inline-flex items-center"
+        style="min-height:44px"
+      >
+        Read the latest
+      </a>
+    </div>
+  </main>
+</BaseLayout>

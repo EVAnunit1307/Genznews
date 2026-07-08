@@ -1,0 +1,340 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─────────────────────────── base ─────────────────────────── */
+html {
+  background: #000;
+  /* iOS: don't let the OS resize text unexpectedly */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  /* kill the grey tap flash on iOS/Android */
+  -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+  margin: 0;
+  /* stop pull-to-refresh nav + scroll chaining, keep normal scroll */
+  overscroll-behavior-y: contain;
+}
+
+body {
+  background: #000;
+  color: #fff;
+  font-family: 'Barlow', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+}
+
+/* visible keyboard focus ring (mouse/touch users don't see it) */
+:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.75);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+/* search result highlight */
+.search-excerpt mark {
+  background: rgba(255, 45, 45, 0.28);
+  color: #fff;
+  border-radius: 2px;
+  padding: 0 1px;
+}
+
+/* iOS zooms the page when it focuses an input under 16px — never allow that */
+input,
+textarea,
+select {
+  font-size: 16px;
+}
+
+/* hide scrollbar on horizontal pill navs + momentum scroll */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* safe-area helpers for the notch / home indicator on fixed bars */
+.pt-safe {
+  padding-top: env(safe-area-inset-top);
+}
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+.bottom-safe {
+  bottom: calc(0.75rem + env(safe-area-inset-bottom));
+}
+
+/* ─────────────────────────── ticker ─────────────────────────── */
+@keyframes tickerScroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* ─────────────────────── liquid-glass utilities ─────────────────────── */
+.liquid-glass {
+  background: rgba(255, 255, 255, 0.01);
+  background-blend-mode: luminosity;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border: none;
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+.liquid-glass::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.4px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.45) 0%,
+    rgba(255, 255, 255, 0.15) 20%,
+    rgba(255, 255, 255, 0) 40%,
+    rgba(255, 255, 255, 0) 60%,
+    rgba(255, 255, 255, 0.15) 80%,
+    rgba(255, 255, 255, 0.45) 100%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.liquid-glass-strong {
+  background: rgba(255, 255, 255, 0.01);
+  background-blend-mode: luminosity;
+  backdrop-filter: blur(50px);
+  -webkit-backdrop-filter: blur(50px);
+  border: none;
+  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.05), inset 0 1px 1px rgba(255, 255, 255, 0.15);
+  position: relative;
+  overflow: hidden;
+}
+.liquid-glass-strong::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.4px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.5) 0%,
+    rgba(255, 255, 255, 0.2) 20%,
+    rgba(255, 255, 255, 0) 40%,
+    rgba(255, 255, 255, 0) 60%,
+    rgba(255, 255, 255, 0.2) 80%,
+    rgba(255, 255, 255, 0.5) 100%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* ─── mobile perf: heavy backdrop blur causes jank on phones (section 13) ─── */
+@media (max-width: 768px) {
+  .liquid-glass-strong {
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    background: rgba(18, 18, 18, 0.6);
+  }
+}
+
+/* ─────────────── article reading prose (mobile-first) ─────────────── */
+.article-prose {
+  max-width: 68ch;
+  margin: 0 auto;
+  font-family: 'Barlow', sans-serif;
+  font-weight: 300;
+  font-size: 1.125rem; /* 18px — comfortable on phones */
+  line-height: 1.75;
+  color: rgba(255, 255, 255, 0.82);
+}
+.article-prose > :first-child {
+  margin-top: 0;
+}
+.article-prose p {
+  margin: 0 0 1.4em;
+}
+.article-prose h2 {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-size: 2rem;
+  line-height: 1.08;
+  letter-spacing: -1px;
+  color: #fff;
+  margin: 1.9em 0 0.5em;
+}
+.article-prose h3 {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-size: 1.5rem;
+  line-height: 1.15;
+  letter-spacing: -0.5px;
+  color: #fff;
+  margin: 1.6em 0 0.4em;
+}
+.article-prose a {
+  color: #fff;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: rgba(255, 45, 45, 0.7);
+  text-decoration-thickness: 1.5px;
+}
+.article-prose strong {
+  color: #fff;
+  font-weight: 600;
+}
+.article-prose em {
+  font-style: italic;
+}
+.article-prose blockquote {
+  border-left: 2px solid rgba(255, 45, 45, 0.6);
+  padding-left: 1.1rem;
+  margin: 1.6em 0;
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 1.2rem;
+  line-height: 1.5;
+}
+.article-prose ul,
+.article-prose ol {
+  margin: 0 0 1.4em;
+  padding-left: 1.35em;
+}
+.article-prose li {
+  margin: 0.45em 0;
+  padding-left: 0.2em;
+}
+.article-prose li::marker {
+  color: rgba(255, 255, 255, 0.4);
+}
+.article-prose img {
+  width: 100%;
+  height: auto;
+  border-radius: 1rem;
+  margin: 1.8em 0;
+}
+.article-prose hr {
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  margin: 2.5em 0;
+}
+
+@media (min-width: 768px) {
+  .article-prose {
+    font-size: 1.2rem;
+  }
+  .article-prose h2 {
+    font-size: 2.4rem;
+  }
+}
+
+/* ─────── scroll reveal — zero framework. `.js` gate keeps content visible without JS ─────── */
+.js [data-reveal] {
+  opacity: 0;
+  filter: blur(10px);
+  transform: translateY(20px);
+  transition:
+    opacity 0.7s ease-out,
+    filter 0.7s ease-out,
+    transform 0.7s ease-out;
+  transition-delay: var(--reveal-delay, 0ms);
+}
+.js [data-reveal].in-view {
+  opacity: 1;
+  filter: blur(0);
+  transform: none;
+}
+
+/* ─────── hero headline word-by-word blur-in (on load, pure CSS) ─────── */
+@keyframes wordBlurIn {
+  0% {
+    opacity: 0;
+    filter: blur(10px);
+    transform: translateY(0.5em);
+  }
+  50% {
+    opacity: 0.5;
+    filter: blur(5px);
+    transform: translateY(-0.05em);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0);
+    transform: none;
+  }
+}
+.blur-word {
+  display: inline-block;
+  opacity: 0;
+  animation: wordBlurIn 0.7s ease-out forwards;
+  animation-delay: var(--word-delay, 0ms);
+}
+
+/* ─────── entrance for nav / hero blocks ─────── */
+@keyframes enterUp {
+  from {
+    opacity: 0;
+    filter: blur(10px);
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: none;
+  }
+}
+.enter-up {
+  animation: enterUp 0.7s ease-out both;
+  animation-delay: var(--enter-delay, 0ms);
+}
+
+/* touch feedback — tactile press on mobile */
+.tap {
+  transition: transform 0.12s ease;
+}
+.tap:active {
+  transform: scale(0.96);
+}
+
+/* ─────── hero ticker track ─────── */
+.ticker-track {
+  display: inline-flex;
+  white-space: nowrap;
+  animation: tickerScroll 40s linear infinite;
+}
+@media (max-width: 768px) {
+  .ticker-track {
+    animation-duration: 28s;
+  }
+}
+
+/* ─────────────────────── respect reduced motion ─────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

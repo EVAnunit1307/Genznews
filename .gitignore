@@ -1,8 +1,17 @@
-# Backend secrets
-Backend/.env
-Backend/axis.db
-Backend/__pycache__/
-Backend/**/__pycache__/
-Backend/*.pyc
-Backend/.venv/
-Backend/venv/
+# ── Node / Astro build ──
+node_modules/
+dist/
+.astro/
+.vercel/
+.output/
+*.log
+npm-debug.log*
+
+# ── Local env (all keys live here, never commit) ──
+.env
+.env.*
+!.env.example
+
+# ── OS ──
+.DS_Store
+Thumbs.db

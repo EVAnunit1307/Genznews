@@ -12,27 +12,14 @@ Detailed setup instructions live in [PUBLISHING.md](PUBLISHING.md); this is the 
       `config.js`). Revoke/regenerate it at **developer.nytimes.com → My Apps**. The new site
       never uses it, but the leaked key must be killed.
 
-## 1. Push the code
-- [ ] `git push` — sends your local commits to `EVANunit1307/Genznews`.
-- [ ] Make the repo **public** on GitHub (required for Giscus comments; fine for a personal magazine).
+## 1–3. Deploy — ✅ DONE
+Already live at **https://genznews.vercel.app** (repo public, commits pushed, Vercel auto-deploys
+on every push). Confirmed working in production with **zero config**: real stock ticker (Yahoo),
+search, "from around the web," share previews, RSS, sitemap, PWA. The URL already matches the
+config, so no URL edits are needed unless you add a custom domain.
 
-## 2. Deploy to Vercel
-- [ ] vercel.com → **Add New → Project** → import `EVANunit1307/Genznews`.
-- [ ] **Root Directory: `Genznews`** ← important (that folder holds `package.json`).
-- [ ] Framework preset: **Astro** (auto-detected) → **Deploy**.
-- [ ] Note the live URL (e.g. `https://genznews.vercel.app`).
-
-✅ **Working immediately, no config:** the real stock ticker (Yahoo), search, "from around the
-web," share previews, RSS, sitemap, and PWA install.
-
-## 3. Point it at your final URL
-Only if your URL is **not** exactly `https://genznews.vercel.app`, update it in these places,
-then commit + push:
-- [ ] `astro.config.mjs` → `const SITE`
-- [ ] `src/config.ts` → `SITE.url`
-- [ ] `public/robots.txt` → the `Sitemap:` line
-- [ ] `public/admin/config.yml` → `base_url`, `site_url`, `display_url`
-- [ ] *(optional)* add a **custom domain** in Vercel → Settings → Domains, then use that URL above.
+> Vercel note: the repo root already contains `package.json`, so **Root Directory = default (root)**
+> — it's set correctly (the build succeeds).
 
 ## 4. Turn on the free extras
 Add env vars in **Vercel → Settings → Environment Variables**, then redeploy.

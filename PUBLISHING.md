@@ -27,14 +27,10 @@ That's it. No terminal, no code.
 
 These wire up the login, the live data, comments, and likes. Do them once after the first deploy.
 
-### 1. Deploy to Vercel
-- Import the GitHub repo `EVANunit1307/Genznews` into Vercel.
-- **Root Directory:** set it to `Genznews` (where `package.json` lives).
-- Framework preset: **Astro** (auto-detected). Deploy.
-- Note your production URL (e.g. `https://genznews.vercel.app`). Put it in:
-  - `src/config.ts` → `SITE.url`
-  - `astro.config.mjs` → `SITE`
-  - `public/admin/config.yml` → `base_url`, `site_url`, `display_url`
+### 1. Deploy to Vercel — ✅ already done
+- The repo is imported and auto-deploys at `https://genznews.vercel.app` on every push.
+- **Root Directory** is the repo root (default) — `package.json` sits at the top of the repo.
+- The URL already matches the config, so no URL edits are needed (unless you add a custom domain).
 
 ### 2. Logging in to the CMS
 

@@ -1,18 +1,50 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-// US stocks / ETFs via Finnhub; BTC via CoinGecko (free, no key). No keys ever
-// reach the browser — this proxy runs server-side on Vercel.
-const STOCKS = [
+// Real quotes from Yahoo Finance — FREE, no API key required. Runs server-side
+// on Vercel only, so nothing sensitive reaches the browser. Works out of the box
+// on deploy with zero configuration. FINNHUB_KEY (optional) is only used as a
+// fallback for individual stocks if Yahoo is momentarily unavailable.
+const WATCHLIST = [
   { symbol: 'AAPL', label: 'AAPL' },
   { symbol: 'TSLA', label: 'TSLA' },
   { symbol: 'NVDA', label: 'NVDA' },
   { symbol: 'GOOGL', label: 'GOOGL' },
   { symbol: 'AMD', label: 'AMD' },
   { symbol: 'COIN', label: 'COIN' },
-  { symbol: 'SPY', label: 'S&P 500' },
+  { symbol: '^GSPC', label: 'S&P 500' },
+  { symbol: 'BTC-USD', label: 'BTC' },
 ];
 
-async function finnhubQuote(symbol: string, key: string) {
+interface Quote {
+  price: number;
+  changePct: number;
+}
+
+async function yahooQuote(symbol: string): Promise<Quote | null> {
+  try {
+    const url = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(
+      symbol
+    )}?interval=1d&range=1d`;
+    const r = await fetch(url, { headers: { 'User-Agent': 'Mozilla/5.0' } });
+    if (!r.ok) return null;
+    const data = (await r.json()) as {
+      chart?: {
+        result?: Array<{
+          meta?: { regularMarketPrice?: number; chartPreviousClose?: number; previousClose?: number };
+        }>;
+      };
+    };
+    const meta = data?.chart?.result?.[0]?.meta;
+    if (!meta || typeof meta.regularMarketPrice !== 'number') return null;
+    const price = meta.regularMarketPrice;
+    const prev = meta.chartPreviousClose ?? meta.previousClose ?? price;
+    return { price, changePct: prev ? ((price - prev) / prev) * 100 : 0 };
+  } catch {
+    return null;
+  }
+}
+
+async function finnhubQuote(symbol: string, key: string): Promise<Quote | null> {
   try {
     const r = await fetch(
       `https://finnhub.io/api/v1/quote?symbol=${encodeURIComponent(symbol)}&token=${key}`
@@ -26,45 +58,26 @@ async function finnhubQuote(symbol: string, key: string) {
   }
 }
 
-async function btcQuote() {
-  try {
-    const r = await fetch(
-      'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd&include_24hr_change=true'
-    );
-    if (!r.ok) return null;
-    const d = (await r.json()) as { bitcoin?: { usd: number; usd_24h_change?: number } };
-    if (!d.bitcoin) return null;
-    return { price: d.bitcoin.usd, changePct: d.bitcoin.usd_24h_change ?? 0 };
-  } catch {
-    return null;
-  }
-}
-
 export default async function handler(_req: VercelRequest, res: VercelResponse) {
-  // CDN-cache so we hit Finnhub at most ~once/minute regardless of traffic.
+  // CDN-cache so upstream is hit at most ~once/minute regardless of traffic.
   res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate=300');
 
-  const key = process.env.FINNHUB_KEY;
-  try {
-    const [stocks, btc] = await Promise.all([
-      key
-        ? Promise.all(
-            STOCKS.map(async (s) => {
-              const q = await finnhubQuote(s.symbol, key);
-              return q ? { symbol: s.symbol, label: s.label, ...q } : null;
-            })
-          )
-        : Promise.resolve([]),
-      btcQuote(),
-    ]);
+  const finnhubKey = process.env.FINNHUB_KEY;
 
-    const out = [
-      ...stocks.filter(Boolean),
-      ...(btc ? [{ symbol: 'BTC', label: 'BTC', ...btc }] : []),
-    ];
+  try {
+    const quotes = await Promise.all(
+      WATCHLIST.map(async (w) => {
+        let q = await yahooQuote(w.symbol);
+        // Optional Finnhub fallback — skip index (^) and crypto (-) symbols it can't resolve.
+        if (!q && finnhubKey && !w.symbol.startsWith('^') && !w.symbol.includes('-')) {
+          q = await finnhubQuote(w.symbol, finnhubKey);
+        }
+        return q ? { symbol: w.symbol, label: w.label, price: q.price, changePct: q.changePct } : null;
+      })
+    );
 
     // Empty array → the client Ticker keeps its mock values.
-    res.status(200).json(out);
+    res.status(200).json(quotes.filter(Boolean));
   } catch {
     res.status(200).json([]);
   }

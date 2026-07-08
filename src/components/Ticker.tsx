@@ -7,16 +7,17 @@ interface Quote {
   changePct: number;
 }
 
-// Mock values shown instantly; replaced by real Finnhub prices from /api/stocks (Phase 4).
+// Placeholder shown for a split second before real prices arrive from /api/stocks
+// (Yahoo Finance). Ballpark values so the first paint looks credible.
 const MOCK: Quote[] = [
-  { symbol: 'AAPL', label: 'AAPL', price: 227.3, changePct: 1.2 },
+  { symbol: 'AAPL', label: 'AAPL', price: 310.66, changePct: -0.6 },
   { symbol: 'TSLA', label: 'TSLA', price: 342.15, changePct: -0.8 },
   { symbol: 'NVDA', label: 'NVDA', price: 168.4, changePct: 2.4 },
   { symbol: 'GOOGL', label: 'GOOGL', price: 191.05, changePct: 0.5 },
   { symbol: 'AMD', label: 'AMD', price: 172.9, changePct: -1.1 },
   { symbol: 'COIN', label: 'COIN', price: 388.2, changePct: 3.2 },
-  { symbol: 'SPY', label: 'S&P 500', price: 6180, changePct: 0.3 },
-  { symbol: 'BINANCE:BTCUSDT', label: 'BTC', price: 96420, changePct: 1.8 },
+  { symbol: '^GSPC', label: 'S&P 500', price: 7503.85, changePct: -0.4 },
+  { symbol: 'BTC-USD', label: 'BTC', price: 62853, changePct: -0.7 },
 ];
 
 function fmtPrice(n: number): string {

@@ -50,18 +50,8 @@ export const CATEGORIES = [
 
 export type Category = (typeof CATEGORIES)[number];
 
-// Hero ticker watchlist (no ETH, varied mix). `label` is the ticker display symbol.
-// Wired to real Finnhub prices via /api/stocks in Phase 4.
-export const WATCHLIST = [
-  { symbol: 'AAPL', label: 'AAPL', kind: 'stock' },
-  { symbol: 'TSLA', label: 'TSLA', kind: 'stock' },
-  { symbol: 'NVDA', label: 'NVDA', kind: 'stock' },
-  { symbol: 'GOOGL', label: 'GOOGL', kind: 'stock' },
-  { symbol: 'AMD', label: 'AMD', kind: 'stock' },
-  { symbol: 'COIN', label: 'COIN', kind: 'stock' },
-  { symbol: 'SPY', label: 'S&P 500', kind: 'stock' },
-  { symbol: 'BINANCE:BTCUSDT', label: 'BTC', kind: 'crypto' },
-] as const;
+// The hero ticker's symbols live server-side in api/stocks.ts (real quotes from
+// Yahoo Finance — free, no key). Edit that watchlist to change the ticker.
 
 // Background videos (reused from the original site).
 export const VIDEOS = {

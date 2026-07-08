@@ -1,0 +1,112 @@
+# yaml-language-server: $schema=https://unpkg.com/@sveltia/cms/schema/sveltia-cms.json
+# Sveltia CMS config — https://github.com/sveltia/sveltia-cms
+# Log in with GitHub, write an article, hit Publish → commits Markdown to the
+# repo → Vercel rebuilds → live in ~1 minute. No code required.
+
+backend:
+  name: github
+  repo: EVANunit1307/Genznews
+  branch: main
+  # OAuth relay = this site's own Vercel functions (api/auth + api/callback).
+  # Update base_url to your final production domain.
+  base_url: https://genznews.vercel.app
+  auth_endpoint: /api/auth
+
+# Fallback media location (per-collection override below keeps article images
+# next to the Markdown so Astro optimizes them).
+media_folder: public/uploads
+public_folder: /uploads
+
+site_url: https://genznews.vercel.app
+display_url: https://genznews.vercel.app
+
+collections:
+  - name: articles
+    label: Articles
+    label_singular: Article
+    description: Your published writing.
+    folder: src/content/articles
+    create: true
+    delete: true
+    slug: '{{slug}}'
+    extension: md
+    format: frontmatter
+    # Empty = store uploaded images alongside the article; Astro optimizes them.
+    media_folder: ''
+    public_folder: ''
+    summary: "{{title}}  ·  {{category}}"
+    sortable_fields: [publishedAt, title, category]
+    view_filters:
+      - { label: Drafts, field: draft, pattern: true }
+      - { label: Featured, field: featured, pattern: true }
+    fields:
+      - label: Title
+        name: title
+        widget: string
+        hint: The headline — shown big in Instrument Serif italic.
+
+      - label: Subtitle / summary (dek)
+        name: dek
+        widget: text
+        required: false
+        hint: One or two sentences under the headline. Also used for Google + link-share previews.
+
+      - label: Category
+        name: category
+        widget: select
+        default: Culture
+        options: [Global, US, Canada, Climate, Tech, Money, Culture, Policy, Fashion]
+
+      - label: Published date
+        name: publishedAt
+        widget: datetime
+        date_format: 'YYYY-MM-DD'
+        time_format: false
+        format: 'YYYY-MM-DD'
+        picker_utc: true
+
+      - label: Updated date
+        name: updatedAt
+        widget: datetime
+        required: false
+        date_format: 'YYYY-MM-DD'
+        time_format: false
+        format: 'YYYY-MM-DD'
+        picker_utc: true
+        hint: Optional. Set if you meaningfully revise a piece after publishing.
+
+      - label: Hero image
+        name: heroImage
+        widget: image
+        required: false
+        hint: The big image at the top. Stored next to the article and optimized automatically.
+
+      - label: Read time (minutes)
+        name: readTime
+        widget: number
+        required: false
+        value_type: int
+        min: 1
+        hint: Leave blank to auto-estimate from the word count.
+
+      - label: Featured (lead story on the home page)
+        name: featured
+        widget: boolean
+        default: false
+        hint: Only ONE article should be featured at a time.
+
+      - label: Draft (hide from the live site)
+        name: draft
+        widget: boolean
+        default: false
+
+      - label: Tags
+        name: tags
+        widget: list
+        required: false
+        hint: Optional keywords, e.g. sneakers, resale.
+
+      - label: Body
+        name: body
+        widget: markdown
+        hint: Write the article here. Add images, headings, quotes, lists.

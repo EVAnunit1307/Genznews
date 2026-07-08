@@ -1,0 +1,47 @@
+---
+import { SITE } from '../config';
+
+interface Props {
+  term: string; // article slug → each article maps to its own GitHub Discussion
+}
+const { term } = Astro.props;
+const { repoId, categoryId, category } = SITE.giscus;
+const configured = Boolean(repoId && categoryId);
+---
+
+<section id="comments" class="mt-14 pt-10 border-t border-white/10">
+  <div class="text-[11px] uppercase tracking-[0.18em] text-white/45 font-body mb-5">Comments</div>
+
+  {
+    configured ? (
+      <Fragment>
+        <div class="giscus" />
+        <script define:vars={{ repo: SITE.repo, repoId, category, categoryId, term }}>
+          const el = document.createElement('script');
+          el.src = 'https://giscus.app/client.js';
+          el.setAttribute('data-repo', repo);
+          el.setAttribute('data-repo-id', repoId);
+          el.setAttribute('data-category', category);
+          el.setAttribute('data-category-id', categoryId);
+          el.setAttribute('data-mapping', 'specific');
+          el.setAttribute('data-term', term);
+          el.setAttribute('data-strict', '1');
+          el.setAttribute('data-reactions-enabled', '1');
+          el.setAttribute('data-emit-metadata', '0');
+          el.setAttribute('data-input-position', 'top');
+          el.setAttribute('data-theme', 'dark');
+          el.setAttribute('data-lang', 'en');
+          el.setAttribute('data-loading', 'lazy');
+          el.crossOrigin = 'anonymous';
+          el.async = true;
+          document.querySelector('.giscus')?.appendChild(el);
+        </script>
+      </Fragment>
+    ) : (
+      <p class="text-sm text-white/50 font-body">
+        Comments turn on once Giscus is configured — see{' '}
+        <span class="text-white/55">PUBLISHING.md</span>.
+      </p>
+    )
+  }
+</section>

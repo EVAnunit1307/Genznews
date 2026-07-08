@@ -1,0 +1,37 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { formatDateShort } from '../lib/format';
+
+interface Props {
+  items: CollectionEntry<'articles'>[];
+}
+const { items } = Astro.props;
+---
+
+{
+  items.length > 0 && (
+    <section class="mt-16 pt-10 border-t border-white/10">
+      <div class="text-[11px] uppercase tracking-[0.18em] text-white/50 font-body mb-5">
+        Keep reading
+      </div>
+      <div class="grid sm:grid-cols-3 gap-4">
+        {items.map((a) => (
+          <a
+            href={`/article/${a.id}`}
+            class="group liquid-glass rounded-[1rem] p-4 block tap"
+          >
+            <div class="text-[10px] uppercase tracking-[0.14em] text-live font-body mb-2">
+              {a.data.category}
+            </div>
+            <div class="font-heading italic text-white text-lg leading-[1.12] group-hover:text-white/85 transition-colors line-clamp-3">
+              {a.data.title}
+            </div>
+            <div class="text-[11px] text-white/45 font-body mt-3">
+              {formatDateShort(a.data.publishedAt)}
+            </div>
+          </a>
+        ))}
+      </div>
+    </section>
+  )
+}

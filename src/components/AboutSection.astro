@@ -1,7 +1,6 @@
 ---
 import { SITE } from '../config';
-// Personalize this section: set your display name in src/config.ts (SITE.author)
-// and rewrite the copy below in your own voice. No fake stats, no invented team.
+// About Donya — the writer. Bio + LinkedIn come from SITE in src/config.ts.
 ---
 
 <section id="about" class="relative bg-black px-6 md:px-12 lg:px-20 py-24 border-t border-white/[0.06] scroll-mt-16">
@@ -23,14 +22,14 @@ import { SITE } from '../config';
         style="--reveal-delay: 120ms"
       >
         <p>
-          I started this because the news wasn't written for us — it was written <em>about</em> us,
-          usually by people who won't have to live with the results. A statistic. A demographic. A
-          generation to be explained.
+          I'm a Political Science &amp; Philosophy student at the University of Ottawa — and I work
+          inside the rooms where policy actually gets made, on Parliament Hill and with the Young
+          Liberals of Canada. The news gets written <em>about</em> my generation, rarely for us, and
+          almost never by someone who has to live with the results.
         </p>
         <p>
-          So this is my version: original writing on the policy, climate, tech, money, culture, and
-          fashion stories that actually shape our lives — reported and written by one person, in
-          plain language, with receipts.
+          So this is my version: original writing on the policy, politics, climate, and culture
+          shaping us — from someone who's actually in the room, in plain language, with receipts.
         </p>
         <p class="text-white/45">Independent. No VC, no algorithm, no team of ghostwriters. Just me.</p>
       </div>
@@ -48,7 +47,7 @@ import { SITE } from '../config';
           <div class="font-heading italic text-white text-2xl md:text-3xl tracking-[-0.5px] leading-none mb-1">
             {SITE.author}
           </div>
-          <div class="text-[12px] text-white/45 font-body">Writer &amp; everything else</div>
+          <div class="text-[12px] text-white/45 font-body">{SITE.authorRole}</div>
         </div>
       </div>
 
@@ -61,6 +60,18 @@ import { SITE } from '../config';
       </blockquote>
 
       <div class="flex flex-wrap items-center gap-3 pt-5 border-t border-white/[0.08]">
+        <a
+          href={SITE.linkedin}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="rounded-full px-4 text-[12px] font-body text-white inline-flex items-center gap-1.5 liquid-glass tap"
+          style="min-height:44px"
+        >
+          <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14zm1.78 13.02H3.55V9h3.57v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z" />
+          </svg>
+          LinkedIn
+        </a>
         <a
           href="#newsletter"
           class="rounded-full px-4 text-[12px] font-body text-white inline-flex items-center liquid-glass tap"

@@ -45,7 +45,7 @@ const structuredData = {
   description: dek ?? title,
   datePublished: publishedAt.toISOString(),
   ...(updatedAt ? { dateModified: updatedAt.toISOString() } : {}),
-  author: { '@type': 'Person', name: SITE.author },
+  author: { '@type': 'Person', name: SITE.author, sameAs: [SITE.linkedin] },
   publisher: { '@type': 'Organization', name: SITE.name },
   mainEntityOfPage: canonical,
   ...(ogImg ? { image: new URL(ogImg.src, Astro.site).href } : {}),

@@ -5,8 +5,10 @@ export const SITE = {
   title: 'genzthinks — a Gen Z magazine',
   description:
     'A solo Gen Z magazine: original writing on the policy, climate, tech, money, culture, and fashion stories shaping our generation.',
-  // Owner's display name for bylines. Edit this to your name.
-  author: 'genzthinks',
+  // Writer's display name for bylines.
+  author: 'Donya Mirian',
+  authorRole: 'She/Her · Poli-sci & philosophy at uOttawa · political staffer',
+  linkedin: 'https://www.linkedin.com/in/donya-mirian-14b853326/',
   // Update once the final Vercel domain is set (also update astro.config.mjs `site`).
   url: 'https://genznews.vercel.app',
   // GitHub repo — used by Giscus comments + Sveltia CMS.

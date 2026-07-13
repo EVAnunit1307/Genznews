@@ -17,9 +17,9 @@ export const SITE = {
   //   1. make the repo public, 2. enable Discussions, 3. install the giscus app.
   // These are PUBLIC identifiers (safe to commit) — not secrets.
   giscus: {
-    repoId: '', // e.g. 'R_kgDOxxxxxx'
+    repoId: 'R_kgDOSXd0AQ', // fetched from GitHub for EVAnunit1307/Genznews
     category: 'Announcements', // the Discussions category giscus should use
-    categoryId: '', // e.g. 'DIC_kwDOxxxxxx'
+    categoryId: 'DIC_kwDOSXd0Ac4DBIv_', // from giscus.app for EVAnunit1307/Genznews
   },
 };
 

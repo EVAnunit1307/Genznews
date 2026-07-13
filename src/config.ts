@@ -8,6 +8,9 @@ export const SITE = {
   // Writer's display name for bylines.
   author: 'Donya Mirian',
   authorRole: 'She/Her · Poli-sci & philosophy at uOttawa · political staffer',
+  // Short byline bio — used on the article author sign-off card.
+  authorBio:
+    "Poli-sci & philosophy at uOttawa, writing from inside the rooms where policy actually gets made — in plain language, with receipts.",
   linkedin: 'https://www.linkedin.com/in/donya-mirian-14b853326/',
   // Update once the final Vercel domain is set (also update astro.config.mjs `site`).
   url: 'https://genznews.vercel.app',

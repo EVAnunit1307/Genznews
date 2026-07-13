@@ -1,0 +1,36 @@
+---
+import { TOPICS } from '../config';
+
+interface Props {
+  // Lowercase category id of the current page (e.g. 'climate'), or 'all' for home.
+  active?: string;
+}
+const { active = 'all' } = Astro.props;
+
+// 'all' points home; every other topic points at its category page.
+const hrefFor = (id: string) => (id === 'all' ? '/' : `/${id}`);
+---
+
+<nav
+  class="flex items-center gap-1 overflow-x-auto no-scrollbar liquid-glass rounded-full p-1.5 max-w-full"
+  aria-label="Browse topics"
+>
+  {
+    TOPICS.map((t) => {
+      const isActive = t.id === active;
+      return (
+        <a
+          href={hrefFor(t.id)}
+          aria-current={isActive ? 'page' : undefined}
+          class:list={[
+            'shrink-0 inline-flex items-center justify-center rounded-full px-4 text-sm font-body whitespace-nowrap tap transition-colors',
+            isActive ? 'bg-white text-black font-medium' : 'text-white/80 hover:text-white',
+          ]}
+          style="min-height:44px"
+        >
+          {t.label}
+        </a>
+      );
+    })
+  }
+</nav>

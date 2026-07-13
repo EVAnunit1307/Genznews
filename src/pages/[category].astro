@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ArticleCard from '../components/ArticleCard.astro';
+import TopicNav from '../components/TopicNav.astro';
 import Footer from '../components/Footer.astro';
 import { CATEGORIES, SITE } from '../config';
 
@@ -32,19 +33,24 @@ const { category, articles } = Astro.props;
       <div class="max-w-7xl mx-auto">
         <a
           href="/"
-          class="inline-flex items-center gap-2 text-sm text-white/60 font-body hover:text-white tap mb-8"
+          class="inline-flex items-center gap-2 text-sm text-white/70 font-body hover:text-white tap mb-8"
           style="min-height:44px"
         >
           <span class="liquid-glass w-9 h-9 rounded-full inline-flex items-center justify-center font-heading italic text-lg -mt-0.5">g</span>
           Home
         </a>
-        <div class="text-[11px] uppercase tracking-[0.2em] text-white/45 font-body mb-3">Topic</div>
+        <div class="text-[11px] uppercase tracking-[0.2em] text-white/55 font-body mb-3">Topic</div>
         <h1 class="font-heading italic text-white text-6xl md:text-7xl tracking-[-2px] leading-[0.9]">
           {category}
         </h1>
-        <p class="mt-4 text-sm text-white/45 font-body">
+        <p class="mt-4 text-sm text-white/55 font-body">
           {articles.length} {articles.length === 1 ? 'story' : 'stories'}
         </p>
+
+        {/* cross-topic browsing — turns the category pages into a real system */}
+        <div class="mt-8">
+          <TopicNav active={category.toLowerCase()} />
+        </div>
       </div>
     </header>
 
@@ -58,7 +64,7 @@ const { category, articles } = Astro.props;
               ))}
             </div>
           ) : (
-            <p class="text-white/40 font-body text-sm py-16 text-center">
+            <p class="text-white/55 font-body text-sm py-16 text-center">
               No stories here yet — check back soon.
             </p>
           )

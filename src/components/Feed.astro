@@ -26,9 +26,11 @@ const { articles, recent } = Astro.props;
       <h2 class="font-heading italic text-white text-3xl md:text-4xl tracking-[-1px] leading-none">
         Today's feed
       </h2>
-      <span class="text-[11px] text-white/45 font-body inline-flex items-center gap-1.5">
+      <span class="text-[11px] text-white/55 font-body inline-flex items-center gap-1.5">
         <span class="w-1.5 h-1.5 rounded-full bg-live animate-pulse"></span>
-        {articles.length} stories
+        <span data-feed-count>
+          {articles.length} {articles.length === 1 ? 'story' : 'stories'}
+        </span>
       </span>
     </div>
 

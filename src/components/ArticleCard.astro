@@ -54,7 +54,7 @@ const hue = HUES[index % HUES.length];
       <span class="text-[10px] uppercase tracking-[0.16em] font-body font-semibold text-live">
         {category}
       </span>
-      <span class="text-[10px] text-white/45 font-body">{relativeTime(publishedAt)}</span>
+      <span class="text-[10px] text-white/55 font-body">{relativeTime(publishedAt)}</span>
     </div>
 
     <h3
@@ -65,12 +65,12 @@ const hue = HUES[index % HUES.length];
 
     {
       dek && (
-        <p class="text-sm text-white/50 font-body font-light leading-relaxed line-clamp-2">{dek}</p>
+        <p class="text-sm text-white/60 font-body font-light leading-relaxed line-clamp-2">{dek}</p>
       )
     }
 
-    <div class="mt-4 flex items-center gap-2 text-[11px] text-white/40 font-body">
-      <span class="text-white/55">{SITE.author}</span>
+    <div class="mt-4 flex items-center gap-2 text-[11px] text-white/55 font-body">
+      <span class="text-white/70">{SITE.author}</span>
       <span>·</span>
       <span>{minutes} min read</span>
       <svg

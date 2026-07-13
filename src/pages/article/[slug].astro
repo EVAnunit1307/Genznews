@@ -80,8 +80,14 @@ const structuredData = {
 
     <div class="mx-auto max-w-3xl px-6 md:px-8 pt-10 pb-24" data-pagefind-body>
       {/* eyebrow */}
-      <div class="text-[11px] uppercase tracking-[0.18em] text-white/55 font-body mb-5">
-        {category} · {dateFmt} · {minutes} min read
+      <div class="text-[11px] uppercase tracking-[0.18em] text-white/60 font-body mb-5">
+        <a
+          href={`/${category.toLowerCase()}`}
+          class="text-live hover:text-white transition-colors"
+        >
+          {category}
+        </a>
+        · {dateFmt} · {minutes} min read
       </div>
 
       {/* headline */}
@@ -145,6 +151,52 @@ const structuredData = {
 
       {/* interactive footer — excluded from the search index */}
       <div data-pagefind-ignore>
+        {/* author sign-off — reinforces the solo-magazine voice + next actions */}
+        <div class="mt-14 liquid-glass rounded-[1.25rem] p-6 md:p-7">
+          <div class="text-[10px] uppercase tracking-[0.18em] text-white/55 font-body mb-5">
+            Who wrote this
+          </div>
+          <div class="flex items-start gap-4">
+            <div
+              class="w-14 h-14 shrink-0 rounded-full liquid-glass-strong flex items-center justify-center font-heading italic text-white text-2xl"
+            >
+              {SITE.author.charAt(0)}
+            </div>
+            <div class="min-w-0">
+              <div
+                class="font-heading italic text-white text-2xl tracking-[-0.5px] leading-none mb-1"
+              >
+                {SITE.author}
+              </div>
+              <div class="text-[12px] text-white/55 font-body mb-3">{SITE.authorRole}</div>
+              <p class="text-sm text-white/70 font-body font-light leading-relaxed">
+                {SITE.authorBio}
+              </p>
+              <div class="mt-5 flex flex-wrap items-center gap-3">
+                <a
+                  href={SITE.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="rounded-full px-4 text-[12px] font-body text-white inline-flex items-center gap-1.5 liquid-glass tap"
+                  style="min-height:44px"
+                >
+                  <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14zm1.78 13.02H3.55V9h3.57v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z" />
+                  </svg>
+                  LinkedIn
+                </a>
+                <a
+                  href="/#newsletter"
+                  class="rounded-full px-4 text-[12px] font-body text-white inline-flex items-center liquid-glass tap"
+                  style="min-height:44px"
+                >
+                  Get the newsletter
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* like — engagement at the end of the read */}
         <div class="mt-12 flex flex-col items-center gap-3">
           <p class="text-[11px] uppercase tracking-[0.18em] text-white/40 font-body">

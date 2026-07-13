@@ -65,7 +65,8 @@ export default function MobileTabBar(_props: Props) {
       href: '#about',
       icon: (
         <svg {...iconProps}>
-          <path d="M12 2v6M12 16v6M2 12h6M16 12h6M5 5l4 4M15 15l4 4M19 5l-4 4M9 15l-4 4" />
+          <circle cx="12" cy="8" r="4" />
+          <path d="M4 21c0-4 4-6 8-6s8 2 8 6" />
         </svg>
       ),
     },

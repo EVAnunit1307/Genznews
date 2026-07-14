@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { TOPICS } from '../config';
+import { enhanceHScroll } from '../lib/hscroll';
 
 // topic id (URL-ish) → article category (Title-case in the content schema)
 const TOPIC_TO_CATEGORY: Record<string, string> = {
@@ -20,6 +21,9 @@ const TOPIC_TO_CATEGORY: Record<string, string> = {
  */
 export default function TopicFilter() {
   const [active, setActive] = useState('all');
+  const trackRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => enhanceHScroll(trackRef.current), []);
 
   const pick = (id: string) => {
     setActive(id);
@@ -34,28 +38,36 @@ export default function TopicFilter() {
     if (empty) empty.style.display = visible === 0 ? '' : 'none';
     const countEl = document.querySelector<HTMLElement>('[data-feed-count]');
     if (countEl) countEl.textContent = `${visible} ${visible === 1 ? 'story' : 'stories'}`;
+    // keep the chosen pill in view on narrow screens
+    trackRef.current
+      ?.querySelector<HTMLElement>(`[data-topic="${id}"]`)
+      ?.scrollIntoView({ inline: 'center', block: 'nearest', behavior: 'smooth' });
   };
 
   return (
-    <div
-      className="liquid-glass rounded-full p-1.5 flex items-center gap-1 overflow-x-auto no-scrollbar max-w-full"
-      role="group"
-      aria-label="Filter stories by topic"
-    >
-      {TOPICS.map((t) => (
-        <button
-          key={t.id}
-          type="button"
-          aria-pressed={active === t.id}
-          onClick={() => pick(t.id)}
-          className={`shrink-0 inline-flex items-center justify-center rounded-full px-4 text-sm font-body whitespace-nowrap tap transition-colors ${
-            active === t.id ? 'bg-white text-black font-medium' : 'text-white/85 hover:text-white'
-          }`}
-          style={{ minHeight: 44 }}
-        >
-          {t.label}
-        </button>
-      ))}
+    <div className="liquid-glass rounded-full p-1.5 max-w-full">
+      <div
+        ref={trackRef}
+        className="hscroll flex items-center gap-1 overflow-x-auto no-scrollbar"
+        role="group"
+        aria-label="Filter stories by topic"
+      >
+        {TOPICS.map((t) => (
+          <button
+            key={t.id}
+            type="button"
+            data-topic={t.id}
+            aria-pressed={active === t.id}
+            onClick={() => pick(t.id)}
+            className={`shrink-0 inline-flex items-center justify-center rounded-full px-4 text-sm font-body whitespace-nowrap tap transition-colors ${
+              active === t.id ? 'bg-white text-black font-medium' : 'text-white/85 hover:text-white'
+            }`}
+            style={{ minHeight: 44 }}
+          >
+            {t.label}
+          </button>
+        ))}
+      </div>
     </div>
   );
 }

@@ -64,6 +64,42 @@ select {
   display: none;
 }
 
+/* horizontal "slidable" pill bars (topic filter / category nav) */
+.hscroll {
+  --fade-l: 0px;
+  --fade-r: 0px;
+  scroll-behavior: smooth;
+  /* fade the pills toward whichever edge still has more to reveal */
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    #000 var(--fade-l),
+    #000 calc(100% - var(--fade-r)),
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    #000 var(--fade-l),
+    #000 calc(100% - var(--fade-r)),
+    transparent 100%
+  );
+}
+.hscroll.is-overflowing {
+  cursor: grab;
+}
+.hscroll.dragging {
+  cursor: grabbing;
+  scroll-behavior: auto;
+  scroll-snap-type: none;
+  user-select: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hscroll {
+    scroll-behavior: auto;
+  }
+}
+
 /* safe-area helpers for the notch / home indicator on fixed bars */
 .pt-safe {
   padding-top: env(safe-area-inset-top);

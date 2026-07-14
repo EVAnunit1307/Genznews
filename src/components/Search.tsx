@@ -164,7 +164,7 @@ export default function Search() {
         <div className="space-y-3 max-w-2xl mt-2">
           {results.map((r) => (
             <a key={r.url} href={r.url} className="block p-4 liquid-glass rounded-[1rem] group tap">
-              <div className="font-heading italic text-white text-lg leading-snug group-hover:text-white/85 transition-colors">
+              <div className="font-heading text-white text-lg leading-snug group-hover:text-white/85 transition-colors">
                 {r.title}
               </div>
               <div

@@ -13,9 +13,17 @@ interface Props {
   poster?: string;
   className?: string;
   style?: CSSProperties;
+  /** Hero use: download frames immediately (preload=auto) instead of just metadata. */
+  eager?: boolean;
 }
 
-export default function FadingVideo({ src, poster, className = '', style = {} }: Props) {
+export default function FadingVideo({
+  src,
+  poster,
+  className = '',
+  style = {},
+  eager = false,
+}: Props) {
   const ref = useRef<HTMLVideoElement>(null);
   const rafRef = useRef(0);
   const fadingOutRef = useRef(false);
@@ -86,6 +94,10 @@ export default function FadingVideo({ src, poster, className = '', style = {} }:
     v.addEventListener('loadeddata', onLoaded);
     v.addEventListener('timeupdate', onTime);
     v.addEventListener('ended', onEnded);
+    // If the browser already buffered a frame before this effect ran (fast
+    // connections / cached), `loadeddata` won't fire again — fade in now so the
+    // video never stays stuck invisible.
+    if (v.readyState >= 2) onLoaded();
     return () => {
       cancelAnimationFrame(rafRef.current);
       io.disconnect();
@@ -104,7 +116,7 @@ export default function FadingVideo({ src, poster, className = '', style = {} }:
       muted
       loop={false}
       playsInline
-      preload="metadata"
+      preload={eager ? 'auto' : 'metadata'}
       className={className}
       style={{ opacity: 0, ...style }}
     />

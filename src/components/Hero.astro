@@ -16,8 +16,9 @@ const words = headline.split(' ');
 
 <section id="top" class="relative min-h-[100svh] w-full overflow-hidden bg-ink flex flex-col">
   <FadingVideo
-    client:idle
+    client:load
     src={VIDEOS.hero}
+    eager
     className="absolute left-1/2 top-0 -translate-x-1/2 object-cover object-top z-0"
     style={{ width: '120%', height: '120%' }}
   />

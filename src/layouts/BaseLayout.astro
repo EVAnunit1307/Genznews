@@ -45,6 +45,10 @@ const ogImageUrl = new URL(ogImage ?? '/og-default.png', site).href;
     <meta name="theme-color" content="#0a0a0b" />
     <meta name="generator" content={Astro.generator} />
 
+    {/* warm up the video CDN early so the hero video appears sooner */}
+    <link rel="preconnect" href="https://d8j0ntlcm91z4.cloudfront.net" crossorigin />
+    <link rel="dns-prefetch" href="https://d8j0ntlcm91z4.cloudfront.net" />
+
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />

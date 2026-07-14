@@ -63,7 +63,7 @@ const { articles, recent } = Astro.props;
               recent.map((entry, i) => (
                 <li>
                   <a href={`/article/${entry.id}`} class="group flex items-start gap-3 tap">
-                    <span class="font-heading italic text-white/25 text-2xl leading-none w-7 shrink-0 group-hover:text-white/50 transition-colors">
+                    <span class="font-heading text-white/25 text-2xl leading-none w-7 shrink-0 group-hover:text-white/50 transition-colors">
                       {i + 1}
                     </span>
                     <div class="min-w-0 flex-1">

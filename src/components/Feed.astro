@@ -42,7 +42,7 @@ const { articles, recent } = Astro.props;
         <div
           data-feed-empty
           style="display:none"
-          class="py-16 text-center text-white/40 font-body text-sm"
+          class="py-16 text-center text-white/55 font-body text-sm"
         >
           No stories in this topic yet — check back soon.
         </div>
@@ -67,13 +67,13 @@ const { articles, recent } = Astro.props;
                       {i + 1}
                     </span>
                     <div class="min-w-0 flex-1">
-                      <div class="text-[10px] text-white/50 font-body mb-0.5">
+                      <div class="text-[10px] text-white/60 font-body mb-0.5">
                         {entry.data.category}
                       </div>
                       <div class="text-[13px] text-white/80 font-body leading-snug group-hover:text-white transition-colors line-clamp-2">
                         {entry.data.title}
                       </div>
-                      <div class="text-[10px] text-white/45 font-body mt-1">
+                      <div class="text-[10px] text-white/55 font-body mt-1">
                         {relativeTime(entry.data.publishedAt)}
                       </div>
                     </div>

@@ -42,7 +42,7 @@ const ogImageUrl = new URL(ogImage ?? '/og-default.png', site).href;
     <script is:inline>document.documentElement.classList.add('js');</script>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="theme-color" content="#000000" />
+    <meta name="theme-color" content="#0a0a0b" />
     <meta name="generator" content={Astro.generator} />
 
     <title>{title}</title>
@@ -83,7 +83,7 @@ const ogImageUrl = new URL(ogImage ?? '/og-default.png', site).href;
       <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
     )}
   </head>
-  <body class="bg-black text-white font-body antialiased">
+  <body class="bg-ink text-white font-body antialiased">
     <slot />
 
     <Search client:idle />

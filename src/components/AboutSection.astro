@@ -3,11 +3,12 @@ import { SITE } from '../config';
 // About Donya — the writer. Bio + LinkedIn come from SITE in src/config.ts.
 ---
 
-<section id="about" class="relative bg-black px-6 md:px-12 lg:px-20 py-24 border-t border-white/[0.06] scroll-mt-16">
+<section id="about" class="relative bg-ink px-6 md:px-12 lg:px-20 py-24 border-t border-white/[0.06] scroll-mt-16">
   <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-14 lg:gap-16 items-start">
     <div>
-      <div class="text-[11px] uppercase tracking-[0.2em] text-white/40 font-body mb-6" data-reveal>
-        // About
+      <div class="flex items-center gap-2.5 text-[11px] uppercase tracking-[0.18em] text-white/55 font-body mb-6" data-reveal>
+        <span class="w-5 h-px bg-live"></span>
+        About
       </div>
       <h2
         class="font-heading italic text-white text-5xl md:text-[3.6rem] tracking-[-2px] leading-[0.93] mb-8"
@@ -17,7 +18,7 @@ import { SITE } from '../config';
         One person, writing the news I wish existed.
       </h2>
       <div
-        class="space-y-5 text-white/60 font-body font-light text-base leading-relaxed max-w-lg"
+        class="space-y-5 text-white/70 font-body font-light text-base leading-relaxed max-w-lg"
         data-reveal
         style="--reveal-delay: 120ms"
       >
@@ -31,12 +32,15 @@ import { SITE } from '../config';
           So this is my version: original writing on the policy, politics, climate, and culture
           shaping us — from someone who's actually in the room, in plain language, with receipts.
         </p>
-        <p class="text-white/45">Independent. No VC, no algorithm, no team of ghostwriters. Just me.</p>
+        <p class="text-white/55">Independent. No VC, no algorithm, no team of ghostwriters. Just me.</p>
       </div>
     </div>
 
     <div class="liquid-glass rounded-[1.5rem] p-8 md:p-10" data-reveal style="--reveal-delay: 100ms">
-      <div class="text-[10px] uppercase tracking-[0.2em] text-white/45 font-body mb-7">// Who's writing</div>
+      <div class="flex items-center gap-2.5 text-[11px] uppercase tracking-[0.18em] text-white/55 font-body mb-7">
+        <span class="w-5 h-px bg-live"></span>
+        Who's writing
+      </div>
       <div class="flex items-start gap-5 mb-7">
         <div
           class="w-[4.5rem] h-[4.5rem] rounded-full shrink-0 flex items-center justify-center text-2xl font-heading italic text-white liquid-glass-strong"
@@ -47,7 +51,7 @@ import { SITE } from '../config';
           <div class="font-heading italic text-white text-2xl md:text-3xl tracking-[-0.5px] leading-none mb-1">
             {SITE.author}
           </div>
-          <div class="text-[12px] text-white/45 font-body">{SITE.authorRole}</div>
+          <div class="text-[12px] text-white/55 font-body">{SITE.authorRole}</div>
         </div>
       </div>
 
@@ -81,11 +85,11 @@ import { SITE } from '../config';
         </a>
         <a
           href="#feed"
-          class="text-[12px] text-white/45 font-body hover:text-white transition-colors inline-flex items-center gap-1"
+          class="text-[12px] text-white/60 font-body hover:text-white transition-colors inline-flex items-center gap-1"
         >
           Read the latest
           <svg class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M7 17L17 7" /><path d="M7 7h10v10" />
+            <path d="M5 12h14" /><path d="M13 6l6 6-6 6" />
           </svg>
         </a>
       </div>

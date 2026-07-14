@@ -10,6 +10,8 @@ export default {
       colors: {
         // #ff2d2d "LIVE" accent — use text-live / bg-live / border-live
         live: '#ff2d2d',
+        // near-black page canvas — softer than pure #000 (less halation, more depth)
+        ink: '#0a0a0b',
       },
       borderRadius: {
         DEFAULT: '9999px',

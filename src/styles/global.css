@@ -4,7 +4,7 @@
 
 /* ─────────────────────────── base ─────────────────────────── */
 html {
-  background: #000;
+  background: #0a0a0b;
   /* iOS: don't let the OS resize text unexpectedly */
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
@@ -20,7 +20,7 @@ body {
 }
 
 body {
-  background: #000;
+  background: #0a0a0b;
   color: #fff;
   font-family: 'Barlow', sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -162,10 +162,10 @@ select {
   max-width: 68ch;
   margin: 0 auto;
   font-family: 'Barlow', sans-serif;
-  font-weight: 300;
+  font-weight: 400;
   font-size: 1.125rem; /* 18px — comfortable on phones */
   line-height: 1.75;
-  color: rgba(255, 255, 255, 0.82);
+  color: rgba(255, 255, 255, 0.9);
 }
 .article-prose > :first-child {
   margin-top: 0;
@@ -210,7 +210,7 @@ select {
   padding-left: 1.1rem;
   margin: 1.6em 0;
   font-style: italic;
-  color: rgba(255, 255, 255, 0.72);
+  color: rgba(255, 255, 255, 0.82);
   font-size: 1.2rem;
   line-height: 1.5;
 }

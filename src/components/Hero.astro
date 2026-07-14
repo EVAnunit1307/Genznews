@@ -14,7 +14,7 @@ const headline = 'The stories my generation is actually living';
 const words = headline.split(' ');
 ---
 
-<section id="top" class="relative min-h-[100svh] w-full overflow-hidden bg-black flex flex-col">
+<section id="top" class="relative min-h-[100svh] w-full overflow-hidden bg-ink flex flex-col">
   <FadingVideo
     client:idle
     src={VIDEOS.hero}
@@ -79,7 +79,7 @@ const words = headline.split(' ');
         >
           Read the latest
           <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M7 17L17 7" /><path d="M7 7h10v10" />
+            <path d="M5 12h14" /><path d="M13 6l6 6-6 6" />
           </svg>
         </a>
         <a
@@ -101,7 +101,7 @@ const words = headline.split(' ');
       style="--enter-delay: 1300ms"
     >
       <span class="inline-flex items-center gap-2">
-        <span class="w-1.5 h-1.5 rounded-full bg-live animate-pulse"></span>
+        <span class="w-1.5 h-1.5 rounded-full bg-live"></span>
         Fresh edition{latest ? ` · ${formatDate(latest.publishedAt)}` : ''}
       </span>
     </div>

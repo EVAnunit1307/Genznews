@@ -4,7 +4,7 @@ import { Image, getImage } from 'astro:assets';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ShareButton from '../../components/ShareButton.tsx';
 import ReadingProgress from '../../components/ReadingProgress.tsx';
-import LikeButton from '../../components/LikeButton.tsx';
+import Reactions from '../../components/Reactions.tsx';
 import Giscus from '../../components/Giscus.astro';
 import RelatedArticles from '../../components/RelatedArticles.astro';
 import { SITE } from '../../config';
@@ -203,12 +203,12 @@ const structuredData = {
           </div>
         </div>
 
-        {/* like — engagement at the end of the read */}
-        <div class="mt-12 flex flex-col items-center gap-3">
+        {/* reactions — expressive, low-friction engagement at the end of the read */}
+        <div class="mt-12 flex flex-col items-center gap-4">
           <p class="text-[11px] uppercase tracking-[0.18em] text-white/55 font-body">
-            Did this land?
+            Your take?
           </p>
-          <LikeButton client:visible slug={entry.id} />
+          <Reactions client:visible slug={entry.id} />
         </div>
 
         <RelatedArticles items={related} />

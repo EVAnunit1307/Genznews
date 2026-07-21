@@ -3,6 +3,7 @@ import type { CollectionEntry } from 'astro:content';
 import ArticleCard from './ArticleCard.astro';
 import TopicFilter from './TopicFilter.tsx';
 import NewsletterMini from './NewsletterMini.tsx';
+import SocialProof from './SocialProof.astro';
 import { TOPICS } from '../config';
 import { categoryColor } from '../lib/categories';
 import site from '../data/site.json';
@@ -96,4 +97,5 @@ const topics = TOPICS.filter((t) => t.id !== 'all');
       </aside>
     </div>
   </div>
+  <SocialProof />
 </section>

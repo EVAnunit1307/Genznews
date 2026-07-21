@@ -1,0 +1,73 @@
+---
+/*
+ * Injects REAL engagement social proof onto article cards after load:
+ *   • a "🔥 N" pill on any card that already has reactions
+ *   • a "Trending" flag on the single hottest card (once it clears a threshold)
+ *
+ * One batched request for every card on the page. No fake numbers — when there's
+ * no data (fresh site) or no API (local preview) it simply no-ops and the cards
+ * stay clean. Cards opt in with `data-article-card data-slug` plus hidden
+ * `[data-social-proof]` / `[data-trending]` slots.
+ */
+---
+
+<script>
+  const EMOJI: Record<string, string> = {
+    fire: '🔥',
+    facts: '💯',
+    mind: '🤯',
+    eyes: '👀',
+    respect: '🫡',
+  };
+  const TREND_MIN = 3; // don't crown something "trending" off a single tap
+
+  const cards = Array.from(
+    document.querySelectorAll<HTMLElement>('[data-article-card][data-slug]')
+  );
+  const slugs = Array.from(
+    new Set(cards.map((c) => c.dataset.slug).filter((s): s is string => Boolean(s)))
+  );
+
+  if (slugs.length) {
+    fetch('/api/reactions?slugs=' + encodeURIComponent(slugs.join(',')))
+      .then((r) => (r.ok ? r.json() : null))
+      .then((data) => {
+        if (!data || !data.items) return;
+        const items = data.items as Record<
+          string,
+          { total: number; top: { id: string; count: number } | null }
+        >;
+
+        let hottest: string | null = null;
+        let max = 0;
+        for (const s of slugs) {
+          const t = (items[s] && items[s].total) || 0;
+          if (t > max) {
+            max = t;
+            hottest = s;
+          }
+        }
+
+        cards.forEach((card) => {
+          const s = card.dataset.slug!;
+          const it = items[s];
+          if (!it || !it.total) return;
+
+          const pill = card.querySelector<HTMLElement>('[data-social-proof]');
+          if (pill) {
+            const emoji = it.top ? EMOJI[it.top.id] || '🔥' : '🔥';
+            pill.textContent = `${emoji} ${it.total}`;
+            pill.hidden = false;
+          }
+
+          if (s === hottest && max >= TREND_MIN) {
+            const flag = card.querySelector<HTMLElement>('[data-trending]');
+            if (flag) flag.hidden = false;
+          }
+        });
+      })
+      .catch(() => {
+        /* offline / not configured — leave cards clean */
+      });
+  }
+</script>

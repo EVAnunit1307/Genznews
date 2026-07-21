@@ -18,6 +18,8 @@ const c = categoryColor(category);
   <div class="max-w-7xl mx-auto">
     <a
       href={`/article/${entry.id}`}
+      data-article-card
+      data-slug={entry.id}
       data-reveal
       class="group grid lg:grid-cols-12 gap-7 lg:gap-10 items-stretch tap"
     >
@@ -47,6 +49,14 @@ const c = categoryColor(category);
           <span class="w-1.5 h-1.5 rounded-full" style={`background:${c.dot}`}></span>
           <span class="text-white/85">Lead story</span>
         </div>
+        {/* trending flag — revealed by SocialProof.astro when this is the hottest */}
+        <span
+          data-trending
+          hidden
+          class="trending-chip absolute top-5 right-5 rounded-full px-3 py-1 text-[11px] uppercase tracking-[0.12em] font-body font-semibold text-white inline-flex items-center gap-1"
+        >
+          🔥 Trending
+        </span>
       </div>
 
       <div class="lg:col-span-5 flex flex-col justify-center">
@@ -74,13 +84,21 @@ const c = categoryColor(category);
             <div class="text-sm text-white font-body">{SITE.author}</div>
             <div class="text-xs text-white/55 font-body">{minutes} min read</div>
           </div>
-          <span
-            class="ml-auto liquid-glass-strong rounded-full px-4 py-2 text-sm text-white font-medium inline-flex items-center gap-2 whitespace-nowrap"
-          >
-            Read
-            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M5 12h14" /><path d="M13 6l6 6-6 6" />
-            </svg>
+          <span class="ml-auto inline-flex items-center gap-3">
+            {/* real reaction count — injected by SocialProof.astro when > 0 */}
+            <span
+              data-social-proof
+              hidden
+              class="social-proof inline-flex items-center gap-1"
+            ></span>
+            <span
+              class="liquid-glass-strong rounded-full px-4 py-2 text-sm text-white font-medium inline-flex items-center gap-2 whitespace-nowrap"
+            >
+              Read
+              <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14" /><path d="M13 6l6 6-6 6" />
+              </svg>
+            </span>
           </span>
         </div>
       </div>

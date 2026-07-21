@@ -10,7 +10,9 @@ const configured = Boolean(repoId && categoryId);
 ---
 
 <section id="comments" class="mt-14 pt-10 border-t border-white/10">
-  <div class="text-[11px] uppercase tracking-[0.18em] text-white/55 font-body mb-5">Comments</div>
+  <div class="text-[11px] uppercase tracking-[0.18em] text-white/55 font-body mb-5">
+    Comments<span data-giscus-count class="text-white/80"></span>
+  </div>
 
   {
     configured ? (
@@ -27,7 +29,7 @@ const configured = Boolean(repoId && categoryId);
           el.setAttribute('data-term', term);
           el.setAttribute('data-strict', '1');
           el.setAttribute('data-reactions-enabled', '1');
-          el.setAttribute('data-emit-metadata', '0');
+          el.setAttribute('data-emit-metadata', '1');
           el.setAttribute('data-input-position', 'top');
           el.setAttribute('data-theme', 'dark');
           el.setAttribute('data-lang', 'en');
@@ -35,6 +37,17 @@ const configured = Boolean(repoId && categoryId);
           el.crossOrigin = 'anonymous';
           el.async = true;
           document.querySelector('.giscus')?.appendChild(el);
+
+          // Surface the live comment count next to the heading — social proof
+          // that there's a conversation worth joining.
+          window.addEventListener('message', (event) => {
+            if (event.origin !== 'https://giscus.app') return;
+            const disc = event.data?.giscus?.discussion;
+            if (!disc) return;
+            const n = (disc.totalCommentCount || 0) + (disc.totalReplyCount || 0);
+            const label = document.querySelector('[data-giscus-count]');
+            if (label) label.textContent = n > 0 ? ` · ${n}` : '';
+          });
         </script>
       </Fragment>
     ) : (

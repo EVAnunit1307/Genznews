@@ -24,10 +24,10 @@ config, so no URL edits are needed unless you add a custom domain.
 ## 4. Turn on the free extras
 Add env vars in **Vercel → Settings → Environment Variables**, then redeploy.
 
-**Likes + Newsletter — one service covers both**
+**Reactions + Newsletter — one service covers both**
 - [ ] Vercel → **Storage → Upstash for Redis** → create & connect (auto-adds `KV_REST_API_URL`
       + `KV_REST_API_TOKEN`).
-- [ ] Result: likes persist, and newsletter signups are saved to your KV (`subscribers` set).
+- [ ] Result: article reactions persist, and newsletter signups are saved to your KV (`subscribers` set).
 
 **Comments — Giscus**
 - [ ] Repo **Settings → General → Features → enable Discussions**.
@@ -57,7 +57,7 @@ Add env vars in **Vercel → Settings → Environment Variables**, then redeploy
 
 ## 7. Verify, then launch
 - [ ] Open the live site on your **iPhone**: hero video, tap targets, bottom tab bar, **Add to Home Screen**.
-- [ ] Test **native share** on an article, the **like** button, **search** (press `/`), and **comments**.
+- [ ] Test **native share** on an article, the **reactions** bar, **search** (press `/`), and **comments**.
 - [ ] Publish a test article at `/admin` → confirm it's live in ~1 min → delete it.
 - [ ] Run **Lighthouse (mobile)** in Chrome DevTools → aim for ≥95 performance / SEO / accessibility.
 
@@ -67,12 +67,12 @@ Add env vars in **Vercel → Settings → Environment Variables**, then redeploy
 Astro + Preact static build (~44 KB JS total), self-hosted fonts, the full liquid-glass design,
 15 routes, per-article OpenGraph/Twitter share previews + JSON-LD, sitemap + RSS + robots,
 PWA manifest + icons + theme color, security headers (HSTS, X-Frame-Options, …), all serverless
-proxies (stocks/newsletter/likes/OAuth), Pagefind search, and the Sveltia CMS at `/admin`.
+proxies (stocks/newsletter/reactions/OAuth), Pagefind search, and the Sveltia CMS at `/admin`.
 
 ## Env var quick reference
 | Variable | Needed for | Required? |
 | --- | --- | --- |
-| `KV_REST_API_URL` / `KV_REST_API_TOKEN` | Likes **and** newsletter | Recommended (free) |
+| `KV_REST_API_URL` / `KV_REST_API_TOKEN` | Reactions **and** newsletter | Recommended (free) |
 | `GITHUB_OAUTH_ID` / `GITHUB_OAUTH_SECRET` | One-click CMS login | Optional (token works instead) |
 | `GUARDIAN_KEY` | "Around the web" reliability | Optional |
 | `BUTTONDOWN_KEY` | Newsletter email sending | Optional |

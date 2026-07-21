@@ -17,6 +17,7 @@ const c = categoryColor(category);
 <a
   href={`/article/${entry.id}`}
   data-article-card
+  data-slug={entry.id}
   data-category={category}
   data-reveal
   style={`--reveal-delay:${(index % 4) * 60}ms; --cat-glow:${c.glow}`}
@@ -51,6 +52,14 @@ const c = categoryColor(category);
     >
       {category}
     </span>
+    {/* trending flag — revealed by SocialProof.astro only on the hottest card */}
+    <span
+      data-trending
+      hidden
+      class="trending-chip absolute top-3 right-3 rounded-full px-2.5 py-1 text-[10px] uppercase tracking-[0.14em] font-body font-semibold text-white inline-flex items-center gap-1"
+    >
+      🔥 Trending
+    </span>
   </div>
 
   <div class="p-5">
@@ -70,17 +79,21 @@ const c = categoryColor(category);
       <span>{relativeTime(publishedAt)}</span>
       <span>·</span>
       <span>{minutes} min read</span>
-      <svg
-        class="ml-auto h-4 w-4 text-white/25 group-hover:text-white/60 transition-colors"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      >
-        <path d="M5 12h14" /><path d="M13 6l6 6-6 6" />
-      </svg>
+      <span class="ml-auto inline-flex items-center gap-2.5">
+        {/* real reaction count — injected by SocialProof.astro when > 0 */}
+        <span data-social-proof hidden class="social-proof inline-flex items-center gap-1"></span>
+        <svg
+          class="h-4 w-4 text-white/25 group-hover:text-white/60 transition-colors"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M5 12h14" /><path d="M13 6l6 6-6 6" />
+        </svg>
+      </span>
     </div>
   </div>
 </a>

@@ -38,10 +38,18 @@ Add env vars in **Vercel → Settings → Environment Variables**, then redeploy
       just can't delete from the UI (you can always clear them in the Upstash console).
 
 **CMS login — pick one**
-- [ ] **Easiest:** at `/admin`, click **Sign In Using Access Token** and paste a GitHub
-      fine-grained token (Contents: read/write on this repo). No app needed.
-- [ ] **Or one-click GitHub:** create a GitHub OAuth App (callback `https://YOUR-URL/api/callback`)
-      and set `GITHUB_OAUTH_ID` + `GITHUB_OAUTH_SECRET` in Vercel.
+- [ ] **Best for the long run (one-click, no token to re-paste):** create a **GitHub OAuth App**
+      (GitHub → Settings → Developer settings → OAuth Apps → New). Homepage `https://genznews.vercel.app`,
+      **Authorization callback URL** `https://genznews.vercel.app/api/callback`. Copy the **Client ID**,
+      generate a **client secret**, then in Vercel set `GITHUB_OAUTH_ID` + `GITHUB_OAUTH_SECRET` and
+      redeploy. After that, `/admin` shows **Sign in with GitHub** — one tap, no token, never expires.
+      *(The relay is already built — `api/auth.ts` + `api/callback.ts` — so nothing to code.)*
+- [ ] **Quick fallback (no app needed):** at `/admin`, click **Sign In Using Access Token** and paste
+      a GitHub fine-grained token (Contents: read/write on this repo). Simplest to start, but the
+      token expires and must be re-pasted later.
+- [ ] **Reaching `/admin`:** you don't have to type the URL — there's a subtle **Editor** link in the
+      site footer, and if you **Add to Home Screen**, long-pressing the app icon shows an **Editor**
+      shortcut that opens it directly.
 
 ## 5. Make it yours (content)
 - [ ] `src/config.ts` → set `SITE.author` to your name (used on bylines).

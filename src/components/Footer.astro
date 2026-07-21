@@ -41,7 +41,17 @@ const year = new Date().getFullYear();
       class="mt-12 pt-6 border-t border-white/10 flex flex-wrap items-center justify-between gap-4 text-xs text-white/55 font-body"
     >
       <span>© {year} {SITE.name}</span>
-      <span>{site.footer.note}</span>
+      <div class="flex items-center gap-5">
+        <span>{site.footer.note}</span>
+        <a
+          href="/admin"
+          rel="nofollow"
+          class="text-white/35 hover:text-white/75 tap"
+          aria-label="Editor sign-in"
+        >
+          Editor
+        </a>
+      </div>
     </div>
   </div>
 </footer>

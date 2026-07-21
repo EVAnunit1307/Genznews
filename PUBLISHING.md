@@ -4,7 +4,9 @@ You never touch code to publish. Everything happens in your browser.
 
 ## ✍️ Publish an article (the everyday flow)
 
-1. Go to **`https://your-domain.com/admin`** (works on your phone or MacBook).
+1. Go to **`https://your-domain.com/admin`** (works on your phone or MacBook). *You don't have to type
+   that — tap the subtle **Editor** link in the site footer, or, if you've added the site to your phone's
+   Home Screen, long-press the icon and pick the **Editor** shortcut.*
 2. Click **Log in with GitHub** the first time.
 3. Hit **New Article**.
 4. Write it:

@@ -9,6 +9,7 @@ import Giscus from '../../components/Giscus.astro';
 import RelatedArticles from '../../components/RelatedArticles.astro';
 import { SITE } from '../../config';
 import { formatDate, formatDateShort, estimateReadTime, categorySlug } from '../../lib/format';
+import { categoryColor } from '../../lib/categories';
 
 export async function getStaticPaths() {
   const all = (await getCollection('articles', ({ data }) => !data.draft)).sort(
@@ -32,6 +33,7 @@ const { title, dek, category, publishedAt, updatedAt, heroImage, readTime, tags 
 
 const minutes = readTime ?? estimateReadTime(entry.body ?? '');
 const dateFmt = formatDate(publishedAt);
+const c = categoryColor(category);
 
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
 
@@ -86,7 +88,8 @@ const structuredData = {
       <div class="text-[11px] uppercase tracking-[0.18em] text-white/60 font-body mb-5">
         <a
           href={`/${categorySlug(category)}`}
-          class="text-live hover:text-white transition-colors"
+          class="hover:text-white transition-colors"
+          style={`color:${c.label}`}
         >
           {category}
         </a>

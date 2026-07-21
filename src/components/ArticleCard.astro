@@ -2,7 +2,7 @@
 import type { CollectionEntry } from 'astro:content';
 import { Image } from 'astro:assets';
 import { relativeTime, estimateReadTime } from '../lib/format';
-import { SITE } from '../config';
+import { categoryColor } from '../lib/categories';
 
 interface Props {
   entry: CollectionEntry<'articles'>;
@@ -11,10 +11,7 @@ interface Props {
 const { entry, index = 0 } = Astro.props;
 const { title, dek, category, publishedAt, heroImage, readTime } = entry.data;
 const minutes = readTime ?? estimateReadTime(entry.body ?? '');
-
-// hue used only for the no-image gradient fallback
-const HUES = ['260', '200', '150', '320', '30', '240', '180', '280'];
-const hue = HUES[index % HUES.length];
+const c = categoryColor(category);
 ---
 
 <a
@@ -22,8 +19,8 @@ const hue = HUES[index % HUES.length];
   data-article-card
   data-category={category}
   data-reveal
-  style={`--reveal-delay:${(index % 4) * 60}ms`}
-  class="group block liquid-glass rounded-[1.25rem] overflow-hidden tap"
+  style={`--reveal-delay:${(index % 4) * 60}ms; --cat-glow:${c.glow}`}
+  class="cat-card group block liquid-glass rounded-[1.25rem] overflow-hidden tap"
 >
   <div class="relative aspect-[16/10] overflow-hidden">
     {
@@ -33,30 +30,30 @@ const hue = HUES[index % HUES.length];
           alt={title}
           widths={[400, 800]}
           sizes="(max-width: 640px) 100vw, 45vw"
-          class="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500"
+          class="w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-500"
           loading="lazy"
         />
       ) : (
         <div
           class="w-full h-full flex items-center justify-center"
-          style={`background: linear-gradient(145deg, oklch(0.28 0.09 ${hue}), oklch(0.15 0.04 ${hue}))`}
+          style={`background: linear-gradient(145deg, ${c.from}, ${c.to})`}
         >
-          <span class="font-heading italic text-4xl" style={`color: oklch(0.6 0.14 ${hue})`}>
+          <span class="font-heading italic text-4xl" style={`color: ${c.label}`}>
             {category.charAt(0)}
           </span>
         </div>
       )
     }
+    {/* category chip pinned on the image — instantly scannable */}
+    <span
+      class="absolute top-3 left-3 rounded-full px-2.5 py-1 text-[10px] uppercase tracking-[0.14em] font-body font-semibold backdrop-blur-md"
+      style={`color:${c.label}; background:${c.soft}; box-shadow: inset 0 0 0 1px ${c.softBorder}`}
+    >
+      {category}
+    </span>
   </div>
 
   <div class="p-5">
-    <div class="flex items-center gap-2 mb-2">
-      <span class="text-[10px] uppercase tracking-[0.16em] font-body font-semibold text-live">
-        {category}
-      </span>
-      <span class="text-[10px] text-white/55 font-body">{relativeTime(publishedAt)}</span>
-    </div>
-
     <h3
       class="font-heading text-white text-2xl leading-[1.08] tracking-[-0.5px] mb-2 group-hover:text-white/85 transition-colors"
     >
@@ -70,7 +67,7 @@ const hue = HUES[index % HUES.length];
     }
 
     <div class="mt-4 flex items-center gap-2 text-[11px] text-white/55 font-body">
-      <span class="text-white/70">{SITE.author}</span>
+      <span>{relativeTime(publishedAt)}</span>
       <span>·</span>
       <span>{minutes} min read</span>
       <svg

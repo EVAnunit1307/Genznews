@@ -371,6 +371,46 @@ select {
   transform: scale(0.96);
 }
 
+/* category-tinted hover glow on article cards — brings color into the feed.
+   (Uses box-shadow only: the scroll-reveal rule owns `transform`, so a hover
+   translate would be overridden once a card reveals.) */
+.cat-card {
+  transition: box-shadow 0.4s ease;
+}
+@media (hover: hover) {
+  .cat-card:hover {
+    box-shadow:
+      inset 0 1px 1px rgba(255, 255, 255, 0.1),
+      0 14px 46px -16px var(--cat-glow, rgba(255, 255, 255, 0.12));
+  }
+}
+
+/* ambient color depth — keeps long dark sections from reading as flat black */
+.glow-warm {
+  background:
+    radial-gradient(72% 46% at 50% -6%, rgba(255, 45, 45, 0.1), transparent 70%),
+    #0a0a0b;
+}
+.glow-cool {
+  background:
+    radial-gradient(64% 55% at 82% 4%, oklch(0.62 0.16 260 / 0.12), transparent 70%),
+    #0a0a0b;
+}
+
+/* colored topic tiles in the "browse by topic" grid */
+.topic-tile {
+  background: var(--tile);
+  box-shadow: inset 0 0 0 1px var(--tile-border);
+  transition:
+    background 0.2s ease,
+    transform 0.12s ease;
+}
+@media (hover: hover) {
+  .topic-tile:hover {
+    background: var(--tile-hover);
+  }
+}
+
 /* ─────── hero ticker track ─────── */
 .ticker-track {
   display: inline-flex;

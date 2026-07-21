@@ -1,6 +1,9 @@
 ---
 import { SITE } from '../config';
-// About Donya — the writer. Bio + LinkedIn come from SITE in src/config.ts.
+import about from '../data/about.json';
+import { inlineFormat, toParagraphs } from '../lib/inline';
+// About Donya — the writer. All copy is editable in the CMS via src/data/about.json.
+const paragraphs = toParagraphs(about.body);
 ---
 
 <section id="about" class="relative bg-ink px-6 md:px-12 lg:px-20 py-24 border-t border-white/[0.06] scroll-mt-16">
@@ -8,31 +11,22 @@ import { SITE } from '../config';
     <div>
       <div class="flex items-center gap-2.5 text-[11px] uppercase tracking-[0.18em] text-white/55 font-body mb-6" data-reveal>
         <span class="w-5 h-px bg-live"></span>
-        About
+        {about.eyebrow}
       </div>
       <h2
         class="font-heading italic text-white text-5xl md:text-[3.6rem] tracking-[-2px] leading-[0.93] mb-8"
         data-reveal
         style="--reveal-delay: 60ms"
       >
-        One person, writing the news I wish existed.
+        {about.heading}
       </h2>
       <div
         class="space-y-5 text-white/70 font-body font-light text-base leading-relaxed max-w-lg"
         data-reveal
         style="--reveal-delay: 120ms"
       >
-        <p>
-          I'm a Political Science &amp; Philosophy student at the University of Ottawa — and I work
-          inside the rooms where policy actually gets made, on Parliament Hill and with the Young
-          Liberals of Canada. The news gets written <em>about</em> my generation, rarely for us, and
-          almost never by someone who has to live with the results.
-        </p>
-        <p>
-          So this is my version: original writing on the policy, politics, climate, and culture
-          shaping us — from someone who's actually in the room, in plain language, with receipts.
-        </p>
-        <p class="text-white/55">Independent. No VC, no algorithm, no team of ghostwriters. Just me.</p>
+        {paragraphs.map((p) => <p set:html={inlineFormat(p)} />)}
+        {about.closer && <p class="text-white/55" set:html={inlineFormat(about.closer)} />}
       </div>
     </div>
 
@@ -59,8 +53,7 @@ import { SITE } from '../config';
         class="text-[15px] text-white/70 font-body font-light leading-relaxed mb-7 border-l-2 pl-4"
         style="border-color: rgba(255,45,45,0.6)"
       >
-        “I'm not a demographic to be solved. Neither are you. We're the people who have to actually
-        live in the world these decisions build — so we should be the ones writing about it.”
+        &ldquo;{about.quote}&rdquo;
       </blockquote>
 
       <div class="flex flex-wrap items-center gap-3 pt-5 border-t border-white/[0.08]">

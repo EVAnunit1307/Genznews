@@ -5,7 +5,7 @@
 
 backend:
   name: github
-  repo: EVANunit1307/Genznews
+  repo: EVAnunit1307/Genznews
   branch: main
   # OAuth relay = this site's own Vercel functions (api/auth + api/callback).
   # Update base_url to your final production domain.
@@ -21,6 +21,61 @@ site_url: https://genznews.vercel.app
 display_url: https://genznews.vercel.app
 
 collections:
+  - name: pages
+    label: Pages
+    description: Editable sections of your site.
+    files:
+      - name: about
+        label: About Me
+        file: src/data/about.json
+        description: The "About" section on your home page — and the name, role, bio, and LinkedIn used on every byline.
+        fields:
+          - label: Small label (eyebrow)
+            name: eyebrow
+            widget: string
+            default: About
+            hint: The tiny label above the heading.
+
+          - label: Heading
+            name: heading
+            widget: string
+            hint: The big italic headline of the About section.
+
+          - label: About text
+            name: body
+            widget: text
+            hint: 'Your story. Separate paragraphs with a blank line. Wrap a word in *stars* for italics or **double stars** for bold.'
+
+          - label: Closing line
+            name: closer
+            widget: string
+            required: false
+            hint: The dimmer one-liner under your about text (e.g. "Independent. Just me.").
+
+          - label: Pull quote
+            name: quote
+            widget: text
+            hint: The highlighted quote in your writer card. (Quotation marks are added automatically.)
+
+          - label: Your name
+            name: authorName
+            widget: string
+            hint: Shown on every article byline and author card.
+
+          - label: Your role / tagline
+            name: authorRole
+            widget: string
+
+          - label: Short bio
+            name: authorBio
+            widget: text
+            hint: One sentence — appears on the "Who wrote this" card under each article.
+
+          - label: LinkedIn URL
+            name: linkedin
+            widget: string
+            hint: Full link, e.g. https://www.linkedin.com/in/your-handle/
+
   - name: articles
     label: Articles
     label_singular: Article

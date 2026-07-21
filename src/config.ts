@@ -1,21 +1,24 @@
 // Site-wide, non-secret constants. (All API keys live in Vercel env vars / serverless — never here.)
 
+import about from './data/about.json';
+
 export const SITE = {
   name: 'genzthinks',
   title: 'genzthinks — a Gen Z magazine',
   description:
     'A solo Gen Z magazine: original writing on the policy, climate, tech, money, culture, and fashion stories shaping our generation.',
-  // Writer's display name for bylines.
-  author: 'Donya Mirian',
-  authorRole: 'She/Her · Poli-sci & philosophy at uOttawa · political staffer',
+  // Writer identity — single source of truth is src/data/about.json so it can be
+  // edited from the CMS (/admin → Pages → About) and stays in sync across every
+  // byline, author card, and the About section.
+  author: about.authorName,
+  authorRole: about.authorRole,
   // Short byline bio — used on the article author sign-off card.
-  authorBio:
-    "Poli-sci & philosophy at uOttawa, writing from inside the rooms where policy actually gets made — in plain language, with receipts.",
-  linkedin: 'https://www.linkedin.com/in/donya-mirian-14b853326/',
+  authorBio: about.authorBio,
+  linkedin: about.linkedin,
   // Update once the final Vercel domain is set (also update astro.config.mjs `site`).
   url: 'https://genznews.vercel.app',
   // GitHub repo — used by Giscus comments + Sveltia CMS.
-  repo: 'EVANunit1307/Genznews',
+  repo: 'EVAnunit1307/Genznews',
   // Giscus comments. Get these from https://giscus.app AFTER you:
   //   1. make the repo public, 2. enable Discussions, 3. install the giscus app.
   // These are PUBLIC identifiers (safe to commit) — not secrets.

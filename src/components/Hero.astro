@@ -3,6 +3,7 @@ import Navbar from './Navbar.astro';
 import FadingVideo from './FadingVideo.tsx';
 import Ticker from './Ticker.tsx';
 import { VIDEOS } from '../config';
+import site from '../data/site.json';
 import { formatDate } from '../lib/format';
 
 interface Props {
@@ -10,7 +11,7 @@ interface Props {
 }
 const { latest } = Astro.props;
 
-const headline = 'The stories my generation is actually living';
+const headline = site.hero.headline;
 const words = headline.split(' ');
 ---
 
@@ -65,8 +66,7 @@ const words = headline.split(' ');
         class="enter-up mt-5 text-sm md:text-base text-white/85 max-w-xl font-body font-light leading-snug text-center px-2"
         style="--enter-delay: 900ms"
       >
-        A one-person magazine on policy, climate, tech, money, culture, and fashion — reported and
-        written by me, for anyone who has to live with the results.
+        {site.hero.subhead}
       </p>
 
       <div
@@ -78,7 +78,7 @@ const words = headline.split(' ');
           class="liquid-glass-strong rounded-full px-5 text-sm font-medium text-white inline-flex items-center gap-2 tap"
           style="min-height:48px"
         >
-          Read the latest
+          {site.hero.primaryCta}
           <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M5 12h14" /><path d="M13 6l6 6-6 6" />
           </svg>
@@ -88,7 +88,7 @@ const words = headline.split(' ');
           class="text-white text-sm font-body font-medium inline-flex items-center gap-2 tap"
           style="min-height:44px"
         >
-          What this is
+          {site.hero.secondaryCta}
         </a>
       </div>
     </div>

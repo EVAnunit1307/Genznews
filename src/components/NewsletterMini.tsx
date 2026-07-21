@@ -1,4 +1,5 @@
 import { useState, type FormEvent } from 'react';
+import site from '../data/site.json';
 
 type State = 'idle' | 'loading' | 'success' | 'error';
 
@@ -26,14 +27,13 @@ export default function NewsletterMini() {
   return (
     <div className="liquid-glass rounded-[1.25rem] p-6">
       <div className="text-[10px] uppercase tracking-[0.18em] text-white/55 font-body mb-3">
-        The newsletter
+        {site.newsletter.eyebrow}
       </div>
       <h4 className="font-heading italic text-white text-2xl tracking-[-0.5px] leading-[1.05] mb-2">
-        One email, only when it's worth it.
+        {site.newsletter.heading}
       </h4>
       <p className="text-sm text-white/55 font-body font-light leading-relaxed mb-5">
-        When I publish something I couldn't stop thinking about, you'll get it. No spam, no
-        algorithm, unsubscribe anytime.
+        {site.newsletter.body}
       </p>
 
       {state === 'success' && (
@@ -51,7 +51,7 @@ export default function NewsletterMini() {
           </div>
           <button
             onClick={() => setState('idle')}
-            className="text-xs text-white/40 font-body hover:text-white/70 tap"
+            className="text-xs text-white/55 font-body hover:text-white/80 tap"
           >
             Try again
           </button>

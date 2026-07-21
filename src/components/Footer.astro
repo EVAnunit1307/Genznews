@@ -1,5 +1,6 @@
 ---
 import { SITE } from '../config';
+import site from '../data/site.json';
 const year = new Date().getFullYear();
 ---
 
@@ -14,8 +15,7 @@ const year = new Date().getFullYear();
           <span class="font-heading italic text-white text-2xl">{SITE.name}</span>
         </div>
         <p class="text-sm text-white/55 font-body font-light leading-relaxed">
-          A one-person magazine for the generation living through it. Independent, reader-first, and
-          written by hand.
+          {site.footer.tagline}
         </p>
       </div>
 
@@ -36,10 +36,10 @@ const year = new Date().getFullYear();
     </div>
 
     <div
-      class="mt-12 pt-6 border-t border-white/10 flex flex-wrap items-center justify-between gap-4 text-xs text-white/45 font-body"
+      class="mt-12 pt-6 border-t border-white/10 flex flex-wrap items-center justify-between gap-4 text-xs text-white/55 font-body"
     >
       <span>© {year} {SITE.name}</span>
-      <span>Built to be read on a phone.</span>
+      <span>{site.footer.note}</span>
     </div>
   </div>
 </footer>

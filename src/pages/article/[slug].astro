@@ -112,7 +112,7 @@ const structuredData = {
         </div>
         <div class="leading-tight">
           <div class="text-sm text-white font-body">{SITE.author}</div>
-          <div class="text-xs text-white/50 font-body">
+          <div class="text-xs text-white/55 font-body">
             {updatedAt ? `Updated ${formatDateShort(updatedAt)}` : dateFmt}
           </div>
         </div>
@@ -199,7 +199,7 @@ const structuredData = {
 
         {/* like — engagement at the end of the read */}
         <div class="mt-12 flex flex-col items-center gap-3">
-          <p class="text-[11px] uppercase tracking-[0.18em] text-white/40 font-body">
+          <p class="text-[11px] uppercase tracking-[0.18em] text-white/55 font-body">
             Did this land?
           </p>
           <LikeButton client:visible slug={entry.id} />

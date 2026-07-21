@@ -4,6 +4,7 @@ import ArticleCard from './ArticleCard.astro';
 import TopicFilter from './TopicFilter.tsx';
 import NewsletterMini from './NewsletterMini.tsx';
 import { relativeTime } from '../lib/format';
+import site from '../data/site.json';
 
 interface Props {
   articles: CollectionEntry<'articles'>[];
@@ -24,7 +25,7 @@ const { articles, recent } = Astro.props;
       data-reveal
     >
       <h2 class="font-heading italic text-white text-3xl md:text-4xl tracking-[-1px] leading-none">
-        Today's feed
+        {site.feed.heading}
       </h2>
       <span class="text-[11px] text-white/55 font-body inline-flex items-center gap-1.5">
         <span class="w-1.5 h-1.5 rounded-full bg-live"></span>
@@ -46,24 +47,34 @@ const { articles, recent } = Astro.props;
         >
           No stories in this topic yet — check back soon.
         </div>
+        {articles.length === 0 && (
+          <div class="py-20 text-center">
+            <p class="font-heading italic text-white/85 text-3xl tracking-[-0.5px] mb-2">
+              The first story is on its way.
+            </p>
+            <p class="text-sm text-white/60 font-body max-w-sm mx-auto">
+              Subscribe below and you'll be the first to read it.
+            </p>
+          </div>
+        )}
       </div>
 
       <aside
         class="lg:col-span-4 flex flex-col gap-5 mt-8 lg:mt-0 lg:sticky lg:top-6 lg:self-start"
       >
-        <div class="liquid-glass rounded-[1.25rem] p-5" data-reveal>
-          <div class="flex items-center justify-between mb-4">
-            <div class="text-[10px] uppercase tracking-[0.18em] text-white/55 font-body">
-              Most recent
+        {recent.length > 0 && (
+          <div class="liquid-glass rounded-[1.25rem] p-5" data-reveal>
+            <div class="flex items-center justify-between mb-4">
+              <div class="text-[10px] uppercase tracking-[0.18em] text-white/55 font-body">
+                Most recent
+              </div>
+              <span class="w-1.5 h-1.5 rounded-full bg-live" />
             </div>
-            <span class="w-1.5 h-1.5 rounded-full bg-live"></span>
-          </div>
-          <ol class="space-y-3">
-            {
-              recent.map((entry, i) => (
+            <ol class="space-y-3">
+              {recent.map((entry, i) => (
                 <li>
                   <a href={`/article/${entry.id}`} class="group flex items-start gap-3 tap">
-                    <span class="font-heading text-white/25 text-2xl leading-none w-7 shrink-0 group-hover:text-white/50 transition-colors">
+                    <span class="font-heading text-white/35 text-2xl leading-none w-7 shrink-0 group-hover:text-white/60 transition-colors">
                       {i + 1}
                     </span>
                     <div class="min-w-0 flex-1">
@@ -79,10 +90,10 @@ const { articles, recent } = Astro.props;
                     </div>
                   </a>
                 </li>
-              ))
-            }
-          </ol>
-        </div>
+              ))}
+            </ol>
+          </div>
+        )}
 
         <div id="newsletter" class="scroll-mt-16" data-reveal>
           <NewsletterMini client:visible />

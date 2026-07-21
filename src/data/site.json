@@ -1,0 +1,21 @@
+{
+  "description": "A solo Gen Z magazine: original writing on the policy, climate, tech, money, culture, and fashion stories shaping our generation.",
+  "hero": {
+    "headline": "The stories my generation is actually living",
+    "subhead": "A one-person magazine on policy, climate, tech, money, culture, and fashion — reported and written by me, for anyone who has to live with the results.",
+    "primaryCta": "Read the latest",
+    "secondaryCta": "What this is"
+  },
+  "feed": {
+    "heading": "Today's feed"
+  },
+  "newsletter": {
+    "eyebrow": "The newsletter",
+    "heading": "One email, only when it's worth it.",
+    "body": "When I publish something I couldn't stop thinking about, you'll get it. No spam, no algorithm, unsubscribe anytime."
+  },
+  "footer": {
+    "tagline": "A one-person magazine for the generation living through it. Independent, reader-first, and written by hand.",
+    "note": "Built to be read on a phone."
+  }
+}

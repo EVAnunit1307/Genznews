@@ -1,12 +1,13 @@
 // Site-wide, non-secret constants. (All API keys live in Vercel env vars / serverless — never here.)
 
 import about from './data/about.json';
+import site from './data/site.json';
 
 export const SITE = {
   name: 'genzthinks',
   title: 'genzthinks — a Gen Z magazine',
-  description:
-    'A solo Gen Z magazine: original writing on the policy, climate, tech, money, culture, and fashion stories shaping our generation.',
+  // Meta/SEO description — editable in the CMS via /admin → Pages → Home & Site Text.
+  description: site.description,
   // Writer identity — single source of truth is src/data/about.json so it can be
   // edited from the CMS (/admin → Pages → About) and stays in sync across every
   // byline, author card, and the About section.

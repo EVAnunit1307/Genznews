@@ -76,6 +76,74 @@ collections:
             widget: string
             hint: Full link, e.g. https://www.linkedin.com/in/your-handle/
 
+      - name: site
+        label: Home & Site Text
+        file: src/data/site.json
+        description: Headlines and wording across the home page — the hero, the newsletter box, and the footer.
+        fields:
+          - label: Search-engine description
+            name: description
+            widget: text
+            hint: One sentence describing the site. Shows in Google results and link-share previews.
+
+          - label: Hero (top of the page, over the video)
+            name: hero
+            widget: object
+            fields:
+              - label: Big headline
+                name: headline
+                widget: string
+                hint: The huge headline that animates in word by word.
+              - label: Subheading
+                name: subhead
+                widget: text
+                hint: The sentence under the headline.
+              - label: Main button
+                name: primaryCta
+                widget: string
+                hint: e.g. "Read the latest".
+              - label: Secondary link
+                name: secondaryCta
+                widget: string
+                hint: e.g. "What this is".
+
+          - label: Feed section
+            name: feed
+            widget: object
+            fields:
+              - label: Section heading
+                name: heading
+                widget: string
+                hint: The heading above your list of stories, e.g. "Today's feed".
+
+          - label: Newsletter box
+            name: newsletter
+            widget: object
+            fields:
+              - label: Small label (eyebrow)
+                name: eyebrow
+                widget: string
+              - label: Heading
+                name: heading
+                widget: string
+              - label: Description
+                name: body
+                widget: text
+                hint: The short pitch under the heading.
+
+          - label: Footer
+            name: footer
+            widget: object
+            fields:
+              - label: Tagline
+                name: tagline
+                widget: text
+                hint: The short paragraph next to the logo.
+              - label: Bottom note
+                name: note
+                widget: string
+                hint: The small line at the very bottom, e.g. "Built to be read on a phone."
+
   - name: articles
     label: Articles
     label_singular: Article

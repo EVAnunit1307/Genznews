@@ -148,17 +148,17 @@ export default function Search() {
       </div>
 
       <div className="flex-1 overflow-y-auto px-6 md:px-12 py-6">
-        {status === 'loading' && <div className="text-white/45 text-sm font-body">Searching…</div>}
+        {status === 'loading' && <div className="text-white/60 text-sm font-body">Searching…</div>}
         {status === 'unavailable' && (
-          <div className="text-white/45 text-sm font-body">
+          <div className="text-white/60 text-sm font-body">
             Search runs on the deployed site (the index is built at deploy time).
           </div>
         )}
         {status === 'done' && results.length === 0 && q.trim().length >= 2 && (
-          <div className="text-white/45 text-sm font-body">No results for “{q}”.</div>
+          <div className="text-white/60 text-sm font-body">No results for “{q}”.</div>
         )}
         {q.trim().length < 2 && (
-          <div className="text-white/30 text-sm font-body">Type to search across every article.</div>
+          <div className="text-white/55 text-sm font-body">Type to search across every article.</div>
         )}
 
         <div className="space-y-3 max-w-2xl mt-2">

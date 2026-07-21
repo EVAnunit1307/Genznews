@@ -18,15 +18,15 @@ export const SITE = {
   linkedin: about.linkedin,
   // Update once the final Vercel domain is set (also update astro.config.mjs `site`).
   url: 'https://genznews.vercel.app',
-  // GitHub repo — used by Giscus comments + Sveltia CMS.
+  // GitHub repo — used by the Sveltia CMS at /admin.
   repo: 'EVAnunit1307/Genznews',
-  // Giscus comments. Get these from https://giscus.app AFTER you:
-  //   1. make the repo public, 2. enable Discussions, 3. install the giscus app.
-  // These are PUBLIC identifiers (safe to commit) — not secrets.
+  // Legacy Giscus IDs — comments now run first-party on Upstash (api/comments.ts),
+  // so these are unused. Kept only so the old Giscus.astro can be restored if ever
+  // wanted. Safe to delete. These are PUBLIC identifiers, never secrets.
   giscus: {
-    repoId: 'R_kgDOSXd0AQ', // fetched from GitHub for EVAnunit1307/Genznews
-    category: 'Announcements', // the Discussions category giscus should use
-    categoryId: 'DIC_kwDOSXd0Ac4DBIv_', // from giscus.app for EVAnunit1307/Genznews
+    repoId: 'R_kgDOSXd0AQ',
+    category: 'Announcements',
+    categoryId: 'DIC_kwDOSXd0Ac4DBIv_',
   },
 };
 

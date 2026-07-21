@@ -29,12 +29,13 @@ Add env vars in **Vercel → Settings → Environment Variables**, then redeploy
       + `KV_REST_API_TOKEN`).
 - [ ] Result: article reactions persist, and newsletter signups are saved to your KV (`subscribers` set).
 
-**Comments — Giscus**
-- [ ] Repo **Settings → General → Features → enable Discussions**.
-- [ ] Install **github.com/apps/giscus** for this repo.
-- [ ] At **giscus.app**, enter `EVANunit1307/Genznews`, pick a Discussions category → copy the
-      **Repository ID** + **Category ID**.
-- [ ] Paste them into `src/config.ts` → `SITE.giscus` (`repoId`, `category`, `categoryId`). Commit + push.
+**Comments — first-party, no login needed ✅ already wired**
+- Readers comment with just a name — no GitHub, no account, nothing to sign up for. Runs on the
+  same Upstash you connected above, so it works the moment likes/reactions do.
+- [ ] *(Optional)* To remove a comment, add a Vercel env var **`COMMENTS_ADMIN_TOKEN`** (any long
+      random string). Then on the site's Comments box tap the 🔒, paste that token once, and a
+      **Delete** control appears on each comment. Without the token, comments still post fine — you
+      just can't delete from the UI (you can always clear them in the Upstash console).
 
 **CMS login — pick one**
 - [ ] **Easiest:** at `/admin`, click **Sign In Using Access Token** and paste a GitHub
@@ -67,13 +68,14 @@ Add env vars in **Vercel → Settings → Environment Variables**, then redeploy
 Astro + Preact static build (~44 KB JS total), self-hosted fonts, the full liquid-glass design,
 15 routes, per-article OpenGraph/Twitter share previews + JSON-LD, sitemap + RSS + robots,
 PWA manifest + icons + theme color, security headers (HSTS, X-Frame-Options, …), all serverless
-proxies (stocks/newsletter/reactions/OAuth), Pagefind search, and the Sveltia CMS at `/admin`.
+proxies (stocks/newsletter/reactions/comments/OAuth), Pagefind search, and the Sveltia CMS at `/admin`.
 
 ## Env var quick reference
 | Variable | Needed for | Required? |
 | --- | --- | --- |
-| `KV_REST_API_URL` / `KV_REST_API_TOKEN` | Reactions **and** newsletter | Recommended (free) |
+| `KV_REST_API_URL` / `KV_REST_API_TOKEN` | Reactions, comments **and** newsletter | Recommended (free) |
 | `GITHUB_OAUTH_ID` / `GITHUB_OAUTH_SECRET` | One-click CMS login | Optional (token works instead) |
+| `COMMENTS_ADMIN_TOKEN` | Deleting comments from the UI | Optional |
 | `GUARDIAN_KEY` | "Around the web" reliability | Optional |
 | `BUTTONDOWN_KEY` | Newsletter email sending | Optional |
 | `FINNHUB_KEY` | Ticker fallback | Optional |

@@ -76,12 +76,17 @@ You have **three** ways to log in at `/admin` — pick whichever is easiest:
 - It sets `KV_REST_API_URL` and `KV_REST_API_TOKEN` automatically. (If you use Upstash directly,
   `UPSTASH_REDIS_REST_URL` / `UPSTASH_REDIS_REST_TOKEN` also work.)
 
-### 6. Comments (Giscus)
-- Make the repo **public**, then GitHub → repo **Settings → General → Features → enable Discussions**.
-- Install the **giscus** app: **github.com/apps/giscus** (grant it this repo).
-- Go to **giscus.app**, enter `EVANunit1307/Genznews`, pick a Discussions category (e.g. *Announcements*),
-  and copy the **Repository ID** and **Category ID** it shows.
-- Paste them into `src/config.ts` → `SITE.giscus` (`repoId`, `category`, `categoryId`). Commit.
+### 6. Comments (first-party — no GitHub required)
+- **Nothing to set up.** Comments run on the same Upstash Redis as reactions (step 5), so once that's
+  connected, anyone can comment with just a display name — no login, no account.
+- Each article gets its own thread (keyed by slug). Built-in spam guards: per-IP rate limiting, a
+  hidden honeypot, length caps, and a link limit.
+- **To moderate (optional):** add a Vercel env var `COMMENTS_ADMIN_TOKEN` (any long random string).
+  Then in the site's Comments box, tap the 🔒 icon and paste that token once (stored on your device);
+  a **Delete** button appears on each comment. Without the token, comments still work — you just
+  moderate from the Upstash console instead.
+- *(The old Giscus/GitHub-Discussions setup has been retired — it required every commenter to have a
+  GitHub account, which locked out most readers.)*
 
 ### 7. "From around the web" strip (optional, more reliable)
 - The strip uses The Guardian's free `test` key by default. For reliability, get a free key at
@@ -95,7 +100,8 @@ You have **three** ways to log in at `/admin` — pick whichever is easiest:
 | `GITHUB_OAUTH_ID` / `GITHUB_OAUTH_SECRET` | `/admin` login |
 | `FINNHUB_KEY` | (optional) stock ticker fallback — not needed, ticker is free via Yahoo |
 | `BUTTONDOWN_KEY` | (optional) newsletter upgrade — KV already captures signups |
-| `KV_REST_API_URL` / `KV_REST_API_TOKEN` | Reactions **and** newsletter capture |
+| `KV_REST_API_URL` / `KV_REST_API_TOKEN` | Reactions, comments **and** newsletter capture |
+| `COMMENTS_ADMIN_TOKEN` | (optional) enables the Delete control on comments |
 | `GUARDIAN_KEY` | (optional) "From around the web" strip |
 
 Never put any of these in code — they live only in Vercel. See `.env.example`.

@@ -5,7 +5,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import ShareButton from '../../components/ShareButton.tsx';
 import ReadingProgress from '../../components/ReadingProgress.tsx';
 import Reactions from '../../components/Reactions.tsx';
-import Giscus from '../../components/Giscus.astro';
+import Comments from '../../components/Comments.tsx';
 import RelatedArticles from '../../components/RelatedArticles.astro';
 import { SITE } from '../../config';
 import { formatDate, formatDateShort, estimateReadTime, categorySlug } from '../../lib/format';
@@ -213,7 +213,7 @@ const structuredData = {
 
         <RelatedArticles items={related} />
 
-        <Giscus term={entry.id} />
+        <Comments client:visible slug={entry.id} />
 
         <a
           href="/"

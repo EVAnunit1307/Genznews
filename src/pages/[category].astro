@@ -39,8 +39,8 @@ const { category, articles } = Astro.props;
           style="min-height:44px"
         >
           <span class="liquid-glass w-9 h-9 rounded-full inline-flex items-center justify-center -mt-0.5">
-            <svg class="h-4 w-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <circle cx="12" cy="12" r="9" /><path d="M3 12h18" /><ellipse cx="12" cy="12" rx="4" ry="9" />
+            <svg class="h-4 w-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="9" /><path d="M3.6 12h16.8" /><path d="M5 7.4h14" /><path d="M5 16.6h14" /><ellipse cx="12" cy="12" rx="4.5" ry="9" />
             </svg>
           </span>
           Home
@@ -70,9 +70,29 @@ const { category, articles } = Astro.props;
               ))}
             </div>
           ) : (
-            <p class="text-white/55 font-body text-sm py-16 text-center">
-              No stories here yet — check back soon.
-            </p>
+            <div class="py-20 text-center flex flex-col items-center" data-reveal>
+              <span class="liquid-glass w-14 h-14 rounded-full inline-flex items-center justify-center mb-6">
+                <svg class="h-6 w-6 text-white/80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <circle cx="12" cy="12" r="9" /><path d="M3.6 12h16.8" /><path d="M5 7.4h14" /><path d="M5 16.6h14" /><ellipse cx="12" cy="12" rx="4.5" ry="9" />
+                </svg>
+              </span>
+              <p class="font-heading italic text-white/90 text-3xl md:text-4xl tracking-[-0.5px] mb-2">
+                Nothing filed under {category} yet.
+              </p>
+              <p class="text-sm text-white/60 font-body max-w-sm mx-auto mb-7">
+                New writing lands here first. Until then, explore the latest across every topic.
+              </p>
+              <a
+                href="/#feed"
+                class="liquid-glass-strong rounded-full px-5 text-sm font-medium text-white inline-flex items-center gap-2 tap"
+                style="min-height:46px"
+              >
+                Read the latest
+                <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M5 12h14" /><path d="M13 6l6 6-6 6" />
+                </svg>
+              </a>
+            </div>
           )
         }
       </div>

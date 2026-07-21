@@ -2,14 +2,14 @@ import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
 
 const CATEGORIES = [
-  'Global',
-  'US',
   'Canada',
+  'International relations',
+  'International trade',
+  'Policy',
   'Climate',
   'Tech',
-  'Money',
-  'Culture',
-  'Policy',
+  'Philosophy',
+  'Arts',
   'Fashion',
 ] as const;
 

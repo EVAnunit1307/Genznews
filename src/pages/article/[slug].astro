@@ -8,7 +8,7 @@ import LikeButton from '../../components/LikeButton.tsx';
 import Giscus from '../../components/Giscus.astro';
 import RelatedArticles from '../../components/RelatedArticles.astro';
 import { SITE } from '../../config';
-import { formatDate, formatDateShort, estimateReadTime } from '../../lib/format';
+import { formatDate, formatDateShort, estimateReadTime, categorySlug } from '../../lib/format';
 
 export async function getStaticPaths() {
   const all = (await getCollection('articles', ({ data }) => !data.draft)).sort(
@@ -71,9 +71,12 @@ const structuredData = {
         style="min-height:44px"
       >
         <span
-          class="liquid-glass w-9 h-9 rounded-full inline-flex items-center justify-center text-lg -mt-0.5"
-          >g</span
-        >
+          class="liquid-glass w-9 h-9 rounded-full inline-flex items-center justify-center -mt-0.5"
+          >
+          <svg class="h-4 w-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="9" /><path d="M3 12h18" /><ellipse cx="12" cy="12" rx="4" ry="9" />
+          </svg>
+        </span>
       </a>
       <ShareButton client:visible title={title} url={canonical} />
     </div>
@@ -82,7 +85,7 @@ const structuredData = {
       {/* eyebrow */}
       <div class="text-[11px] uppercase tracking-[0.18em] text-white/60 font-body mb-5">
         <a
-          href={`/${category.toLowerCase()}`}
+          href={`/${categorySlug(category)}`}
           class="text-live hover:text-white transition-colors"
         >
           {category}

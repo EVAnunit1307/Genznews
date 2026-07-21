@@ -31,29 +31,32 @@ export const SITE = {
 };
 
 // Topic pills — order matters. `id` is used in URLs (/[category]); `label` is shown.
+// Canadian-first ordering reflects the site's lens.
 export const TOPICS = [
   { id: 'all', label: 'All' },
-  { id: 'global', label: 'Global' },
-  { id: 'us', label: 'US' },
   { id: 'canada', label: 'Canada' },
+  { id: 'international-relations', label: 'International relations' },
+  { id: 'international-trade', label: 'International trade' },
+  { id: 'policy', label: 'Policy' },
   { id: 'climate', label: 'Climate' },
   { id: 'tech', label: 'Tech' },
-  { id: 'money', label: 'Money' },
-  { id: 'culture', label: 'Culture' },
-  { id: 'policy', label: 'Policy' },
+  { id: 'philosophy', label: 'Philosophy' },
+  { id: 'arts', label: 'Arts' },
   { id: 'fashion', label: 'Fashion' },
 ] as const;
 
 // The article categories (Title-case) that match the content schema enum.
+// Keep this in sync with the enum in src/content/config.ts and the CMS dropdown
+// in public/admin/config.yml.
 export const CATEGORIES = [
-  'Global',
-  'US',
   'Canada',
+  'International relations',
+  'International trade',
+  'Policy',
   'Climate',
   'Tech',
-  'Money',
-  'Culture',
-  'Policy',
+  'Philosophy',
+  'Arts',
   'Fashion',
 ] as const;
 

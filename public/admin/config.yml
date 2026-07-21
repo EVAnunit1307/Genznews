@@ -177,8 +177,19 @@ collections:
       - label: Category
         name: category
         widget: select
-        default: Culture
-        options: [Global, US, Canada, Climate, Tech, Money, Culture, Policy, Fashion]
+        default: Canada
+        options:
+          [
+            Canada,
+            International relations,
+            International trade,
+            Policy,
+            Climate,
+            Tech,
+            Philosophy,
+            Arts,
+            Fashion,
+          ]
 
       - label: Published date
         name: publishedAt

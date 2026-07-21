@@ -35,3 +35,12 @@ export function estimateReadTime(body: string): number {
   const words = body.trim().split(/\s+/).filter(Boolean).length;
   return Math.max(1, Math.round(words / 200));
 }
+
+/** Turn a Title-case category into a URL-safe slug (e.g. "International relations"
+ *  → "international-relations"). Used for /[category] routes and links. */
+export function categorySlug(category: string): string {
+  return category
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, '-');
+}

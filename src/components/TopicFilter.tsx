@@ -4,14 +4,14 @@ import { enhanceHScroll } from '../lib/hscroll';
 
 // topic id (URL-ish) → article category (Title-case in the content schema)
 const TOPIC_TO_CATEGORY: Record<string, string> = {
-  global: 'Global',
-  us: 'US',
   canada: 'Canada',
+  'international-relations': 'International relations',
+  'international-trade': 'International trade',
+  policy: 'Policy',
   climate: 'Climate',
   tech: 'Tech',
-  money: 'Money',
-  culture: 'Culture',
-  policy: 'Policy',
+  philosophy: 'Philosophy',
+  arts: 'Arts',
   fashion: 'Fashion',
 };
 

@@ -1,7 +1,7 @@
 ---
 title: Vintage isn't nostalgia. It's the last honest way to shop.
 dek: We're not buying old clothes because they're cool. We're buying them because everything new is designed to fall apart.
-category: Culture
+category: Fashion
 publishedAt: 2026-06-24
 heroImage: ./runway-hero.jpg
 featured: false

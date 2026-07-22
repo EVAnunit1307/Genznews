@@ -10,6 +10,7 @@ import RelatedArticles from '../../components/RelatedArticles.astro';
 import { SITE } from '../../config';
 import { formatDate, formatDateShort, estimateReadTime, categorySlug } from '../../lib/format';
 import { categoryColor } from '../../lib/categories';
+import { resolveHero } from '../../lib/heroImage';
 
 export async function getStaticPaths() {
   const all = (await getCollection('articles', ({ data }) => !data.draft)).sort(
@@ -29,7 +30,8 @@ export async function getStaticPaths() {
 
 const { entry, related } = Astro.props;
 const { Content } = await render(entry);
-const { title, dek, category, publishedAt, updatedAt, heroImage, readTime, tags } = entry.data;
+const { title, dek, category, publishedAt, updatedAt, heroImage: heroImageName, readTime, tags } = entry.data;
+const heroImage = resolveHero(heroImageName);
 
 const minutes = readTime ?? estimateReadTime(entry.body ?? '');
 const dateFmt = formatDate(publishedAt);

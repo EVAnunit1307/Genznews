@@ -4,7 +4,7 @@ dek: Canadian wildfires, climate change, and the ford government its correlation
 category: Canada
 publishedAt: 2026-07-22
 updatedAt: ''
-heroImage: IMG_1743.jpeg
+heroImage: ''
 readTime: null
 featured: true
 draft: false

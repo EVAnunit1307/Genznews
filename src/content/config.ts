@@ -28,7 +28,7 @@ const articles = defineCollection({
       // undefined so `.optional()` passes and the app's own fallbacks apply
       // (e.g. read time auto-estimates from the body when left blank).
       updatedAt: z.preprocess(emptyToUndefined, z.coerce.date().optional()),
-      heroImage: image().optional(),
+      heroImage: z.preprocess(emptyToUndefined, image().optional()),
       readTime: z.preprocess(emptyToUndefined, z.number().optional()),
       featured: z.boolean().default(false),
       draft: z.boolean().default(false),

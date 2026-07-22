@@ -1,45 +1,33 @@
 ---
-title: The $40 sneaker that broke the resale internet
-dek: A limited collab between an art student and a no-name factory in Portugal outsold shoes ten times its price. I spent two weeks figuring out why.
-category: Fashion
+title: 'Bill C-18: A Change in News'
+dek: The bill that inspired GenZthinks
+category: Policy
 publishedAt: 2026-07-02
-heroImage: ./sneaker-hero.jpg
+updatedAt: ''
+heroImage: ''
+readTime: null
 featured: true
+draft: true
 tags:
-  - sneakers
-  - resale
-  - consumption
+  - Policy
+  - Canada
+  - Government
 ---
 
-The shoe sold out in eleven minutes. That part you already know — it was the screenshot that went around, the one with the sold-out grid and the caption that just said *"how."*
+The passing of Bill C-18, also titled the Online News Act, has caused major upheaval amongst the population. This bill is requiring large tech companies to compensate Canadian news businesses for having their content advertised on these dominant sites. Companies such as Meta and Google, and all their subsidiaries, have threatened to cease displaying any Canadian news on their platforms, as an irritated response to the bill.
 
-I wanted the actual answer to that question. So I spent two weeks talking to the people who made it, the people who bought it, and the people who tried to flip it and couldn't. What I found says less about sneakers than it does about how my whole generation decided to spend money.
+With the official third reading completed by the Senate on June 15, 2023, Bill C-18 is expected to take effect around mid December 2023. For Canadians, this means that access to Canadian news will be obsolete on the large social media companies, and decrease significantly on other companies who fail to negotiate suitable compensation. They have appointed the Canadian Radio-Television and Telecommunications Commission (CRTC), to act as the middleman in negotiations pertaining to adhering to the bill.
 
-## It was never about the shoe
+The government’s rationale is to help Canadian news organizations combat the monetary loss of the online advertising revenue, attempting to establish more of a balance between monetary income to already multi million and billion dollar platforms, and smaller Canadian news companies. Large businesses like Meta and Google have earned around 80% of Canada’s online advertising revenue alone, totaling to roughly $11.2 billion in 2022.
 
-Here is the thing nobody in the resale servers wanted to admit: the sneaker itself is fine. Good, even. But it is not a $900 shoe wearing a $40 price tag. It is a $40 shoe that happened to mean something for about a week.
+Despite the good intentions to help Canadian news businesses, many large platforms and citizens are annoyed, and disagree with the bill. They feel the motives behind Bill C-18 are not necessary nor relevant, and unforeseen impacts make it more difficult to access Canadian news.
 
-> "We didn't design it to be rare," the art student who made it told me. "We designed it to be honest. The rarity was an accident of us not having any money to make more."
+Some tech companies have, recently, begun negotiating with Canadian provinces to avoid the headache of frequent negotiations to compensate for online advertising revenue. This past month, Google and Ottawa have regulated Google’s annual payment of $100 million CAD to support Canadian news to avoid the recurrent compensation payments. 
 
-That accident is the whole story. Scarcity used to be manufactured by brands with warehouses and marketing budgets. Now it gets manufactured by a broke 22-year-old who could only afford one production run.
+It is unclear how much access to Canadian news will change, as negotiations of tech giants and Canadian news outlets are seemingly on the same page, working together to adhere to the act as best as fits their organizations. 
 
-## What the buyers actually said
+Works Cited
 
-I messaged forty people who bought a pair. The reasons clustered fast:
+Heritage, Canadian. “Government of Canada.” _Canada.Ca_, / Gouvernement du Canada, 30 Oct. 2023, [www.canada.ca/en/canadian-heritage/services/online-news.html](http://www.canada.ca/en/canadian-heritage/services/online-news.html).  
 
-- They were tired of paying luxury prices for logos.
-- They liked that a person, not a boardroom, made it.
-- They wanted to own something before it was cool, for once.
-- A few just wanted to flip it — and most of *those* got burned.
-
-None of them said "because it was a good shoe." That should tell you something.
-
-## The uncomfortable part
-
-The resellers lost money on this one, and everyone cheered. But the reason they lost is the same reason the drop worked: there was no second market because there was no *status* in reselling something that cost forty dollars. You can't mark up honesty.
-
-I think that's the trade my generation keeps trying to make. We'll pay for meaning. We just refuse to pay for the markup on it. The [factory in Portugal](https://en.wikipedia.org/wiki/Footwear) is already fielding calls from brands that want to bottle whatever this was. They won't be able to. The magic was that nobody was trying.
-
-And the next time it happens, it'll be someone else with one production run and no money — which, if you think about it, is the most sustainable business model fashion has stumbled into in years.
-
-
+News, City, director. _What Is Bill C-18 and What Does It Mean for You?_ _YouTube_, YouTube, 19 July 2023, [https://www.youtube.com/watch?v=qkBFw0GbHwg](https://www.youtube.com/watch?v=qkBFw0GbHwg). Accessed 2 Dec. 2023.

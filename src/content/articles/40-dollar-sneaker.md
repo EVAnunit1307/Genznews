@@ -4,7 +4,7 @@ dek: The bill that inspired GenZthinks
 category: Policy
 publishedAt: 2026-07-02
 updatedAt: ''
-heroImage: ''
+heroImage: IMG_1744.jpeg
 readTime: null
 featured: false
 draft: false

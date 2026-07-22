@@ -7,27 +7,35 @@ updatedAt: ''
 heroImage: ''
 readTime: null
 featured: true
-draft: true
+draft: false
 tags:
   - Policy
   - Canada
   - Government
 ---
 
-The passing of Bill C-18, also titled the Online News Act, has caused major upheaval amongst the population. This bill is requiring large tech companies to compensate Canadian news businesses for having their content advertised on these dominant sites. Companies such as Meta and Google, and all their subsidiaries, have threatened to cease displaying any Canadian news on their platforms, as an irritated response to the bill.
+# Bill C-18 and the Future of Canadian News
 
-With the official third reading completed by the Senate on June 15, 2023, Bill C-18 is expected to take effect around mid December 2023. For Canadians, this means that access to Canadian news will be obsolete on the large social media companies, and decrease significantly on other companies who fail to negotiate suitable compensation. They have appointed the Canadian Radio-Television and Telecommunications Commission (CRTC), to act as the middleman in negotiations pertaining to adhering to the bill.
+The passing of **Bill C-18**, officially known as the **Online News Act**, marked one of the most significant changes to Canada's digital media landscape. The legislation was designed to require dominant digital platforms to compensate eligible Canadian news organizations when their news content is made available on their services. The federal government argued that companies such as Google and Meta had become major gateways to news while capturing a large share of online advertising revenue that had traditionally supported journalism.
 
-The government’s rationale is to help Canadian news organizations combat the monetary loss of the online advertising revenue, attempting to establish more of a balance between monetary income to already multi million and billion dollar platforms, and smaller Canadian news companies. Large businesses like Meta and Google have earned around 80% of Canada’s online advertising revenue alone, totaling to roughly $11.2 billion in 2022.
+The Online News Act received Royal Assent in June 2023 and officially came into force later that year. Its objective is to strengthen Canada's news industry by creating a bargaining framework between digital platforms and Canadian news businesses. The **Canadian Radio-television and Telecommunications Commission (CRTC)** was tasked with overseeing the implementation of the Act and ensuring that platforms comply with its requirements.
 
-Despite the good intentions to help Canadian news businesses, many large platforms and citizens are annoyed, and disagree with the bill. They feel the motives behind Bill C-18 are not necessary nor relevant, and unforeseen impacts make it more difficult to access Canadian news.
+The responses from major technology companies differed significantly. **Meta**, the parent company of Facebook and Instagram, chose to permanently block Canadian news content on its platforms rather than participate in the bargaining process. As a result, Canadian users can no longer view or share news articles from Canadian or international news organizations on Facebook and Instagram. The decision has been widely criticized by journalists, emergency management officials, and many Canadians because it reduced access to trusted news sources, particularly during major events such as natural disasters and public emergencies.
 
-Some tech companies have, recently, begun negotiating with Canadian provinces to avoid the headache of frequent negotiations to compensate for online advertising revenue. This past month, Google and Ottawa have regulated Google’s annual payment of $100 million CAD to support Canadian news to avoid the recurrent compensation payments. 
+**Google**, on the other hand, initially opposed the legislation and warned that it might remove Canadian news from its Search platform. However, following negotiations with the Government of Canada, Google reached an agreement in late 2023 to contribute **$100 million CAD annually**, indexed to inflation, into a fund supporting eligible Canadian news organizations. This agreement allowed Google Search to continue displaying Canadian news while meeting its obligations under the Online News Act. The funding is now distributed through an independent process established under the Act.
 
-It is unclear how much access to Canadian news will change, as negotiations of tech giants and Canadian news outlets are seemingly on the same page, working together to adhere to the act as best as fits their organizations. 
+The legislation reflects broader global efforts to address the financial challenges facing journalism in the digital age. Traditional newspapers and broadcasters have experienced substantial declines in advertising revenue as audiences increasingly consume news online. Policymakers argue that large technology companies benefit from the availability of professional news content and should therefore contribute to its sustainability. Critics, however, contend that the legislation interferes with how information is shared online, may reduce public access to reliable news, and could discourage innovation by imposing costs on digital platforms.
 
-Works Cited
+Several years after its passage, the effects of the Online News Act remain mixed. Google's agreement has provided a stable source of funding for many Canadian news organizations, while Meta's continued news ban has fundamentally changed how many Canadians discover and share news on social media. Researchers continue to debate whether the Act has successfully strengthened local journalism or whether the reduction in news visibility on certain platforms has ultimately limited Canadians' access to trusted information.
 
-Heritage, Canadian. “Government of Canada.” _Canada.Ca_, / Gouvernement du Canada, 30 Oct. 2023, [www.canada.ca/en/canadian-heritage/services/online-news.html](http://www.canada.ca/en/canadian-heritage/services/online-news.html).  
+Overall, Bill C-18 represents a landmark attempt to adapt Canada's media policy to the digital era. While it has generated new financial support for journalism, it has also highlighted the complex relationship between governments, technology companies, and the public's access to news.
 
-News, City, director. _What Is Bill C-18 and What Does It Mean for You?_ _YouTube_, YouTube, 19 July 2023, [https://www.youtube.com/watch?v=qkBFw0GbHwg](https://www.youtube.com/watch?v=qkBFw0GbHwg). Accessed 2 Dec. 2023.
+Works Cited 
+
+Canadian Heritage. _Online News Act_. Government of Canada. [https://www.canada.ca/en/canadian-heritage/services/online-news.html](https://www.canada.ca/en/canadian-heritage/services/online-news.html)
+
+Canadian Radio-television and Telecommunications Commission (CRTC). _Online News Act_. [https://crtc.gc.ca](https://crtc.gc.ca/)
+
+Google Canada. _Agreement on the Online News Act_ (2023).
+
+Meta. _News Availability and the Online News Act in Canada_. [https://about.fb.com/news/](https://about.fb.com/news/)

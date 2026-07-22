@@ -14,6 +14,16 @@ type ReactionId = (typeof REACTIONS)[number];
 const SLUG_RE = /^[a-z0-9-]{1,120}$/i;
 const keyFor = (slug: string) => `reactions:${slug}`;
 
+// Abuse guard: cap write bursts per IP. Very generous so real tapping never
+// hits it, but a bot can't inflate counts or burn quota unbounded.
+const RL_MAX = 40; // max reaction writes per window, per IP
+const RL_WINDOW = 60; // seconds
+
+function clientIp(req: VercelRequest): string {
+  const xff = String(req.headers['x-forwarded-for'] || '').split(',')[0].trim();
+  return xff || String(req.headers['x-real-ip'] || '') || 'unknown';
+}
+
 type Counts = Partial<Record<ReactionId, number>>;
 
 /** Keep only known reactions with positive integer counts. */
@@ -89,6 +99,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   try {
     if (req.method === 'POST') {
+      // Per-IP rate limit (fixed window). Fail-open only for a limit-store
+      // hiccup, which the surrounding try/catch already handles gracefully.
+      const rk = `rl:react:${clientIp(req)}`;
+      const hits = await redis.incr(rk);
+      if (hits === 1) await redis.expire(rk, RL_WINDOW);
+      if (hits > RL_MAX) {
+        res.status(429).json({ error: 'Slow down a moment.' });
+        return;
+      }
+
       const body =
         typeof req.body === 'string' ? JSON.parse(req.body || '{}') : req.body || {};
       const id = String(body.id || '') as ReactionId;

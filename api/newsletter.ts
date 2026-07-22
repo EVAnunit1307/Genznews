@@ -3,6 +3,16 @@ import { Redis } from '@upstash/redis';
 
 const EMAIL_RE = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
 
+// Abuse guard: strict per-IP cap — a person subscribes once, so this stops a
+// bot from stuffing the list with thousands of fake signups (storage + quota).
+const RL_MAX = 5; // max signup attempts per window, per IP
+const RL_WINDOW = 600; // seconds (10 min)
+
+function clientIp(req: VercelRequest): string {
+  const xff = String(req.headers['x-forwarded-for'] || '').split(',')[0].trim();
+  return xff || String(req.headers['x-real-ip'] || '') || 'unknown';
+}
+
 // Works with either Vercel KV or a direct Upstash Redis integration.
 const kvUrl = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
 const kvToken = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN;
@@ -20,6 +30,22 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (!email || email.length > 254 || !EMAIL_RE.test(email)) {
     res.status(400).json({ error: 'Invalid email' });
     return;
+  }
+
+  // Per-IP rate limit when KV is available. Fail-open: a limit-store hiccup
+  // must never block a real subscriber.
+  if (redis) {
+    try {
+      const rk = `rl:news:${clientIp(req)}`;
+      const hits = await redis.incr(rk);
+      if (hits === 1) await redis.expire(rk, RL_WINDOW);
+      if (hits > RL_MAX) {
+        res.status(429).json({ error: 'Too many attempts — try again in a bit.' });
+        return;
+      }
+    } catch {
+      /* rate-limit backend hiccup — allow the signup through */
+    }
   }
 
   const buttondownKey = process.env.BUTTONDOWN_KEY;

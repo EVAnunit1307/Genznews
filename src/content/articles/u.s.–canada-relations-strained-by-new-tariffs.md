@@ -6,7 +6,7 @@ publishedAt: 2026-07-22
 updatedAt: ''
 heroImage: IMG_1741.webp
 readTime: null
-featured: false
+featured: true
 draft: false
 tags: []
 ---

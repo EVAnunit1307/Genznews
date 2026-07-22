@@ -6,7 +6,7 @@ publishedAt: 2026-07-02
 updatedAt: ''
 heroImage: ''
 readTime: null
-featured: true
+featured: false
 draft: false
 tags:
   - Policy

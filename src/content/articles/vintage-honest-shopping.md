@@ -25,8 +25,6 @@ The divergence between Kant and the Underground Man ultimately concerns their re
 
 In conclusion Kant and Dostoevsky’s Underground Man offer two incompatible but profoundly illuminating accounts of the human moral condition. For Kant, morality and freedom are rational achievements: to be free is to obey the moral law one gives oneself through reason. For the Underground Man, morality and freedom are tragic: to be free is to defy every system, even at the cost of one’s own destruction. Kant gives us the ideal of rational autonomy; Dostoevsky gives us the psychological reality of its failure. Between them lies the tension that defines modern thought: the desire for universal moral order and the equally powerful need for individual freedom. Dostoevsky’s Underground Man does not disprove Kant, but he ensures that Kant’s moral ideal can never again be taken for granted. He reminds us that beneath every rational system lies the unruly, self-contradictory human heart.
 
-
-
 Works cited 
 
 Dostoevsky, Fyodor. _Notes from Underground_. Translated by Richard Pevear and Larissa Volokhonsky, Vintage Classics, 1993.

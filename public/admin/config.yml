@@ -3,6 +3,13 @@
 # Log in with GitHub, write an article, hit Publish → commits Markdown to the
 # repo → Vercel rebuilds → live in ~1 minute. No code required.
 
+# Branding — makes this feel like Donya's own studio, not a generic tool.
+# The globe logo shows on the sign-in screen, the header, and the browser tab.
+app_title: genzthinks
+logo:
+  src: /favicon.svg
+  show_in_header: true
+
 backend:
   name: github
   repo: EVAnunit1307/Genznews
@@ -166,7 +173,7 @@ collections:
       - label: Title
         name: title
         widget: string
-        hint: The headline — shown big in Instrument Serif italic.
+        hint: The headline. Shown big, in italic — make it land.
 
       - label: Subtitle / summary (dek)
         name: dek
@@ -190,6 +197,36 @@ collections:
             Arts,
             Fashion,
           ]
+        hint: Where this shows up in the menu.
+
+      - label: Hero image
+        name: heroImage
+        widget: image
+        required: false
+        hint: The big photo at the top. Optional — no photo just shows a clean title card. Wait for the upload to finish before you publish.
+
+      - label: Body
+        name: body
+        widget: markdown
+        hint: This is where you write. Use the toolbar for headings, quotes, lists, and images.
+
+      - label: Featured (lead story on the home page)
+        name: featured
+        widget: boolean
+        default: false
+        hint: Puts this as the big story up top. Keep just ONE featured at a time.
+
+      - label: Draft (hide from the live site)
+        name: draft
+        widget: boolean
+        default: false
+        hint: On = only you can see it. Flip it off when you're ready to go live.
+
+      - label: Tags
+        name: tags
+        widget: list
+        required: false
+        hint: Optional keywords, e.g. sneakers, resale.
 
       - label: Published date
         name: publishedAt
@@ -198,6 +235,7 @@ collections:
         time_format: false
         format: 'YYYY-MM-DD'
         picker_utc: true
+        hint: Defaults to today. Only change it if you're backdating a piece.
 
       - label: Updated date
         name: updatedAt
@@ -209,12 +247,6 @@ collections:
         picker_utc: true
         hint: Optional. Set if you meaningfully revise a piece after publishing.
 
-      - label: Hero image
-        name: heroImage
-        widget: image
-        required: false
-        hint: The big image at the top. Stored next to the article and optimized automatically.
-
       - label: Read time (minutes)
         name: readTime
         widget: number
@@ -222,25 +254,3 @@ collections:
         value_type: int
         min: 1
         hint: Leave blank to auto-estimate from the word count.
-
-      - label: Featured (lead story on the home page)
-        name: featured
-        widget: boolean
-        default: false
-        hint: Only ONE article should be featured at a time.
-
-      - label: Draft (hide from the live site)
-        name: draft
-        widget: boolean
-        default: false
-
-      - label: Tags
-        name: tags
-        widget: list
-        required: false
-        hint: Optional keywords, e.g. sneakers, resale.
-
-      - label: Body
-        name: body
-        widget: markdown
-        hint: Write the article here. Add images, headings, quotes, lists.

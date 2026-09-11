@@ -18,8 +18,8 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
     return;
   }
 
-  const clientId = process.env.GITHUB_OAUTH_ID;
-  if (!clientId || !process.env.GITHUB_OAUTH_SECRET) {
+  const clientId = process.env.GITHUB_OAUTH_ID?.trim();
+  if (!clientId || !process.env.GITHUB_OAUTH_SECRET?.trim()) {
     res.status(503).send(resultPage(origin, 'error', 'GitHub sign-in needs a one-time setup by the site owner. Follow the setup guide below, then come back and choose Sign In with GitHub.'));
     return;
   }

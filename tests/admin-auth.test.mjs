@@ -157,3 +157,22 @@ test('only GET requests can start or complete sign-in', async () => {
     assert.equal(res.statusCode, 405); assert.equal(res.headers.Allow, 'GET');
   }
 });
+
+
+test('pasted credentials are trimmed before GitHub receives them', async () => {
+  process.env.GITHUB_OAUTH_ID = '  test-client\n';
+  process.env.GITHUB_OAUTH_SECRET = '\n test-secret  ';
+  const redirect = response(); auth(request(), redirect);
+  assert.equal(new URL(redirect.headers.Location).searchParams.get('client_id'), 'test-client');
+  globalThis.fetch = async (url, options) => {
+    const body = JSON.parse(options.body);
+    assert.equal(body.client_id, 'test-client');
+    assert.equal(body.client_secret, 'test-secret');
+    return { ok: true, json: async () => ({ access_token: 'test-access' }) };
+  };
+  const result = response(); await callback(request(), result);
+  assert.equal(result.statusCode, 200);
+  process.env.GITHUB_OAUTH_SECRET = ' \n ';
+  const missing = response(); auth(request(), missing);
+  assert.equal(missing.statusCode, 503);
+});

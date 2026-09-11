@@ -34,8 +34,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     fail(400, 'GitHub did not complete sign-in. Return to the editor and choose Sign In with GitHub again.');
     return;
   }
-  const clientId = process.env.GITHUB_OAUTH_ID;
-  const clientSecret = process.env.GITHUB_OAUTH_SECRET;
+  const clientId = process.env.GITHUB_OAUTH_ID?.trim();
+  const clientSecret = process.env.GITHUB_OAUTH_SECRET?.trim();
   if (!clientId || !clientSecret) {
     fail(503, 'GitHub sign-in needs a one-time setup by the site owner. Follow the setup guide below.');
     return;

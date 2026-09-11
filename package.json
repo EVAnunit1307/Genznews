@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
+    "test:auth": "node --experimental-strip-types --test tests/admin-auth.test.mjs",
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro build && pagefind --site dist",

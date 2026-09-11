@@ -37,16 +37,9 @@ Add env vars in **Vercel → Settings → Environment Variables**, then redeploy
       **Delete** control appears on each comment. Without the token, comments still post fine — you
       just can't delete from the UI (you can always clear them in the Upstash console).
 
-**CMS login — pick one**
-- [ ] **Best for the long run (one-click, no token to re-paste):** create a **GitHub OAuth App**
-      (GitHub → Settings → Developer settings → OAuth Apps → New). Homepage `https://genznews.vercel.app`,
-      **Authorization callback URL** `https://genznews.vercel.app/api/callback`. Copy the **Client ID**,
-      generate a **client secret**, then in Vercel set `GITHUB_OAUTH_ID` + `GITHUB_OAUTH_SECRET` and
-      redeploy. After that, `/admin` shows **Sign in with GitHub** — one tap, no token, never expires.
-      *(The relay is already built — `api/auth.ts` + `api/callback.ts` — so nothing to code.)*
-- [ ] **Quick fallback (no app needed):** at `/admin`, click **Sign In Using Access Token** and paste
-      a GitHub fine-grained token (Contents: read/write on this repo). Simplest to start, but the
-      token expires and must be re-pasted later.
+**CMS login — Sign In with GitHub**
+- [ ] Follow [ADMIN-SETUP.md](ADMIN-SETUP.md): give the editor repository access, create a GitHub OAuth App, add `GITHUB_OAUTH_ID` and `GITHUB_OAUTH_SECRET` in Vercel Production, and redeploy.
+- [ ] Test a fresh sign-in and draft publish using the editor's own account. The editor never needs to create or paste a personal access token; if asked to sign in again, use the same GitHub button.
 - [ ] **Reaching `/admin`:** you don't have to type the URL — there's a subtle **Editor** link in the
       site footer, and if you **Add to Home Screen**, long-pressing the app icon shows an **Editor**
       shortcut that opens it directly.
@@ -82,7 +75,7 @@ proxies (stocks/newsletter/reactions/comments/OAuth), Pagefind search, and the S
 | Variable | Needed for | Required? |
 | --- | --- | --- |
 | `KV_REST_API_URL` / `KV_REST_API_TOKEN` | Reactions, comments **and** newsletter | Recommended (free) |
-| `GITHUB_OAUTH_ID` / `GITHUB_OAUTH_SECRET` | One-click CMS login | Optional (token works instead) |
+| `GITHUB_OAUTH_ID` / `GITHUB_OAUTH_SECRET` | One-click CMS login | Required for editor sign-in |
 | `COMMENTS_ADMIN_TOKEN` | Deleting comments from the UI | Optional |
 | `GUARDIAN_KEY` | "Around the web" reliability | Optional |
 | `BUTTONDOWN_KEY` | Newsletter email sending | Optional |

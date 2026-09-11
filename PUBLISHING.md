@@ -4,10 +4,10 @@ You never touch code to publish. Everything happens in your browser.
 
 ## ✍️ Publish an article (the everyday flow)
 
-1. Go to **`https://your-domain.com/admin`** (works on your phone or MacBook). *You don't have to type
+1. Go to **`https://genznews.vercel.app/admin/`** (works on your phone or MacBook). *You don't have to type
    that — tap the subtle **Editor** link in the site footer, or, if you've added the site to your phone's
    Home Screen, long-press the icon and pick the **Editor** shortcut.*
-2. Click **Log in with GitHub** the first time.
+2. Click **Sign In with GitHub** and use your own GitHub account. If you are asked to sign in again later, use the same button; no access token is needed.
 3. Hit **New Article**.
 4. Write it:
    - **Title** and **Subtitle** (the subtitle shows under the headline and in link previews).
@@ -25,7 +25,7 @@ That's it. No terminal, no code.
 
 ---
 
-## 🛠 One-time setup (do these once, then never again)
+## 🛠 One-time setup
 
 These wire up the login, the live data, comments, and reactions. Do them once after the first deploy.
 
@@ -36,27 +36,11 @@ These wire up the login, the live data, comments, and reactions. Do them once af
 
 ### 2. Logging in to the CMS
 
-You have **three** ways to log in at `/admin` — pick whichever is easiest:
+Use **Sign In with GitHub**. Personal access token sign-in is disabled to keep the editor's workflow simple.
 
-**Option A — Access Token (simplest, no OAuth app):**
-- GitHub → **Settings → Developer settings → Personal access tokens → Fine-grained tokens → Generate**.
-- Give it access to the `Genznews` repo with **Contents: Read and write** permission.
-- At `/admin`, click **Sign In Using Access Token** and paste it. Done.
+The site manager follows [ADMIN-SETUP.md](ADMIN-SETUP.md) once: invite the editor to the repository, create a GitHub OAuth App, save its Client ID and secret in Vercel, and redeploy. The same instructions are available on the website at `/admin/setup.html`.
 
-**Option B — Work with Local Repository (edit on your MacBook, no login):**
-- Clone the repo locally, run `npm run dev`, open `/admin`, click **Work with Local Repository**,
-  and select the repo folder. Changes commit to your local git — push when ready.
-
-**Option C — Sign in with GitHub (one-click after setup, best for phone):**
-- GitHub → **Settings → Developer settings → OAuth Apps → New OAuth App**.
-  - Homepage URL: your production URL.
-  - Authorization callback URL: `https://your-domain.com/api/callback`
-- Copy the **Client ID** and generate a **Client secret**.
-- In Vercel → Project → **Settings → Environment Variables**, add:
-  - `GITHUB_OAUTH_ID` = the client id
-  - `GITHUB_OAUTH_SECRET` = the client secret
-- Redeploy. Now the **Sign In with GitHub** button works (uses the `/api/auth` + `/api/callback`
-  functions already in this repo).
+After setup, the editor only needs their own GitHub account and the **Editor** link in the footer. Access may occasionally need reauthorization; simply sign in again.
 
 > If a hero image ever fails a deploy with "image does not exist," it just means the image path
 > in that article is off — open the article in `/admin`, re-pick or remove the image, and republish.
@@ -116,4 +100,3 @@ These are built for you on every deploy, with zero configuration:
   search icon, the mobile Search tab, or by pressing `/`.
 - **Fonts** — self-hosted (no third-party request), so type loads fast and private.
 - **Related articles, reading progress, RSS, sitemap, share previews, PWA install** — all automatic.
-

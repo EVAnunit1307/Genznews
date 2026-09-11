@@ -14,8 +14,10 @@ backend:
   name: github
   repo: EVAnunit1307/Genznews
   branch: main
+  # Editors sign in with their own GitHub account; no personal tokens to manage.
+  auth_methods: [oauth]
   # OAuth relay = this site's own Vercel functions (api/auth + api/callback).
-  # Update base_url to your final production domain.
+  # If the domain changes, also update ADMIN_SITE_URL and the GitHub app callback.
   base_url: https://genznews.vercel.app
   auth_endpoint: /api/auth
 
@@ -220,7 +222,7 @@ collections:
         name: draft
         widget: boolean
         default: false
-        hint: On = only you can see it. Flip it off when you're ready to go live.
+        hint: Hidden from the website while on. The article file is still visible in the public GitHub repository. Flip off to show it on the website.
 
       - label: Tags
         name: tags

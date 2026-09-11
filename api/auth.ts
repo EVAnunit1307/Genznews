@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import crypto from 'node:crypto';
-import { adminOrigin, cookieOptions, prepareResponse, resultPage, stateCookie } from '../src/lib/admin-oauth.ts';
+import { adminOrigin, cookieOptions, prepareResponse, resultPage, stateCookie } from '../src/lib/admin-oauth.js';
 
 export default function handler(req: VercelRequest, res: VercelResponse) {
   prepareResponse(res);

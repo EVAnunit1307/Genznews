@@ -3,7 +3,7 @@ import { afterEach, beforeEach, test } from 'node:test';
 import { runInNewContext } from 'node:vm';
 import auth from '../api/auth.ts';
 import callback from '../api/callback.ts';
-import { resultPage, stateCookie } from '../src/lib/admin-oauth.ts';
+import { resultPage, stateCookie } from '../src/lib/admin-oauth.js';
 
 const origin = 'https://genznews.vercel.app';
 const state = 'a'.repeat(64);

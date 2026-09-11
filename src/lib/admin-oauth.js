@@ -1,4 +1,4 @@
-import type { VercelResponse } from '@vercel/node';
+// @ts-check
 
 // Keep this in sync with public/admin/config.yml when changing domains.
 export function adminOrigin() {
@@ -12,23 +12,34 @@ export function adminOrigin() {
 export const stateCookie = '__Host-admin_oauth_state';
 export const cookieOptions = 'HttpOnly; Secure; SameSite=Lax; Path=/';
 
-export function prepareResponse(res: VercelResponse) {
+/** @param {import('@vercel/node').VercelResponse} res */
+export function prepareResponse(res) {
   res.setHeader('Content-Type', 'text/html; charset=utf-8');
   res.setHeader('Cache-Control', 'no-store');
   res.setHeader('Referrer-Policy', 'no-referrer');
   res.setHeader('X-Frame-Options', 'DENY');
 }
 
-function html(value: string) {
-  return value.replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]!);
+/** @param {string} value */
+function html(value) {
+  /** @type {Record<string, string>} */
+  const escapes = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
+  return value.replace(/[&<>"']/g, char => escapes[char]);
 }
 
 // Serialize a JS string literal, including HTML parser and line separator escaping.
-function scriptValue(value: unknown) {
+/** @param {string} value */
+function scriptValue(value) {
   return JSON.stringify(value).replace(/</g, '\\u003c').replace(/\u2028/g, '\\u2028').replace(/\u2029/g, '\\u2029');
 }
 
-export function resultPage(origin: string, status: 'success' | 'error', message: string, token?: string) {
+/**
+ * @param {string} origin
+ * @param {'success' | 'error'} status
+ * @param {string} message
+ * @param {string} [token]
+ */
+export function resultPage(origin, status, message, token) {
   // The CMS may close the popup after receiving an error, so include help there too.
   const payload = status === 'success'
     ? { provider: 'github', token }

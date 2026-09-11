@@ -22,7 +22,7 @@ Astro builds a static site. Preact handles interactive components. Vercel runs t
 | Editor fields and GitHub backend | `public/admin/config.yml` |
 | Layout and appearance | `src/pages/`, `src/components/`, `src/styles/global.css` |
 | Shared site constants | `src/config.ts` |
-| GitHub login | `api/auth.ts`, `api/callback.ts`, `src/lib/admin-oauth.ts` |
+| GitHub login | `api/auth.ts`, `api/callback.ts`, `src/lib/admin-oauth.js` |
 | Comments, reactions, newsletter, stocks | Corresponding handlers in `api/` |
 
 Keep categories aligned across `src/config.ts`, `src/content/config.ts`, and `public/admin/config.yml`. Keep uploaded image paths valid. Drafts are hidden from the live website, but their files are visible in the public repository.
